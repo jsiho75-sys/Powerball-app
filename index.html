@@ -1,160 +1,249 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover">
+      content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 
-<title>Powerball Analyzer</title>
+<title>Powerball AI Lab v5</title>
 
 <style>
+:root {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --accent: #2563eb;
+  --red: #dc2626;
+  --green: #059669;
+  --yellow: #d97706;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f3f4f6;
-  color: #111827;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 15px;
 }
 
 header {
   background: #111827;
   color: white;
-  padding:
-    calc(16px + env(safe-area-inset-top))
-    16px
-    16px;
+  padding: 18px 16px 20px;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
 header h1 {
-  margin: 0;
-  font-size: 24px;
+  margin: 0 0 4px;
+  font-size: 22px;
 }
 
-header p {
-  margin: 4px 0 0;
-  font-size: 13px;
-  opacity: .75;
+header small {
+  color: #cbd5e1;
 }
 
 main {
-  max-width: 800px;
+  width: 100%;
+  max-width: 760px;
   margin: auto;
-  padding: 12px 12px 80px;
+  padding: 12px 12px 60px;
 }
 
 .card {
-  background: white;
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 16px;
-  margin: 12px 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
 }
 
 h2 {
-  margin: 0 0 12px;
-  font-size: 19px;
+  font-size: 18px;
+  margin: 0 0 10px;
 }
 
-button {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 15px;
-  background: #111827;
-  color: white;
+h3 {
   font-size: 15px;
-  font-weight: 700;
-  margin: 4px 3px 4px 0;
+  margin: 16px 0 6px;
 }
 
-button.secondary {
-  background: #e5e7eb;
-  color: #111827;
+p {
+  line-height: 1.5;
 }
 
-button.green {
-  background: #166534;
+.muted {
+  color: var(--muted);
 }
 
-button.red {
-  background: #991b1b;
-}
-
-.numbers {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 14px 0;
-}
-
-.ball {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #e5e7eb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 800;
-  font-size: 16px;
-}
-
-.powerball {
-  background: #dc2626;
-  color: white;
+.tiny {
+  font-size: 12px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-.stat {
-  background: #f3f4f6;
+.metric {
+  background: #f8fafc;
   border-radius: 12px;
   padding: 12px;
 }
 
-.stat .label {
-  color: #6b7280;
-  font-size: 12px;
+.metric span {
+  color: var(--muted);
+  font-size: 13px;
 }
 
-.stat .value {
-  font-size: 21px;
-  font-weight: 800;
-  margin-top: 3px;
+.metric b {
+  display: block;
+  font-size: 20px;
+  margin-top: 4px;
 }
 
-select,
-input[type="number"],
-input[type="file"] {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background: white;
-  font-size: 15px;
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.row > * {
+  flex: 1;
+  min-width: 120px;
 }
 
 label {
   display: block;
-  margin: 8px 0 5px;
-  color: #4b5563;
-  font-size: 13px;
+  font-weight: 600;
+  margin: 9px 0 5px;
 }
 
-.two {
+input,
+select,
+button {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: var(--text);
+  font: inherit;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+button:active {
+  transform: scale(.99);
+}
+
+button.secondary {
+  background: #374151;
+}
+
+button.green {
+  background: var(--green);
+}
+
+button.danger {
+  background: var(--red);
+}
+
+.status {
+  padding: 10px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1e40af;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+.status.ok {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.status.warn {
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.status.error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.draw {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.draw:last-child {
+  border-bottom: none;
+}
+
+.draw-date {
+  font-weight: 700;
+}
+
+.balls {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.ball {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background: #f3f4f6;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  place-items: center;
+  font-weight: 800;
+}
+
+.ball.pb {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ticket {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ticket:last-child {
+  border-bottom: none;
+}
+
+.ticket-title {
+  font-weight: 700;
 }
 
 table {
@@ -165,48 +254,69 @@ table {
 
 th,
 td {
-  padding: 8px 5px;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--line);
 }
 
-.muted {
-  color: #6b7280;
-  font-size: 13px;
+th {
+  color: var(--muted);
+  font-weight: 700;
 }
 
-.message {
-  margin-top: 10px;
-  padding: 10px;
+td.number {
+  font-weight: 800;
+}
+
+.scroll-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bar {
+  height: 8px;
+  background: #e5e7eb;
   border-radius: 10px;
-  background: #f3f4f6;
-  font-size: 13px;
+  overflow: hidden;
+  margin-top: 5px;
 }
 
-.warning {
-  background: #fff7ed;
-  color: #9a3412;
-  padding: 11px;
-  border-radius: 10px;
-  font-size: 13px;
-  line-height: 1.4;
+.bar-inner {
+  height: 100%;
+  background: var(--accent);
 }
 
-.success {
-  background: #ecfdf5;
-  color: #166534;
+details summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 4px 0;
 }
 
-.saved-ticket {
-  padding: 10px;
-  background: #f9fafb;
-  border-radius: 10px;
-  margin: 8px 0;
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 14px 0;
 }
 
-.small {
-  font-size: 12px;
-  color: #6b7280;
+@media (max-width: 480px) {
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ball {
+    width: 36px;
+    height: 36px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 7px 4px;
+  }
 }
 </style>
 </head>
@@ -214,216 +324,372 @@ td {
 <body>
 
 <header>
-  <h1>🎱 Powerball Analyzer</h1>
-  <p>Generator • Statistics • Backtesting</p>
+  <h1>Powerball AI Lab v5</h1>
+  <small>
+    Generator • Statistics • Automatic Results • Backtesting
+  </small>
 </header>
 
 <main>
 
-<!-- GENERATOR -->
+<!-- ========================================================= -->
+<!-- CURRENT POWERBALL -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<h2>🎯 Number Generator</h2>
+  <h2>🎯 Current Powerball</h2>
 
-<div>
-  <button onclick="generateNumbers('random')">
-    Random
-  </button>
+  <div class="grid">
 
-  <button onclick="generateNumbers('balanced')">
-    Balanced
-  </button>
+    <div class="metric">
+      <span>Estimated Jackpot</span>
+      <b id="jackpot">$173 Million</b>
+    </div>
 
-  <button onclick="generateNumbers('hot')">
-    Hot
-  </button>
+    <div class="metric">
+      <span>Cash Value</span>
+      <b id="cashValue">$74.6 Million</b>
+    </div>
 
-  <button onclick="generateNumbers('cold')">
-    Cold
-  </button>
+  </div>
 
-  <button onclick="generateNumbers('weighted')">
-    Weighted
-  </button>
-</div>
+  <p id="nextDrawing" class="muted">
+    Next drawing: Sat, Sep 5, 2026 at 10:59 PM ET
+  </p>
 
-<div id="generatedNumbers" class="numbers"></div>
-
-<div id="generationInfo" class="muted"></div>
-
-<button
-  class="green"
-  onclick="saveCurrentTicket()">
-  ⭐ Save Numbers
-</button>
+  <div id="updateStatus" class="status">
+    Using saved Powerball data.
+  </div>
 
 </section>
 
 
+<!-- ========================================================= -->
+<!-- LATEST THREE DRAWINGS -->
+<!-- ========================================================= -->
+
+<section class="card">
+
+  <h2>📅 Latest 3 Drawings</h2>
+
+  <div id="latestDrawings">
+    Loading...
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- NUMBER GENERATOR -->
+<!-- ========================================================= -->
+
+<section class="card">
+
+  <h2>🎲 Number Generator</h2>
+
+  <div class="row">
+
+    <div>
+
+      <label for="strategy">
+        Strategy
+      </label>
+
+      <select id="strategy">
+
+        <option value="hybrid">
+          Hybrid AI
+        </option>
+
+        <option value="frequency">
+          Frequency
+        </option>
+
+        <option value="recency">
+          Recency
+        </option>
+
+        <option value="random">
+          Random
+        </option>
+
+      </select>
+
+    </div>
+
+    <div>
+
+      <label for="ticketCount">
+        Number of Tickets
+      </label>
+
+      <input
+        id="ticketCount"
+        type="number"
+        min="1"
+        max="20"
+        value="5">
+
+    </div>
+
+  </div>
+
+  <button onclick="generateTickets()">
+    Generate Tickets
+  </button>
+
+  <div id="generatedTickets"></div>
+
+  <p class="tiny muted">
+    The generator uses historical statistics only.
+    Lottery drawings are random and historical patterns do not
+    guarantee future results.
+  </p>
+
+</section>
+
+
+<!-- ========================================================= -->
 <!-- STATISTICS -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<h2>📊 Statistics</h2>
+  <h2>📊 Historical Statistics</h2>
 
-<div class="grid">
-
-<div class="stat">
-  <div class="label">Drawings Loaded</div>
-  <div id="drawCount" class="value">0</div>
-</div>
-
-<div class="stat">
-  <div class="label">Most Frequent White</div>
-  <div id="hotWhite" class="value">—</div>
-</div>
-
-<div class="stat">
-  <div class="label">Most Frequent PB</div>
-  <div id="hotPowerball" class="value">—</div>
-</div>
-
-<div class="stat">
-  <div class="label">Average Sum</div>
-  <div id="averageSum" class="value">—</div>
-</div>
-
-</div>
-
-<div id="statisticsTable"></div>
+  <div id="statistics">
+    Loading statistics...
+  </div>
 
 </section>
 
 
-<!-- BACKTEST -->
+<!-- ========================================================= -->
+<!-- FREQUENCY TABLE -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<h2>🧪 Backtesting</h2>
+  <details>
 
-<p class="muted">
-Backtesting uses only information available before each historical
-drawing. This helps avoid look-ahead bias.
-</p>
+    <summary>
+      🔢 White Ball Frequency
+    </summary>
 
-<label>Strategy</label>
+    <div id="frequencyTable">
+      Loading...
+    </div>
 
-<select id="backtestStrategy">
-
-<option value="random">
-Random
-</option>
-
-<option value="balanced">
-Balanced
-</option>
-
-<option value="hot">
-Hot
-</option>
-
-<option value="cold">
-Cold
-</option>
-
-<option value="weighted">
-Frequency Weighted
-</option>
-
-</select>
-
-<label>Tickets per historical drawing</label>
-
-<select id="ticketsPerDraw">
-
-<option value="1">1</option>
-<option value="5">5</option>
-<option value="10">10</option>
-
-</select>
-
-<button
-  class="green"
-  onclick="runBacktest()">
-Run Backtest
-</button>
-
-<div id="backtestResults"></div>
+  </details>
 
 </section>
 
 
-<!-- SAVED -->
+<!-- ========================================================= -->
+<!-- POWERBALL FREQUENCY -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<h2>⭐ My Saved Numbers</h2>
+  <details>
 
-<div id="savedNumbers">
-No saved numbers yet.
-</div>
+    <summary>
+      🔴 Powerball Frequency
+    </summary>
 
-<button
-  class="red"
-  onclick="clearSavedNumbers()">
-Clear Saved Numbers
-</button>
+    <div id="powerballFrequencyTable">
+      Loading...
+    </div>
+
+  </details>
 
 </section>
 
 
-<!-- IMPORT -->
+<!-- ========================================================= -->
+<!-- WALK FORWARD BACKTEST -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<h2>📥 Import Historical Data</h2>
+  <h2>🧪 Walk-Forward Backtester</h2>
 
-<p class="muted">
-CSV format:
-</p>
+  <p class="muted">
 
-<div class="message">
-date,w1,w2,w3,w4,w5,powerball
-</div>
+    Each historical drawing is tested using only drawings that
+    occurred before it. This prevents future information from
+    leaking into the prediction.
 
-<p class="muted">
-Example:
-</p>
+  </p>
 
-<div class="message">
-2026-09-02,3,10,29,58,64,14
-</div>
+  <div class="row">
 
-<input
-  type="file"
-  id="csvFile"
-  accept=".csv">
+    <div>
 
-<div id="importMessage"></div>
+      <label for="minTraining">
+        Minimum Training Drawings
+      </label>
+
+      <input
+        id="minTraining"
+        type="number"
+        min="5"
+        max="500"
+        value="20">
+
+    </div>
+
+    <div>
+
+      <label for="recencyWindow">
+        Recency Window
+      </label>
+
+      <input
+        id="recencyWindow"
+        type="number"
+        min="5"
+        max="500"
+        value="30">
+
+    </div>
+
+  </div>
+
+  <button onclick="runBacktest()">
+    Run Backtest
+  </button>
+
+  <div id="backtestResults"></div>
 
 </section>
 
 
-<!-- RECENT RESULTS -->
+<!-- ========================================================= -->
+<!-- AUTOMATIC UPDATE -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<h2>🗓 Recent Drawings</h2>
+  <details>
 
-<div id="recentResults"></div>
+    <summary>
+      🔄 Automatic Update
+    </summary>
+
+    <p class="muted">
+
+      The app uses your Cloudflare Worker as a secure middle layer.
+      The Worker retrieves the latest Powerball information and
+      sends normalized JSON back to this app.
+
+    </p>
+
+    <label for="apiUrl">
+      Cloudflare Worker URL
+    </label>
+
+    <input
+      id="apiUrl"
+      type="url"
+      placeholder="https://your-worker.workers.dev">
+
+    <div class="row">
+
+      <button onclick="saveSettings()">
+        Save URL
+      </button>
+
+      <button
+        class="secondary"
+        onclick="updatePowerball()">
+        Update Now
+      </button>
+
+    </div>
+
+    <p class="tiny muted">
+
+      Automatic checking occurs approximately every 30 minutes
+      while this page is open.
+
+    </p>
+
+  </details>
 
 </section>
 
 
+<!-- ========================================================= -->
+<!-- IMPORT / EXPORT -->
+<!-- ========================================================= -->
+
+<section class="card">
+
+  <details>
+
+    <summary>
+      📁 Import / Export
+    </summary>
+
+    <label for="csvFile">
+      Import historical CSV
+    </label>
+
+    <input
+      id="csvFile"
+      type="file"
+      accept=".csv,text/csv">
+
+    <button onclick="importCSV()">
+      Import CSV
+    </button>
+
+    <button
+      class="secondary"
+      onclick="exportJSON()">
+      Export Database
+    </button>
+
+    <button
+      class="danger"
+      onclick="resetDatabase()">
+      Reset Database
+    </button>
+
+    <p class="tiny muted">
+
+      CSV format:
+
+      <br>
+
+      date,w1,w2,w3,w4,w5,powerball
+
+    </p>
+
+  </details>
+
+</section>
+
+
+<!-- ========================================================= -->
 <!-- DISCLAIMER -->
+<!-- ========================================================= -->
+
 <section class="card">
 
-<div class="warning">
+  <p class="tiny muted">
 
-<strong>Important:</strong>
+    <strong>Important:</strong>
 
-Lottery drawings are random. Historical frequency,
-hot/cold numbers and backtesting do not provide a reliable
-way to predict future winning numbers.
+    This application is a statistical research and entertainment
+    tool. Powerball drawings are random. Frequency, recency,
+    machine-learning-style weighting, or backtesting cannot
+    establish a reliable method for predicting future winning
+    numbers.
 
-This application is for statistical analysis and entertainment.
-
-</div>
+  </p>
 
 </section>
 
@@ -433,93 +699,1010 @@ This application is for statistical analysis and entertainment.
 <script>
 
 /* ============================================================
-   POWERBALL DATA
-   ============================================================ */
+   CONFIGURATION
+============================================================ */
 
-const starterDraws = [
+const STORAGE_KEY =
+  "powerball_ai_lab_v5_draws";
 
-["2026-09-02",3,10,29,58,64,14],
-["2026-08-31",11,17,25,37,49,10],
-["2026-08-29",18,56,62,65,67,18],
-["2026-08-26",12,32,45,50,58,2],
-["2026-08-24",3,16,33,38,68,2],
-["2026-08-22",13,31,54,57,65,23],
-["2026-08-19",10,21,58,61,64,17],
-["2026-08-17",8,15,25,49,65,22],
-["2026-08-15",5,8,27,29,63,13],
-["2026-08-12",4,26,66,67,69,9],
-["2026-08-10",6,37,54,55,64,10],
-["2026-08-08",5,9,35,54,63,7],
-["2026-08-05",14,20,59,60,61,25],
-["2026-08-03",8,30,41,48,54,4],
-["2026-08-01",6,17,27,48,50,5],
-["2026-07-29",30,36,40,42,57,2],
-["2026-07-27",6,26,46,58,65,25],
-["2026-07-25",3,4,24,36,47,17],
-["2026-07-22",4,5,22,50,58,1],
-["2026-07-20",2,9,44,53,59,8],
-["2026-07-18",9,14,44,50,56,3],
-["2026-07-15",2,7,18,29,38,16],
-["2026-07-13",5,25,36,40,48,3],
-["2026-07-11",8,10,14,45,59,5],
-["2026-07-08",12,29,37,43,55,18],
-["2026-07-06",17,44,63,66,67,4],
-["2026-07-04",17,38,46,50,69,20],
-["2026-07-01",2,6,26,39,68,6],
-["2026-06-29",10,14,41,53,59,3],
-["2026-06-27",3,16,28,30,59,11]
+const SETTINGS_KEY =
+  "powerball_ai_lab_v5_settings";
+
+
+/* ============================================================
+   STARTER HISTORY
+============================================================ */
+
+const seedHistory = [
+
+  {
+    date: "2026-09-02",
+    white: [3,10,29,58,64],
+    powerball: 14
+  },
+
+  {
+    date: "2026-08-31",
+    white: [11,17,25,37,49],
+    powerball: 10
+  },
+
+  {
+    date: "2026-08-29",
+    white: [18,56,62,65,67],
+    powerball: 18
+  },
+
+  {
+    date: "2026-08-26",
+    white: [12,32,45,50,58],
+    powerball: 2
+  },
+
+  {
+    date: "2026-08-24",
+    white: [3,16,33,38,68],
+    powerball: 2
+  },
+
+  {
+    date: "2026-08-22",
+    white: [13,31,54,57,65],
+    powerball: 23
+  },
+
+  {
+    date: "2026-08-19",
+    white: [10,21,58,61,64],
+    powerball: 17
+  },
+
+  {
+    date: "2026-08-17",
+    white: [8,15,25,49,65],
+    powerball: 22
+  },
+
+  {
+    date: "2026-08-15",
+    white: [5,8,27,29,63],
+    powerball: 13
+  },
+
+  {
+    date: "2026-08-12",
+    white: [4,26,66,67,69],
+    powerball: 9
+  },
+
+  {
+    date: "2026-08-10",
+    white: [6,37,54,55,64],
+    powerball: 10
+  },
+
+  {
+    date: "2026-08-08",
+    white: [5,9,35,54,63],
+    powerball: 7
+  },
+
+  {
+    date: "2026-08-05",
+    white: [14,20,59,60,61],
+    powerball: 25
+  },
+
+  {
+    date: "2026-08-03",
+    white: [8,30,41,48,54],
+    powerball: 4
+  },
+
+  {
+    date: "2026-08-01",
+    white: [6,17,27,48,50],
+    powerball: 5
+  },
+
+  {
+    date: "2026-07-29",
+    white: [30,36,40,42,57],
+    powerball: 2
+  },
+
+  {
+    date: "2026-07-27",
+    white: [6,26,46,58,65],
+    powerball: 25
+  },
+
+  {
+    date: "2026-07-25",
+    white: [3,4,24,36,47],
+    powerball: 17
+  },
+
+  {
+    date: "2026-07-22",
+    white: [4,5,22,50,58],
+    powerball: 1
+  },
+
+  {
+    date: "2026-07-20",
+    white: [2,9,44,53,59],
+    powerball: 8
+  },
+
+  {
+    date: "2026-07-18",
+    white: [9,14,44,50,56],
+    powerball: 3
+  },
+
+  {
+    date: "2026-07-15",
+    white: [2,7,18,29,38],
+    powerball: 16
+  },
+
+  {
+    date: "2026-07-13",
+    white: [5,25,36,40,48],
+    powerball: 3
+  },
+
+  {
+    date: "2026-07-11",
+    white: [8,10,14,45,59],
+    powerball: 5
+  },
+
+  {
+    date: "2026-07-08",
+    white: [12,29,37,43,55],
+    powerball: 18
+  },
+
+  {
+    date: "2026-07-06",
+    white: [17,44,63,66,67],
+    powerball: 4
+  },
+
+  {
+    date: "2026-07-04",
+    white: [17,38,46,50,69],
+    powerball: 20
+  },
+
+  {
+    date: "2026-07-01",
+    white: [2,6,26,39,68],
+    powerball: 6
+  },
+
+  {
+    date: "2026-06-29",
+    white: [10,14,41,53,59],
+    powerball: 3
+  },
+
+  {
+    date: "2026-06-27",
+    white: [3,16,28,30,59],
+    powerball: 11
+  }
 
 ];
 
 
 /* ============================================================
-   LOAD / SAVE DATA
-   ============================================================ */
+   APPLICATION STATE
+============================================================ */
 
-let draws =
-  JSON.parse(localStorage.getItem("powerballDraws"))
-  || starterDraws;
+let draws = loadDraws();
+
+let settings =
+  JSON.parse(
+    localStorage.getItem(SETTINGS_KEY) || "{}"
+  );
 
 
 /* ============================================================
-   UTILITY FUNCTIONS
-   ============================================================ */
+   INITIALIZATION
+============================================================ */
 
-function randomInt(max) {
+if (settings.apiUrl) {
 
-  return Math.floor(Math.random() * max);
+  document.getElementById("apiUrl").value =
+    settings.apiUrl;
 
 }
 
+renderAll();
 
-function chooseRandom(array, count) {
 
-  const copy = [...array];
-  const result = [];
+/*
+   Check approximately every 30 minutes.
+*/
 
-  while (
-    result.length < count &&
-    copy.length > 0
-  ) {
+setInterval(
+  () => {
 
-    const index =
-      Math.floor(Math.random() * copy.length);
+    if (settings.apiUrl) {
 
-    result.push(copy.splice(index,1)[0]);
+      updatePowerball(true);
+
+    }
+
+  },
+  30 * 60 * 1000
+);
+
+
+/* ============================================================
+   LOAD / SAVE
+============================================================ */
+
+function loadDraws() {
+
+  try {
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+      );
+
+    if (
+      Array.isArray(saved) &&
+      saved.length > 0
+    ) {
+
+      return normalizeDraws(saved);
+
+    }
+
+  } catch (error) {
+
+    console.log(
+      "Could not load saved history:",
+      error
+    );
 
   }
 
-  return result.sort((a,b) => a-b);
+  return normalizeDraws(
+    seedHistory.slice()
+  );
+}
+
+
+function saveDraws() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(draws)
+  );
 
 }
 
 
-function range(start,end) {
+/* ============================================================
+   VALIDATION
+============================================================ */
 
-  const result = [];
+function isValidDraw(draw) {
 
-  for(let i=start;i<=end;i++) {
-    result.push(i);
+  if (!draw) {
+    return false;
+  }
+
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(
+      draw.date
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    !Array.isArray(draw.white) ||
+    draw.white.length !== 5
+  ) {
+    return false;
+  }
+
+  const unique =
+    new Set(draw.white);
+
+  if (unique.size !== 5) {
+    return false;
+  }
+
+  if (
+    draw.white.some(
+      n =>
+        !Number.isInteger(Number(n)) ||
+        Number(n) < 1 ||
+        Number(n) > 69
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    !Number.isInteger(
+      Number(draw.powerball)
+    ) ||
+    Number(draw.powerball) < 1 ||
+    Number(draw.powerball) > 26
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+
+function normalizeDraw(draw) {
+
+  return {
+
+    date: draw.date,
+
+    white:
+      draw.white
+        .map(Number)
+        .sort((a,b) => a-b),
+
+    powerball:
+      Number(draw.powerball)
+
+  };
+
+}
+
+
+function normalizeDraws(list) {
+
+  return list
+    .map(normalizeDraw)
+    .filter(isValidDraw)
+    .sort(
+      (a,b) =>
+        a.date.localeCompare(b.date)
+    );
+
+}
+
+
+/* ============================================================
+   DATE FORMATTING
+============================================================ */
+
+function formatDate(dateString) {
+
+  const date =
+    new Date(
+      dateString + "T12:00:00"
+    );
+
+  return date.toLocaleDateString(
+    undefined,
+    {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    }
+  );
+
+}
+
+
+/* ============================================================
+   BALL DISPLAY
+============================================================ */
+
+function renderBalls(draw) {
+
+  const whiteBalls =
+    draw.white
+      .map(
+        n =>
+          `<span class="ball">${n}</span>`
+      )
+      .join("");
+
+  const pb =
+    `<span class="ball pb">${draw.powerball}</span>`;
+
+  return `
+    <div class="balls">
+      ${whiteBalls}
+      ${pb}
+    </div>
+  `;
+
+}
+
+
+/* ============================================================
+   LATEST THREE
+============================================================ */
+
+function renderLatestDrawings() {
+
+  const latest =
+    draws
+      .slice(-3)
+      .reverse();
+
+  if (!latest.length) {
+
+    document.getElementById(
+      "latestDrawings"
+    ).innerHTML =
+      "<p>No drawings available.</p>";
+
+    return;
+
+  }
+
+  document.getElementById(
+    "latestDrawings"
+  ).innerHTML =
+
+    latest
+      .map(
+        draw => `
+
+          <div class="draw">
+
+            <div class="draw-date">
+              ${formatDate(draw.date)}
+            </div>
+
+            ${renderBalls(draw)}
+
+          </div>
+
+        `
+      )
+      .join("");
+
+}
+
+
+/* ============================================================
+   FREQUENCY
+============================================================ */
+
+function calculateWhiteFrequency(history) {
+
+  const counts =
+    Array(70).fill(0);
+
+  history.forEach(
+    draw => {
+
+      draw.white.forEach(
+        n => {
+
+          counts[n]++;
+
+        }
+      );
+
+    }
+  );
+
+  return counts;
+
+}
+
+
+function calculatePowerballFrequency(history) {
+
+  const counts =
+    Array(27).fill(0);
+
+  history.forEach(
+    draw => {
+
+      counts[draw.powerball]++;
+
+    }
+  );
+
+  return counts;
+
+}
+
+
+/* ============================================================
+   STATISTICS
+============================================================ */
+
+function renderStatistics() {
+
+  if (!draws.length) {
+    return;
+  }
+
+  const whiteFreq =
+    calculateWhiteFrequency(draws);
+
+  const pbFreq =
+    calculatePowerballFrequency(draws);
+
+
+  const whiteItems = [];
+
+  for (
+    let n = 1;
+    n <= 69;
+    n++
+  ) {
+
+    whiteItems.push({
+
+      number: n,
+
+      count:
+        whiteFreq[n]
+
+    });
+
+  }
+
+
+  whiteItems.sort(
+    (a,b) =>
+      b.count - a.count
+  );
+
+
+  const hot =
+    whiteItems.slice(0,10);
+
+  const cold =
+    whiteItems
+      .slice(-10)
+      .sort(
+        (a,b) =>
+          a.count - b.count
+      );
+
+
+  const pbItems = [];
+
+  for (
+    let n = 1;
+    n <= 26;
+    n++
+  ) {
+
+    pbItems.push({
+
+      number: n,
+
+      count:
+        pbFreq[n]
+
+    });
+
+  }
+
+
+  pbItems.sort(
+    (a,b) =>
+      b.count - a.count
+  );
+
+
+  const hotText =
+    hot
+      .map(
+        x =>
+          `${x.number} (${x.count})`
+      )
+      .join(" • ");
+
+
+  const coldText =
+    cold
+      .map(
+        x =>
+          `${x.number} (${x.count})`
+      )
+      .join(" • ");
+
+
+  const pbText =
+    pbItems
+      .slice(0,10)
+      .map(
+        x =>
+          `${x.number} (${x.count})`
+      )
+      .join(" • ");
+
+
+  document.getElementById(
+    "statistics"
+  ).innerHTML = `
+
+    <p>
+      <strong>${draws.length}</strong>
+      historical drawings stored.
+    </p>
+
+    <h3>🔥 Hot White Balls</h3>
+
+    <p>
+      ${hotText}
+    </p>
+
+    <h3>❄️ Cold White Balls</h3>
+
+    <p>
+      ${coldText}
+    </p>
+
+    <h3>🔴 Most Frequent Powerballs</h3>
+
+    <p>
+      ${pbText}
+    </p>
+
+  `;
+
+}
+
+
+/* ============================================================
+   WHITE FREQUENCY TABLE
+============================================================ */
+
+function renderFrequencyTable() {
+
+  const freq =
+    calculateWhiteFrequency(draws);
+
+  const max =
+    Math.max(
+      ...freq.slice(1),
+      1
+    );
+
+
+  let rows = "";
+
+  for (
+    let n = 1;
+    n <= 69;
+    n++
+  ) {
+
+    const percent =
+      (
+        freq[n] /
+        max
+      ) * 100;
+
+    rows += `
+
+      <tr>
+
+        <td class="number">
+          ${n}
+        </td>
+
+        <td>
+          ${freq[n]}
+        </td>
+
+        <td style="width:50%">
+
+          <div class="bar">
+
+            <div
+              class="bar-inner"
+              style="width:${percent}%">
+            </div>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+
+  document.getElementById(
+    "frequencyTable"
+  ).innerHTML = `
+
+    <div class="scroll-table">
+
+      <table>
+
+        <tr>
+          <th>Number</th>
+          <th>Hits</th>
+          <th>Relative</th>
+        </tr>
+
+        ${rows}
+
+      </table>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ============================================================
+   POWERBALL FREQUENCY TABLE
+============================================================ */
+
+function renderPowerballFrequencyTable() {
+
+  const freq =
+    calculatePowerballFrequency(draws);
+
+  const max =
+    Math.max(
+      ...freq.slice(1),
+      1
+    );
+
+
+  let rows = "";
+
+  for (
+    let n = 1;
+    n <= 26;
+    n++
+  ) {
+
+    const percent =
+      (
+        freq[n] /
+        max
+      ) * 100;
+
+    rows += `
+
+      <tr>
+
+        <td class="number">
+          ${n}
+        </td>
+
+        <td>
+          ${freq[n]}
+        </td>
+
+        <td style="width:50%">
+
+          <div class="bar">
+
+            <div
+              class="bar-inner"
+              style="width:${percent}%">
+            </div>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+
+  document.getElementById(
+    "powerballFrequencyTable"
+  ).innerHTML = `
+
+    <div class="scroll-table">
+
+      <table>
+
+        <tr>
+          <th>Powerball</th>
+          <th>Hits</th>
+          <th>Relative</th>
+        </tr>
+
+        ${rows}
+
+      </table>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ============================================================
+   NORMALIZE WEIGHTS
+============================================================ */
+
+function normalizeWeights(values) {
+
+  const max =
+    Math.max(
+      ...values.slice(1),
+      1
+    );
+
+  return values.map(
+    (value,index) => {
+
+      if (index === 0) {
+        return 0;
+      }
+
+      return value / max;
+
+    }
+  );
+
+}
+
+
+/* ============================================================
+   RECENCY WEIGHTS
+============================================================ */
+
+function calculateRecencyWeights(
+  history,
+  maxNumber
+) {
+
+  const result =
+    Array(maxNumber + 1)
+      .fill(0);
+
+
+  /*
+    Newer drawings get larger weights.
+
+    Exponential decay makes recent drawings
+    more influential without completely
+    ignoring older drawings.
+  */
+
+  for (
+    let i = 0;
+    i < history.length;
+    i++
+  ) {
+
+    const age =
+      history.length - 1 - i;
+
+    const weight =
+      Math.exp(
+        -age / 8
+      );
+
+
+    history[i].white.forEach(
+      number => {
+
+        if (
+          number >= 1 &&
+          number <= maxNumber
+        ) {
+
+          result[number] +=
+            weight;
+
+        }
+
+      }
+    );
+
+  }
+
+  return normalizeWeights(result);
+
+}
+
+
+/* ============================================================
+   STRATEGY WEIGHTS
+============================================================ */
+
+function calculateStrategyWeights(
+  history,
+  strategy,
+  maxNumber
+) {
+
+  if (strategy === "random") {
+
+    return Array(
+      maxNumber + 1
+    ).fill(1);
+
+  }
+
+
+  const frequency =
+    normalizeWeights(
+      maxNumber === 69
+        ? calculateWhiteFrequency(history)
+        : calculatePowerballFrequency(history)
+    );
+
+
+  const recency =
+    calculateRecencyWeights(
+      history,
+      maxNumber
+    );
+
+
+  const result =
+    Array(
+      maxNumber + 1
+    ).fill(0);
+
+
+  for (
+    let n = 1;
+    n <= maxNumber;
+    n++
+  ) {
+
+    if (
+      strategy === "frequency"
+    ) {
+
+      result[n] =
+        frequency[n];
+
+    }
+
+    else if (
+      strategy === "recency"
+    ) {
+
+      result[n] =
+        recency[n];
+
+    }
+
+    else {
+
+      /*
+        Hybrid AI:
+
+        55% historical frequency
+        45% recency
+      */
+
+      result[n] =
+        0.55 * frequency[n] +
+        0.45 * recency[n];
+
+    }
+
   }
 
   return result;
@@ -528,663 +1711,872 @@ function range(start,end) {
 
 
 /* ============================================================
-   FREQUENCY
-   ============================================================ */
+   WEIGHTED RANDOM SELECTION
+============================================================ */
 
-function calculateFrequencies(history) {
+function weightedPick(
+  weights,
+  count
+) {
 
-  const white = Array(70).fill(0);
-  const powerball = Array(27).fill(0);
+  const selected = [];
 
-  history.forEach(draw => {
+  const available =
+    new Set();
 
-    draw.slice(1,6).forEach(number => {
+  for (
+    let n = 1;
+    n < weights.length;
+    n++
+  ) {
 
-      white[number]++;
+    available.add(n);
 
-    });
-
-    powerball[draw[6]]++;
-
-  });
-
-  return {
-    white,
-    powerball
-  };
-
-}
+  }
 
 
-/* ============================================================
-   WEIGHTED SELECTION
-   ============================================================ */
+  while (
+    selected.length < count &&
+    available.size > 0
+  ) {
 
-function weightedSelection(numbers, frequencies, count) {
+    let total = 0;
 
-  const result = [];
-  const pool = [...numbers];
+    available.forEach(
+      number => {
 
-  while(result.length < count) {
+        total +=
+          Math.max(
+            weights[number],
+            0.00001
+          );
 
-    let totalWeight = 0;
+      }
+    );
 
-    pool.forEach(number => {
-
-      totalWeight +=
-        Math.max(1, frequencies[number]);
-
-    });
 
     let random =
-      Math.random() * totalWeight;
+      Math.random() *
+      total;
 
-    let selectedIndex = 0;
 
-    for(
-      let i=0;
-      i<pool.length;
-      i++
+    let chosen = null;
+
+
+    for (
+      const number of available
     ) {
 
       random -=
-        Math.max(1, frequencies[pool[i]]);
+        Math.max(
+          weights[number],
+          0.00001
+        );
 
-      if(random <= 0) {
 
-        selectedIndex = i;
+      if (random <= 0) {
+
+        chosen = number;
+
         break;
 
       }
 
     }
 
-    result.push(
-      pool.splice(selectedIndex,1)[0]
-    );
 
-  }
-
-  return result.sort((a,b)=>a-b);
-
-}
-
-
-/* ============================================================
-   GENERATOR
-   ============================================================ */
-
-let currentTicket = null;
-
-
-function generateNumbers(strategy) {
-
-  const frequencies =
-    calculateFrequencies(draws);
-
-  const allNumbers =
-    range(1,69);
-
-  let whiteNumbers;
-
-
-  if(strategy === "random") {
-
-    whiteNumbers =
-      chooseRandom(allNumbers,5);
-
-  }
-
-
-  else if(strategy === "balanced") {
-
-    const low =
-      range(1,34);
-
-    const high =
-      range(35,69);
-
-    whiteNumbers =
-      [
-        ...chooseRandom(low,3),
-        ...chooseRandom(high,2)
-      ].sort((a,b)=>a-b);
-
-  }
-
-
-  else if(strategy === "hot") {
-
-    const sorted =
-      [...allNumbers].sort(
-        (a,b) =>
-          frequencies.white[b]
-          -
-          frequencies.white[a]
-      );
-
-    whiteNumbers =
-      chooseRandom(
-        sorted.slice(0,20),
-        5
-      );
-
-  }
-
-
-  else if(strategy === "cold") {
-
-    const sorted =
-      [...allNumbers].sort(
-        (a,b) =>
-          frequencies.white[a]
-          -
-          frequencies.white[b]
-      );
-
-    whiteNumbers =
-      chooseRandom(
-        sorted.slice(0,20),
-        5
-      );
-
-  }
-
-
-  else if(strategy === "weighted") {
-
-    whiteNumbers =
-      weightedSelection(
-        allNumbers,
-        frequencies.white,
-        5
-      );
-
-  }
-
-
-  let powerball;
-
-
-  if(
-    strategy === "hot" ||
-    strategy === "weighted"
-  ) {
-
-    const pbNumbers =
-      range(1,26);
-
-    const sortedPB =
-      [...pbNumbers].sort(
-        (a,b) =>
-          frequencies.powerball[b]
-          -
-          frequencies.powerball[a]
-      );
-
-    powerball =
-      chooseRandom(
-        sortedPB.slice(0,10),
-        1
-      )[0];
-
-  }
-
-
-  else if(strategy === "cold") {
-
-    const pbNumbers =
-      range(1,26);
-
-    const sortedPB =
-      [...pbNumbers].sort(
-        (a,b) =>
-          frequencies.powerball[a]
-          -
-          frequencies.powerball[b]
-      );
-
-    powerball =
-      chooseRandom(
-        sortedPB.slice(0,10),
-        1
-      )[0];
-
-  }
-
-
-  else {
-
-    powerball =
-      chooseRandom(range(1,26),1)[0];
-
-  }
-
-
-  currentTicket = {
-    white:whiteNumbers,
-    powerball:powerball
-  };
-
-
-  displayTicket(currentTicket,strategy);
-
-}
-
-
-function displayTicket(ticket,strategy) {
-
-  const container =
-    document.getElementById(
-      "generatedNumbers"
-    );
-
-  container.innerHTML = "";
-
-
-  ticket.white.forEach(number => {
-
-    const ball =
-      document.createElement("div");
-
-    ball.className = "ball";
-
-    ball.textContent = number;
-
-    container.appendChild(ball);
-
-  });
-
-
-  const pb =
-    document.createElement("div");
-
-  pb.className =
-    "ball powerball";
-
-  pb.textContent =
-    ticket.powerball;
-
-  container.appendChild(pb);
-
-
-  document.getElementById(
-    "generationInfo"
-  ).textContent =
-    "Strategy: " +
-    strategy.toUpperCase() +
-    " • White balls: " +
-    ticket.white.join(", ") +
-    " • Powerball: " +
-    ticket.powerball;
-
-}
-
-
-/* ============================================================
-   SAVE NUMBERS
-   ============================================================ */
-
-function saveCurrentTicket() {
-
-  if(!currentTicket) {
-
-    alert(
-      "Generate a set of numbers first."
-    );
-
-    return;
-
-  }
-
-
-  const saved =
-    JSON.parse(
-      localStorage.getItem(
-        "savedPowerballNumbers"
-      )
-      || "[]"
-    );
-
-
-  saved.push({
-
-    white:
-      currentTicket.white,
-
-    powerball:
-      currentTicket.powerball,
-
-    date:
-      new Date().toLocaleString()
-
-  });
-
-
-  localStorage.setItem(
-    "savedPowerballNumbers",
-    JSON.stringify(saved)
-  );
-
-
-  displaySavedNumbers();
-
-}
-
-
-function displaySavedNumbers() {
-
-  const saved =
-    JSON.parse(
-      localStorage.getItem(
-        "savedPowerballNumbers"
-      )
-      || "[]"
-    );
-
-
-  const container =
-    document.getElementById(
-      "savedNumbers"
-    );
-
-
-  if(saved.length === 0) {
-
-    container.textContent =
-      "No saved numbers yet.";
-
-    return;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  saved.forEach(
-    (ticket,index) => {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "saved-ticket";
-
-
-      div.innerHTML =
-        "<strong>" +
-        ticket.white.join(" • ") +
-        " + PB " +
-        ticket.powerball +
-        "</strong>" +
-        "<div class='small'>" +
-        ticket.date +
-        "</div>";
-
-
-      container.appendChild(div);
+    if (chosen === null) {
+
+      chosen =
+        [...available][
+          Math.floor(
+            Math.random() *
+            available.size
+          )
+        ];
 
     }
+
+
+    selected.push(chosen);
+
+    available.delete(chosen);
+
+  }
+
+
+  return selected.sort(
+    (a,b) => a-b
   );
 
 }
 
 
-function clearSavedNumbers() {
+/* ============================================================
+   GENERATE ONE TICKET
+============================================================ */
 
-  if(
-    confirm(
-      "Delete all saved numbers?"
-    )
-  ) {
+function generateTicket(
+  history,
+  strategy
+) {
 
-    localStorage.removeItem(
-      "savedPowerballNumbers"
+  const whiteWeights =
+    calculateStrategyWeights(
+      history,
+      strategy,
+      69
     );
 
-    displaySavedNumbers();
 
-  }
+  const pbWeights =
+    calculateStrategyWeights(
+      history,
+      strategy,
+      26
+    );
+
+
+  const white =
+    weightedPick(
+      whiteWeights,
+      5
+    );
+
+
+  const powerball =
+    weightedPick(
+      pbWeights,
+      1
+    )[0];
+
+
+  return {
+
+    white,
+
+    powerball
+
+  };
 
 }
 
 
 /* ============================================================
-   STATISTICS
-   ============================================================ */
+   GENERATE MULTIPLE TICKETS
+============================================================ */
 
-function renderStatistics() {
+function generateTickets() {
 
-  const frequencies =
-    calculateFrequencies(draws);
-
-
-  document.getElementById(
-    "drawCount"
-  ).textContent =
-    draws.length;
-
-
-  const whiteSorted =
-    range(1,69).sort(
-      (a,b) =>
-        frequencies.white[b]
-        -
-        frequencies.white[a]
+  const count =
+    Math.max(
+      1,
+      Math.min(
+        20,
+        Number(
+          document.getElementById(
+            "ticketCount"
+          ).value
+        ) || 5
+      )
     );
 
 
-  const pbSorted =
-    range(1,26).sort(
-      (a,b) =>
-        frequencies.powerball[b]
-        -
-        frequencies.powerball[a]
-    );
+  const strategy =
+    document.getElementById(
+      "strategy"
+    ).value;
+
+
+  let html = "";
+
+
+  for (
+    let i = 0;
+    i < count;
+    i++
+  ) {
+
+    const ticket =
+      generateTicket(
+        draws,
+        strategy
+      );
+
+
+    html += `
+
+      <div class="ticket">
+
+        <div class="ticket-title">
+          Ticket ${i + 1}
+        </div>
+
+        ${renderBalls(ticket)}
+
+      </div>
+
+    `;
+
+  }
 
 
   document.getElementById(
-    "hotWhite"
-  ).textContent =
-    whiteSorted[0] || "—";
-
-
-  document.getElementById(
-    "hotPowerball"
-  ).textContent =
-    pbSorted[0] || "—";
-
-
-  let totalSum = 0;
-
-
-  draws.forEach(draw => {
-
-    totalSum +=
-      draw
-        .slice(1,6)
-        .reduce(
-          (sum,n)=>sum+n,
-          0
-        );
-
-  });
-
-
-  document.getElementById(
-    "averageSum"
-  ).textContent =
-    draws.length
-      ? Math.round(
-          totalSum / draws.length
-        )
-      : "—";
-
-
-  let html =
-    "<h3>Top 15 White Numbers</h3>";
-
-  html +=
-    "<table>" +
-    "<tr>" +
-    "<th>Number</th>" +
-    "<th>Frequency</th>" +
-    "</tr>";
-
-
-  whiteSorted
-    .slice(0,15)
-    .forEach(number => {
-
-      html +=
-        "<tr>" +
-        "<td>" + number + "</td>" +
-        "<td>" +
-        frequencies.white[number] +
-        "</td>" +
-        "</tr>";
-
-    });
-
-
-  html += "</table>";
-
-
-  html +=
-    "<h3>Powerball Frequency</h3>";
-
-  html +=
-    "<table>" +
-    "<tr>" +
-    "<th>Powerball</th>" +
-    "<th>Frequency</th>" +
-    "</tr>";
-
-
-  pbSorted
-    .slice(0,10)
-    .forEach(number => {
-
-      html +=
-        "<tr>" +
-        "<td>" + number + "</td>" +
-        "<td>" +
-        frequencies.powerball[number] +
-        "</td>" +
-        "</tr>";
-
-    });
-
-
-  html += "</table>";
-
-
-  document.getElementById(
-    "statisticsTable"
+    "generatedTickets"
   ).innerHTML = html;
+
+}
+
+
+/* ============================================================
+   SCORE A TICKET
+============================================================ */
+
+function scoreTicket(
+  ticket,
+  actual
+) {
+
+  const whiteHits =
+    ticket.white.filter(
+      number =>
+        actual.white.includes(
+          number
+        )
+    ).length;
+
+
+  const powerballHit =
+    ticket.powerball ===
+    actual.powerball;
+
+
+  return {
+
+    whiteHits,
+
+    powerballHit
+
+  };
 
 }
 
 
 /* ============================================================
    BACKTEST
-   ============================================================ */
+============================================================ */
 
-function createStrategyTicket(
-  strategy,
-  history
-) {
+function runBacktest() {
 
-  const frequencies =
-    calculateFrequencies(history);
-
-  const all =
-    range(1,69);
-
-  let white;
-
-
-  if(strategy === "random") {
-
-    white =
-      chooseRandom(all,5);
-
-  }
+  const minimumTraining =
+    Math.max(
+      5,
+      Number(
+        document.getElementById(
+          "minTraining"
+        ).value
+      ) || 20
+    );
 
 
-  else if(strategy === "balanced") {
+  const recencyWindow =
+    Math.max(
+      5,
+      Number(
+        document.getElementById(
+          "recencyWindow"
+        ).value
+      ) || 30
+    );
 
-    white =
-      [
-        ...chooseRandom(range(1,34),3),
-        ...chooseRandom(range(35,69),2)
-      ].sort((a,b)=>a-b);
 
-  }
+  if (
+    draws.length <=
+    minimumTraining
+  ) {
 
+    document.getElementById(
+      "backtestResults"
+    ).innerHTML = `
 
-  else if(strategy === "hot") {
+      <div class="status warn">
 
-    const sorted =
-      [...all].sort(
-        (a,b)=>
-          frequencies.white[b]
-          -
-          frequencies.white[a]
-      );
+        Not enough historical drawings
+        for this backtest.
 
-    white =
-      chooseRandom(
-        sorted.slice(0,20),
-        5
-      );
+      </div>
+
+    `;
+
+    return;
 
   }
 
 
-  else if(strategy === "cold") {
+  const strategies = [
 
-    const sorted =
-      [...all].sort(
-        (a,b)=>
-          frequencies.white[a]
-          -
-          frequencies.white[b]
+    "frequency",
+    "recency",
+    "hybrid",
+    "random"
+
+  ];
+
+
+  const results = {};
+
+
+  strategies.forEach(
+    strategy => {
+
+      results[strategy] = {
+
+        tests: 0,
+
+        totalWhiteHits: 0,
+
+        powerballHits: 0,
+
+        threePlus: 0,
+
+        fourPlus: 0,
+
+        fivePlusPowerball: 0
+
+      };
+
+    }
+  );
+
+
+  /*
+    Walk forward through time.
+
+    IMPORTANT:
+    The target draw is NEVER included
+    in the training history.
+  */
+
+  for (
+    let i = minimumTraining;
+    i < draws.length;
+    i++
+  ) {
+
+    const start =
+      Math.max(
+        0,
+        i - recencyWindow
       );
 
-    white =
-      chooseRandom(
-        sorted.slice(0,20),
-        5
+
+    const training =
+      draws.slice(
+        start,
+        i
       );
+
+
+    const actual =
+      draws[i];
+
+
+    strategies.forEach(
+      strategy => {
+
+        const ticket =
+          generateTicket(
+            training,
+            strategy
+          );
+
+
+        const score =
+          scoreTicket(
+            ticket,
+            actual
+          );
+
+
+        const result =
+          results[strategy];
+
+
+        result.tests++;
+
+        result.totalWhiteHits +=
+          score.whiteHits;
+
+
+        if (
+          score.powerballHit
+        ) {
+
+          result.powerballHits++;
+
+        }
+
+
+        if (
+          score.whiteHits >= 3
+        ) {
+
+          result.threePlus++;
+
+        }
+
+
+        if (
+          score.whiteHits >= 4
+        ) {
+
+          result.fourPlus++;
+
+        }
+
+
+        if (
+          score.whiteHits === 5 &&
+          score.powerballHit
+        ) {
+
+          result.fivePlusPowerball++;
+
+        }
+
+      }
+    );
 
   }
 
 
-  else {
-
-    white =
-      weightedSelection(
-        all,
-        frequencies.white,
-        5
-      );
-
-  }
-
-
-  return white;
+  renderBacktestResults(
+    results
+  );
 
 }
 
 
-function runBacktest() {
+/* ============================================================
+   BACKTEST RESULTS
+============================================================ */
 
-  if(draws.length < 10) {
+function renderBacktestResults(
+  results
+) {
+
+  const names = {
+
+    frequency:
+      "Frequency",
+
+    recency:
+      "Recency",
+
+    hybrid:
+      "Hybrid AI",
+
+    random:
+      "Random"
+
+  };
+
+
+  let rows = "";
+
+
+  Object.keys(results)
+    .forEach(
+      strategy => {
+
+        const r =
+          results[strategy];
+
+
+        const averageWhite =
+          r.totalWhiteHits /
+          r.tests;
+
+
+        const pbPercent =
+          100 *
+          r.powerballHits /
+          r.tests;
+
+
+        const threePercent =
+          100 *
+          r.threePlus /
+          r.tests;
+
+
+        const fourPercent =
+          100 *
+          r.fourPlus /
+          r.tests;
+
+
+        rows += `
+
+          <tr>
+
+            <td>
+              <strong>
+                ${names[strategy]}
+              </strong>
+            </td>
+
+            <td>
+              ${averageWhite.toFixed(3)}
+            </td>
+
+            <td>
+              ${pbPercent.toFixed(2)}%
+            </td>
+
+            <td>
+              ${threePercent.toFixed(2)}%
+            </td>
+
+            <td>
+              ${fourPercent.toFixed(2)}%
+            </td>
+
+            <td>
+              ${r.fivePlusPowerball}
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+    );
+
+
+  document.getElementById(
+    "backtestResults"
+  ).innerHTML = `
+
+    <hr>
+
+    <div class="scroll-table">
+
+      <table>
+
+        <tr>
+
+          <th>Strategy</th>
+
+          <th>Avg White</th>
+
+          <th>PB Hit</th>
+
+          <th>3+ White</th>
+
+          <th>4+ White</th>
+
+          <th>5+PB</th>
+
+        </tr>
+
+        ${rows}
+
+      </table>
+
+    </div>
+
+    <p class="tiny muted">
+
+      <strong>Interpretation:</strong>
+
+      A higher historical score does not mean
+      that the strategy will perform better in
+      future Powerball drawings.
+
+    </p>
+
+  `;
+
+}
+
+
+/* ============================================================
+   SETTINGS
+============================================================ */
+
+function saveSettings() {
+
+  settings.apiUrl =
+    document.getElementById(
+      "apiUrl"
+    ).value.trim();
+
+
+  localStorage.setItem(
+    SETTINGS_KEY,
+    JSON.stringify(settings)
+  );
+
+
+  const status =
+    document.getElementById(
+      "updateStatus"
+    );
+
+
+  status.className =
+    "status ok";
+
+
+  status.textContent =
+    "Worker URL saved successfully.";
+
+}
+
+
+/* ============================================================
+   AUTOMATIC POWERBALL UPDATE
+============================================================ */
+
+async function updatePowerball(
+  silent = false
+) {
+
+  if (!settings.apiUrl) {
+
+    if (!silent) {
+
+      const status =
+        document.getElementById(
+          "updateStatus"
+        );
+
+      status.className =
+        "status warn";
+
+      status.textContent =
+        "Please enter your Cloudflare Worker URL first.";
+
+    }
+
+    return;
+
+  }
+
+
+  try {
+
+    if (!silent) {
+
+      const status =
+        document.getElementById(
+          "updateStatus"
+        );
+
+      status.className =
+        "status";
+
+      status.textContent =
+        "Updating Powerball information...";
+
+    }
+
+
+    const response =
+      await fetch(
+        settings.apiUrl,
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    /*
+      Merge new drawings into
+      the existing database.
+    */
+
+    if (
+      Array.isArray(
+        data.draws
+      )
+    ) {
+
+      const map =
+        new Map();
+
+
+      draws.forEach(
+        draw => {
+
+          map.set(
+            draw.date,
+            draw
+          );
+
+        }
+      );
+
+
+      data.draws.forEach(
+        draw => {
+
+          if (
+            isValidDraw(draw)
+          ) {
+
+            map.set(
+              draw.date,
+              normalizeDraw(draw)
+            );
+
+          }
+
+        }
+      );
+
+
+      draws =
+        normalizeDraws(
+          [...map.values()]
+        );
+
+
+      saveDraws();
+
+    }
+
+
+    /*
+      Update jackpot.
+    */
+
+    if (
+      data.jackpot
+    ) {
+
+      settings.jackpot =
+        data.jackpot;
+
+    }
+
+
+    /*
+      Update cash value.
+    */
+
+    if (
+      data.cashValue
+    ) {
+
+      settings.cashValue =
+        data.cashValue;
+
+    }
+
+
+    /*
+      Update next drawing.
+    */
+
+    if (
+      data.nextDrawing
+    ) {
+
+      settings.nextDrawing =
+        data.nextDrawing;
+
+    }
+
+
+    settings.lastUpdate =
+      new Date().toISOString();
+
+
+    localStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify(settings)
+    );
+
+
+    renderAll();
+
+
+    const status =
+      document.getElementById(
+        "updateStatus"
+      );
+
+
+    status.className =
+      "status ok";
+
+
+    status.textContent =
+      "Updated successfully: " +
+      new Date().toLocaleString();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    if (!silent) {
+
+      const status =
+        document.getElementById(
+          "updateStatus"
+        );
+
+
+      status.className =
+        "status error";
+
+
+      status.textContent =
+        "Update failed: " +
+        error.message;
+
+    }
+
+  }
+
+}
+
+
+/* ============================================================
+   CSV IMPORT
+============================================================ */
+
+function importCSV() {
+
+  const file =
+    document.getElementById(
+      "csvFile"
+    ).files[0];
+
+
+  if (!file) {
 
     alert(
-      "Load at least 10 drawings."
+      "Please select a CSV file."
     );
 
     return;
@@ -1192,413 +2584,358 @@ function runBacktest() {
   }
 
 
-  const strategy =
-    document.getElementById(
-      "backtestStrategy"
-    ).value;
+  const reader =
+    new FileReader();
 
 
-  const tickets =
-    Number(
-      document.getElementById(
-        "ticketsPerDraw"
-      ).value
-    );
+  reader.onload =
+    function(event) {
 
+      const text =
+        event.target.result;
 
-  const matches =
-    [0,0,0,0,0,0];
 
-
-  let totalTickets = 0;
-
-  let totalWhiteHits = 0;
-
-
-  /*
-    Walk forward through history.
-
-    For each drawing, the strategy is
-    generated using ONLY earlier drawings.
-  */
-
-
-  for(
-    let targetIndex = draws.length - 1;
-    targetIndex >= 1;
-    targetIndex--
-  ) {
-
-    const historicalData =
-      draws.slice(
-        targetIndex + 1
-      );
-
-
-    if(
-      historicalData.length < 5
-    ) {
-
-      continue;
-
-    }
-
-
-    const actual =
-      new Set(
-        draws[targetIndex]
-          .slice(1,6)
-      );
-
-
-    for(
-      let t=0;
-      t<tickets;
-      t++
-    ) {
-
-      const ticket =
-        createStrategyTicket(
-          strategy,
-          historicalData
-        );
-
-
-      let hitCount = 0;
-
-
-      ticket.forEach(number => {
-
-        if(actual.has(number)) {
-
-          hitCount++;
-
-        }
-
-      });
-
-
-      matches[hitCount]++;
-
-      totalTickets++;
-
-      totalWhiteHits +=
-        hitCount;
-
-    }
-
-  }
-
-
-  const average =
-    totalTickets
-      ? (
-          totalWhiteHits /
-          totalTickets
-        ).toFixed(3)
-      : "0";
-
-
-  let html =
-    "<div class='grid'>" +
-
-    "<div class='stat'>" +
-    "<div class='label'>Tickets Tested</div>" +
-    "<div class='value'>" +
-    totalTickets +
-    "</div>" +
-    "</div>" +
-
-    "<div class='stat'>" +
-    "<div class='label'>Average White Hits</div>" +
-    "<div class='value'>" +
-    average +
-    "</div>" +
-    "</div>" +
-
-    "</div>";
-
-
-  html +=
-    "<h3>White-ball Matches</h3>";
-
-
-  html +=
-    "<table>" +
-    "<tr>" +
-    "<th>Matches</th>" +
-    "<th>Tickets</th>" +
-    "<th>%</th>" +
-    "</tr>";
-
-
-  matches.forEach(
-    (count,index) => {
-
-      const percent =
-        totalTickets
-          ? (
-              count /
-              totalTickets *
-              100
-            ).toFixed(2)
-          : "0";
-
-
-      html +=
-        "<tr>" +
-        "<td>" +
-        index +
-        "</td>" +
-        "<td>" +
-        count +
-        "</td>" +
-        "<td>" +
-        percent +
-        "%</td>" +
-        "</tr>";
-
-    }
-  );
-
-
-  html += "</table>";
-
-
-  document.getElementById(
-    "backtestResults"
-  ).innerHTML = html;
-
-}
-
-
-/* ============================================================
-   IMPORT CSV
-   ============================================================ */
-
-document
-.getElementById("csvFile")
-.addEventListener(
-  "change",
-  function(event) {
-
-    const file =
-      event.target.files[0];
-
-
-    if(!file) return;
-
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload =
-      function(e) {
-
-        try {
-
-          const lines =
-            e.target.result
-              .trim()
-              .split(/\r?\n/);
-
-
-          const imported = [];
-
-
-          lines.forEach(
-            (line,index) => {
-
-              if(index === 0 &&
-                 line.toLowerCase()
-                 .includes("date")) {
-
-                return;
-
-              }
-
-
-              const parts =
-                line.split(",");
-
-
-              if(parts.length < 7) {
-
-                return;
-
-              }
-
-
-              const draw = [
-
-                parts[0].trim(),
-
-                Number(parts[1]),
-
-                Number(parts[2]),
-
-                Number(parts[3]),
-
-                Number(parts[4]),
-
-                Number(parts[5]),
-
-                Number(parts[6])
-
-              ];
-
-
-              if(
-                draw[1] >= 1 &&
-                draw[1] <= 69 &&
-                draw[2] >= 1 &&
-                draw[2] <= 69 &&
-                draw[3] >= 1 &&
-                draw[3] <= 69 &&
-                draw[4] >= 1 &&
-                draw[4] <= 69 &&
-                draw[5] >= 1 &&
-                draw[5] <= 69 &&
-                draw[6] >= 1 &&
-                draw[6] <= 26
-              ) {
-
-                imported.push(draw);
-
-              }
-
-            }
+      const lines =
+        text
+          .split(/\r?\n/)
+          .map(
+            line =>
+              line.trim()
+          )
+          .filter(
+            Boolean
           );
 
 
-          imported.sort(
-            (a,b)=>
-              b[0].localeCompare(a[0])
-          );
+      const imported = [];
 
 
-          if(imported.length === 0) {
+      lines.forEach(
+        (line,index) => {
 
-            throw new Error();
+          const columns =
+            line
+              .split(",")
+              .map(
+                x =>
+                  x.trim()
+              );
+
+
+          /*
+            Skip header.
+          */
+
+          if (
+            index === 0 &&
+            /date/i.test(
+              columns[0]
+            )
+          ) {
+
+            return;
 
           }
 
 
-          draws =
-            imported;
+          if (
+            columns.length < 7
+          ) {
+
+            return;
+
+          }
 
 
-          localStorage.setItem(
-            "powerballDraws",
-            JSON.stringify(draws)
+          const draw = {
+
+            date:
+              columns[0],
+
+            white:
+              columns
+                .slice(1,6)
+                .map(Number),
+
+            powerball:
+              Number(
+                columns[6]
+              )
+
+          };
+
+
+          if (
+            isValidDraw(draw)
+          ) {
+
+            imported.push(
+              normalizeDraw(draw)
+            );
+
+          }
+
+        }
+      );
+
+
+      /*
+        Merge imported history.
+      */
+
+      const map =
+        new Map();
+
+
+      draws.forEach(
+        draw => {
+
+          map.set(
+            draw.date,
+            draw
           );
 
-
-          document.getElementById(
-            "importMessage"
-          ).innerHTML =
-            "<div class='message success'>" +
-            "Successfully imported " +
-            imported.length +
-            " drawings." +
-            "</div>";
+        }
+      );
 
 
-          renderAll();
+      imported.forEach(
+        draw => {
+
+          map.set(
+            draw.date,
+            draw
+          );
 
         }
-
-        catch(error) {
-
-          document.getElementById(
-            "importMessage"
-          ).innerHTML =
-            "<div class='message'>" +
-            "Could not read the CSV. " +
-            "Please check the format." +
-            "</div>";
-
-        }
-
-      };
+      );
 
 
-    reader.readAsText(file);
-
-  }
-);
-
-
-/* ============================================================
-   RECENT RESULTS
-   ============================================================ */
-
-function renderRecentResults() {
-
-  let html =
-    "<table>" +
-    "<tr>" +
-    "<th>Date</th>" +
-    "<th>White Balls</th>" +
-    "<th>PB</th>" +
-    "</tr>";
+      draws =
+        normalizeDraws(
+          [...map.values()]
+        );
 
 
-  draws
-    .slice(0,20)
-    .forEach(draw => {
+      saveDraws();
 
-      html +=
-        "<tr>" +
-
-        "<td>" +
-        draw[0] +
-        "</td>" +
-
-        "<td>" +
-        draw
-          .slice(1,6)
-          .join(", ") +
-        "</td>" +
-
-        "<td>" +
-        draw[6] +
-        "</td>" +
-
-        "</tr>";
-
-    });
+      renderAll();
 
 
-  html += "</table>";
+      alert(
+        "Imported " +
+        imported.length +
+        " valid drawings."
+      );
+
+    };
 
 
-  document.getElementById(
-    "recentResults"
-  ).innerHTML = html;
+  reader.readAsText(file);
 
 }
 
 
 /* ============================================================
-   INITIALIZE
-   ============================================================ */
+   EXPORT JSON
+============================================================ */
+
+function exportJSON() {
+
+  const data = {
+
+    source:
+      "Powerball AI Lab",
+
+    exportedAt:
+      new Date().toISOString(),
+
+    draws:
+      draws
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+  link.download =
+    "powerball-history.json";
+
+
+  document.body.appendChild(
+    link
+  );
+
+  link.click();
+
+  link.remove();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
+
+/* ============================================================
+   RESET DATABASE
+============================================================ */
+
+function resetDatabase() {
+
+  const confirmed =
+    confirm(
+      "Reset the local Powerball database to the built-in history?"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  draws =
+    normalizeDraws(
+      seedHistory.slice()
+    );
+
+
+  saveDraws();
+
+  renderAll();
+
+
+  const status =
+    document.getElementById(
+      "updateStatus"
+    );
+
+
+  status.className =
+    "status warn";
+
+
+  status.textContent =
+    "Database reset to built-in history.";
+
+}
+
+
+/* ============================================================
+   MAIN RENDER
+============================================================ */
 
 function renderAll() {
 
+  renderLatestDrawings();
+
   renderStatistics();
 
-  renderRecentResults();
+  renderFrequencyTable();
 
-  displaySavedNumbers();
+  renderPowerballFrequencyTable();
+
+
+  /*
+    Jackpot.
+  */
+
+  document.getElementById(
+    "jackpot"
+  ).textContent =
+    settings.jackpot ||
+    "$173 Million";
+
+
+  /*
+    Cash value.
+  */
+
+  document.getElementById(
+    "cashValue"
+  ).textContent =
+    settings.cashValue ||
+    "$74.6 Million";
+
+
+  /*
+    Next drawing.
+  */
+
+  const next =
+    document.getElementById(
+      "nextDrawing"
+    );
+
+
+  if (
+    settings.nextDrawing
+  ) {
+
+    const date =
+      new Date(
+        settings.nextDrawing
+      );
+
+
+    if (
+      !Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      next.textContent =
+        "Next drawing: " +
+        date.toLocaleString();
+
+    }
+
+    else {
+
+      next.textContent =
+        "Next drawing: " +
+        settings.nextDrawing;
+
+    }
+
+  }
 
 }
 
 
-renderAll();
-
-generateNumbers("balanced");
+/* ============================================================
+   END
+============================================================ */
 
 </script>
 
