@@ -1,541 +1,9673 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#0f172a" />
-  <title>SuperLotto Plus Generator</title>
 
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --text: #f1f5f9;
-      --accent: #38bdf8;
-      --accent2: #818cf8;
-      --success: #34d399;
-      --border: #334155;
-    }
+<meta charset="UTF-8">
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+<meta name="viewport"
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 16px;
-      padding-bottom: 50px;
-      line-height: 1.4;
-    }
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    h1 {
-      text-align: center;
-      font-size: 1.5rem;
-      margin: 8px 0 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+<meta name="theme-color" content="#0f172a">
 
-    .subtitle {
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-    }
 
-    .jackpot-card {
-      background: linear-gradient(135deg, #1e3a5f, #0f172a);
-      border: 1px solid #38bdf8;
-      border-radius: 18px;
-      padding: 16px;
-      text-align: center;
-      margin-bottom: 16px;
-      position: relative;
-      overflow: hidden;
-    }
 
-    .jackpot-label { font-size: 0.8rem; color: #94a3b8; margin-bottom: 4px; }
-    .jackpot-amount { font-size: 2rem; font-weight: 800; color: #38bdf8; margin: 4px 0; }
-    .jackpot-date { font-size: 0.9rem; color: #cbd5e1; }
+<title>Powerball AI Lab v6</title>
 
-    .recent-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin: 18px 0 10px;
-      color: #e2e8f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
 
-    .refresh-btn {
-      background: #334155;
-      border: none;
-      color: #94a3b8;
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
 
-    .draw-item {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
-      border: 1px solid var(--border);
-    }
+<style>
 
-    .draw-date { font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px; }
+:root {
 
-    .draw-numbers {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      align-items: center;
-    }
+  --bg: #0f172a;
 
-    .mini-ball {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      background: linear-gradient(135deg, #38bdf8, #818cf8);
-      color: #0f172a;
-    }
+  --card: #1e293b;
 
-    .mini-mega {
-      background: linear-gradient(135deg, #f472b6, #c084fc);
-    }
+  --card2: #172033;
 
-    .card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border);
-    }
+  --text: #f1f5f9;
 
-    label {
-      display: block;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-      color: #cbd5e1;
-    }
+  --muted: #94a3b8;
 
-    select, input[type="number"] {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #0f172a;
-      color: white;
-      font-size: 1rem;
-      margin-bottom: 12px;
-    }
+  --accent: #38bdf8;
 
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1.05rem;
-      font-weight: 600;
-    }
+  --accent2: #818cf8;
 
-    .btn-primary {
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      color: #0f172a;
-      margin-top: 8px;
-    }
+  --success: #34d399;
 
-    .btn-secondary {
-      background: #334155;
-      color: white;
-      margin-top: 8px;
-    }
+  --danger: #fb7185;
 
-    .ticket {
-      background: #0f172a;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 12px;
-      border: 1px solid var(--border);
-      position: relative;
-    }
+  --warning: #fbbf24;
 
-    .ticket-header {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      margin-bottom: 10px;
-    }
+  --border: #334155;
 
-    .numbers {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
+  --whiteBall: #f8fafc;
 
-    .ball {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.95rem;
-      background: linear-gradient(135deg, #38bdf8, #818cf8);
-      color: #0f172a;
-    }
+  --pbBall: #f43f5e;
 
-    .mega {
-      background: linear-gradient(135deg, #f472b6, #c084fc);
-    }
+}
 
-    .meta { font-size: 0.8rem; color: #94a3b8; }
 
-    .copy-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #334155;
-      border: none;
-      color: white;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.75rem;
-    }
 
-    .empty {
-      text-align: center;
-      color: #64748b;
-      padding: 30px 10px;
-    }
+* {
 
-    .loading {
-      text-align: center;
-      color: #94a3b8;
-      padding: 20px;
-    }
+  box-sizing: border-box;
 
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--success);
-      color: #064e3b;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-weight: 600;
-      opacity: 0;
-      transition: 0.3s;
-      pointer-events: none;
-      z-index: 100;
-    }
+}
 
-    .toast.show { opacity: 1; }
 
-    .error {
-      background: #7f1d1d;
-      color: #fecaca;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-  </style>
+
+body {
+
+  margin: 0;
+
+  padding: 16px;
+
+  padding-bottom: 40px;
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-family:
+
+    -apple-system,
+
+    BlinkMacSystemFont,
+
+    "Segoe UI",
+
+    Roboto,
+
+    Arial,
+
+    sans-serif;
+
+}
+
+
+
+.container {
+
+  width: 100%;
+
+  max-width: 760px;
+
+  margin: 0 auto;
+
+}
+
+
+
+header {
+
+  text-align: center;
+
+  margin-bottom: 20px;
+
+}
+
+
+
+header h1 {
+
+  margin: 0;
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+  background: linear-gradient(
+
+    90deg,
+
+    var(--accent),
+
+    var(--accent2)
+
+  );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  color: transparent;
+
+}
+
+
+
+header p {
+
+  margin: 7px 0 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+
+}
+
+
+
+.card {
+
+  background: var(--card);
+
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  margin-bottom: 16px;
+
+  box-shadow: 0 8px 30px rgba(0,0,0,.18);
+
+}
+
+
+
+.card h2 {
+
+  margin: 0 0 14px;
+
+  font-size: 20px;
+
+}
+
+
+
+.card h3 {
+
+  margin: 18px 0 10px;
+
+  font-size: 16px;
+
+}
+
+
+
+.jackpot {
+
+  text-align: center;
+
+  background:
+
+    linear-gradient(
+
+      135deg,
+
+      #0c2740,
+
+      #18275a
+
+    );
+
+  border: 1px solid var(--accent);
+
+}
+
+
+
+.jackpot-label {
+
+  color: #bae6fd;
+
+  font-size: 13px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+}
+
+
+
+.jackpot-value {
+
+  font-size: 38px;
+
+  font-weight: 800;
+
+  margin: 5px 0;
+
+  background: linear-gradient(
+
+    90deg,
+
+    var(--accent),
+
+    #c4b5fd
+
+  );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  color: transparent;
+
+}
+
+
+
+.cash-value {
+
+  font-size: 14px;
+
+  color: var(--muted);
+
+}
+
+
+
+.next-drawing {
+
+  margin-top: 12px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid rgba(255,255,255,.1);
+
+  font-size: 14px;
+
+}
+
+
+
+button {
+
+  border: 0;
+
+  border-radius: 11px;
+
+  padding: 11px 15px;
+
+  color: white;
+
+  background:
+
+    linear-gradient(
+
+      135deg,
+
+      var(--accent2),
+
+      #6366f1
+
+    );
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+}
+
+
+
+button:active {
+
+  transform: scale(.98);
+
+}
+
+
+
+button.secondary {
+
+  background: #334155;
+
+}
+
+
+
+button.success {
+
+  background:
+
+    linear-gradient(
+
+      135deg,
+
+      #059669,
+
+      var(--success)
+
+    );
+
+}
+
+
+
+button.danger {
+
+  background:
+
+    linear-gradient(
+
+      135deg,
+
+      #be123c,
+
+      var(--danger)
+
+    );
+
+}
+
+
+
+button.small {
+
+  padding: 8px 11px;
+
+  font-size: 12px;
+
+}
+
+
+
+.full {
+
+  width: 100%;
+
+}
+
+
+
+.row {
+
+  display: flex;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+
+}
+
+
+
+.row > * {
+
+  flex: 1;
+
+}
+
+
+
+select,
+
+input,
+
+textarea {
+
+  width: 100%;
+
+  background: #0f172a;
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  padding: 12px;
+
+  font-size: 14px;
+
+  outline: none;
+
+}
+
+
+
+select:focus,
+
+input:focus,
+
+textarea:focus {
+
+  border-color: var(--accent);
+
+}
+
+
+
+label {
+
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  margin-bottom: 6px;
+
+}
+
+
+
+.drawings {
+
+  display: grid;
+
+  gap: 10px;
+
+}
+
+
+
+.draw-card {
+
+  background: var(--card2);
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+
+  padding: 13px;
+
+}
+
+
+
+.draw-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+
+}
+
+
+
+.draw-date {
+
+  font-size: 13px;
+
+  color: var(--muted);
+
+  font-weight: 600;
+
+}
+
+
+
+.balls {
+
+  display: flex;
+
+  gap: 7px;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+}
+
+
+
+.ball {
+
+  width: 39px;
+
+  height: 39px;
+
+  border-radius: 50%;
+
+  display: inline-flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-weight: 800;
+
+  font-size: 14px;
+
+}
+
+
+
+.white-ball {
+
+  background:
+
+    radial-gradient(
+
+      circle at 30% 25%,
+
+      #ffffff,
+
+      #dbe4ef
+
+    );
+
+  color: #0f172a;
+
+  border: 1px solid #cbd5e1;
+
+}
+
+
+
+.pb-ball {
+
+  background:
+
+    radial-gradient(
+
+      circle at 30% 25%,
+
+      #fb7185,
+
+      #be123c
+
+    );
+
+  color: white;
+
+  border: 1px solid #fb7185;
+
+}
+
+
+
+.mini-ball {
+
+  width: 32px;
+
+  height: 32px;
+
+  font-size: 12px;
+
+}
+
+
+
+.pb-label {
+
+  margin-left: 2px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+
+
+.ticket {
+
+  background: var(--card2);
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+
+  padding: 14px;
+
+  margin-top: 10px;
+
+}
+
+
+
+.ticket-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+
+}
+
+
+
+.ticket-number {
+
+  font-size: 13px;
+
+  color: var(--muted);
+
+  font-weight: 700;
+
+}
+
+
+
+.stat-grid {
+
+  display: grid;
+
+  grid-template-columns:
+
+    repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+
+}
+
+
+
+.stat {
+
+  background: var(--card2);
+
+  border: 1px solid var(--border);
+
+  border-radius: 13px;
+
+  padding: 12px;
+
+}
+
+
+
+.stat-title {
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+}
+
+
+
+.stat-value {
+
+  margin-top: 5px;
+
+  font-size: 20px;
+
+  font-weight: 800;
+
+}
+
+
+
+.table-wrap {
+
+  overflow-x: auto;
+
+}
+
+
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 13px;
+
+}
+
+
+
+th,
+
+td {
+
+  border-bottom: 1px solid var(--border);
+
+  padding: 8px;
+
+  text-align: left;
+
+}
+
+
+
+th {
+
+  color: var(--muted);
+
+  font-weight: 700;
+
+}
+
+
+
+.progress {
+
+  width: 100%;
+
+  height: 8px;
+
+  border-radius: 99px;
+
+  background: #0f172a;
+
+  overflow: hidden;
+
+  margin: 8px 0;
+
+}
+
+
+
+.progress-bar {
+
+  height: 100%;
+
+  width: 0%;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      var(--accent),
+
+      var(--accent2)
+
+    );
+
+}
+
+
+
+.status {
+
+  padding: 10px;
+
+  border-radius: 10px;
+
+  margin-top: 10px;
+
+  font-size: 13px;
+
+  display: none;
+
+}
+
+
+
+.status.show {
+
+  display: block;
+
+}
+
+
+
+.status.error {
+
+  color: #fecdd3;
+
+  background: rgba(190,18,60,.2);
+
+  border: 1px solid rgba(251,113,133,.35);
+
+}
+
+
+
+.status.success {
+
+  color: #a7f3d0;
+
+  background: rgba(5,150,105,.16);
+
+  border: 1px solid rgba(52,211,153,.3);
+
+}
+
+
+
+.status.info {
+
+  color: #bae6fd;
+
+  background: rgba(14,165,233,.13);
+
+  border: 1px solid rgba(56,189,248,.25);
+
+}
+
+
+
+#toast {
+
+  position: fixed;
+
+  left: 50%;
+
+  bottom: 25px;
+
+  transform: translateX(-50%);
+
+  background: #020617;
+
+  color: white;
+
+  border: 1px solid var(--border);
+
+  padding: 11px 17px;
+
+  border-radius: 12px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: .25s;
+
+  z-index: 9999;
+
+  font-size: 13px;
+
+}
+
+
+
+#toast.show {
+
+  opacity: 1;
+
+}
+
+
+
+details {
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  padding: 11px;
+
+  background: var(--card2);
+
+}
+
+
+
+details + details {
+
+  margin-top: 8px;
+
+}
+
+
+
+summary {
+
+  cursor: pointer;
+
+  font-weight: 700;
+
+}
+
+
+
+.muted {
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+
+.loading {
+
+  text-align: center;
+
+  color: var(--muted);
+
+  padding: 15px;
+
+}
+
+
+
+@media (max-width: 420px) {
+
+
+
+  body {
+
+    padding: 12px;
+
+  }
+
+
+
+  header h1 {
+
+    font-size: 27px;
+
+  }
+
+
+
+  .jackpot-value {
+
+    font-size: 34px;
+
+  }
+
+
+
+  .ball {
+
+    width: 36px;
+
+    height: 36px;
+
+  }
+
+
+
+  .mini-ball {
+
+    width: 30px;
+
+    height: 30px;
+
+  }
+
+}
+
+</style>
+
 </head>
+
+
+
 <body>
-  <h1>SuperLotto Plus</h1>
-  <div class="subtitle">California • 5 from 1-47 + Mega 1-27</div>
 
-  <!-- Jackpot (loaded dynamically) -->
-  <div class="jackpot-card" id="jackpotCard">
-    <div class="jackpot-label">Next Estimated Jackpot</div>
-    <div class="jackpot-amount" id="jackpotAmount">Loading...</div>
-    <div class="jackpot-date" id="jackpotDate">Fetching latest data...</div>
+
+
+<div class="container">
+
+
+
+<header>
+
+  <h1>Powerball AI Lab v6</h1>
+
+  <p>
+
+    Statistics • Strategies • Backtesting • Smart Ticket Generator
+
+  </p>
+
+</header>
+
+
+
+
+
+<!-- =====================================================
+
+     JACKPOT
+
+====================================================== -->
+
+
+
+<section class="card jackpot">
+
+
+
+  <div class="jackpot-label">
+
+    Estimated Jackpot
+
   </div>
 
-  <!-- Last 3 Drawings -->
-  <div class="recent-title">
-    <span>Last 3 Drawings</span>
-    <button class="refresh-btn" onclick="loadLatestResults()">Refresh</button>
-  </div>
-  <div id="recentDraws">
-    <div class="loading">Loading latest results...</div>
-  </div>
 
-  <!-- Generator -->
-  <div class="card" style="margin-top: 20px;">
-    <label for="strategy">Strategy</label>
-    <select id="strategy">
-      <option value="random">1. Random (Quick Pick)</option>
-      <option value="balanced">2. Balanced Odd/Even</option>
-      <option value="hot">3. Hot Numbers</option>
-      <option value="cold">4. Cold Numbers</option>
-      <option value="hotcold">5. Hot + Cold Mix</option>
-      <option value="spread">6. Good Spread</option>
-      <option value="weighted">7. Weighted</option>
-      <option value="weightedBalanced" selected>8. Weighted + Balanced (Recommended)</option>
-      <option value="lowhigh">9. Low + High Mix</option>
-    </select>
 
-    <label for="count">Number of Tickets</label>
-    <input type="number" id="count" value="5" min="1" max="20" />
+  <div id="jackpot"
 
-    <button class="btn-primary" onclick="generate()">Generate Tickets</button>
-    <button class="btn-secondary" onclick="clearTickets()">Clear</button>
+       class="jackpot-value">
+
+    $173 Million
+
   </div>
 
-  <div id="results"></div>
-  <div class="toast" id="toast">Copied!</div>
 
-  <script>
-    // ========== LOAD LIVE DATA ==========
-    async function loadLatestResults() {
-      const jackpotAmount = document.getElementById("jackpotAmount");
-      const jackpotDate = document.getElementById("jackpotDate");
-      const recentDraws = document.getElementById("recentDraws");
 
-      recentDraws.innerHTML = `<div class="loading">Loading latest results...</div>`;
+  <div class="cash-value">
 
-      try {
-        const res = await fetch("https://www.calottery.com/api/DrawGameApi/DrawGamePastDrawResults/8/1/5");
-        const data = await res.json();
+    Cash Value:
 
-        // Next Jackpot
-        const next = data.NextDraw;
-        const jackpot = next.JackpotAmount;
-        const nextDate = new Date(next.DrawDate);
+    <span id="cashValue">
 
-        jackpotAmount.textContent = "$" + (jackpot / 1000000).toFixed(0) + " Million";
-        jackpotDate.textContent = nextDate.toLocaleDateString("en-US", {
-          weekday: "long", year: "numeric", month: "short", day: "numeric"
-        });
+      $74.6 Million
 
-        // Last 3 draws
-        const draws = data.PreviousDraws.slice(0, 3);
-        let html = "";
+    </span>
 
-        draws.forEach(draw => {
-          const date = new Date(draw.DrawDate);
-          const nums = [];
-          let mega = "";
+  </div>
 
-          for (let i = 0; i <= 5; i++) {
-            const ball = draw.WinningNumbers[i];
-            if (ball.IsSpecial) {
-              mega = ball.Number;
-            } else {
-              nums.push(ball.Number);
+
+
+  <div id="nextDrawing"
+
+       class="next-drawing">
+
+    Next Drawing: Loading...
+
+  </div>
+
+
+
+  <div class="muted"
+
+       style="margin-top:10px;">
+
+    Updated:
+
+    <span id="updatedAt">
+
+      Local data
+
+    </span>
+
+  </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     LAST 3 DRAWINGS
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <div class="row"
+
+       style="align-items:center;">
+
+
+
+    <h2 style="margin-right:auto;">
+
+      Last 3 Drawings
+
+    </h2>
+
+
+
+    <button
+
+      class="small"
+
+      onclick="updateFromWorker()">
+
+      ↻ Refresh
+
+    </button>
+
+
+
+  </div>
+
+
+
+  <div id="drawings"
+
+       class="drawings">
+
+
+
+    <div class="loading">
+
+      Loading drawings...
+
+    </div>
+
+
+
+  </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     GENERATOR
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <h2>🎯 Ticket Generator</h2>
+
+
+
+  <label for="strategy">
+
+    Strategy
+
+  </label>
+
+
+
+  <select id="strategy">
+
+
+
+    <option value="random">
+
+      Random — Quick Pick
+
+    </option>
+
+
+
+    <option value="balanced">
+
+      Balanced Odd / Even
+
+    </option>
+
+
+
+    <option value="hot">
+
+      Hot Numbers
+
+    </option>
+
+
+
+    <option value="cold">
+
+      Cold Numbers
+
+    </option>
+
+
+
+    <option value="hotcold">
+
+      Hot + Cold Mix
+
+    </option>
+
+
+
+    <option value="spread">
+
+      Good Spread
+
+    </option>
+
+
+
+    <option value="weighted">
+
+      Weighted Frequency
+
+    </option>
+
+
+
+    <option value="weightedBalanced" selected>
+
+      Weighted + Balanced ⭐ Recommended
+
+    </option>
+
+
+
+    <option value="lowhigh">
+
+      Low + High Mix
+
+    </option>
+
+
+
+    <option value="recency">
+
+      Recency
+
+    </option>
+
+
+
+    <option value="hybrid">
+
+      Hybrid AI
+
+    </option>
+
+
+
+    <option value="overdue">
+
+      Overdue Numbers
+
+    </option>
+
+
+
+    <option value="decade">
+
+      Decade Spread
+
+    </option>
+
+
+
+    <option value="sum">
+
+      Sum Balanced
+
+    </option>
+
+
+
+    <option value="pairs">
+
+      Pair Boost
+
+    </option>
+
+
+
+  </select>
+
+
+
+  <div style="height:12px;"></div>
+
+
+
+  <label for="ticketCount">
+
+    Number of tickets
+
+  </label>
+
+
+
+  <input
+
+    id="ticketCount"
+
+    type="number"
+
+    min="1"
+
+    max="20"
+
+    value="5">
+
+
+
+  <div style="height:12px;"></div>
+
+
+
+  <button
+
+    class="full"
+
+    onclick="generateTickets()">
+
+    Generate Tickets
+
+  </button>
+
+
+
+  <div id="generatorStatus"
+
+       class="status">
+
+  </div>
+
+
+
+  <div id="tickets"></div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     QUICK STATS
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <h2>📊 Quick Statistics</h2>
+
+
+
+  <div class="stat-grid">
+
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+
+        Historical Drawings
+
+      </div>
+
+      <div id="drawCount"
+
+           class="stat-value">
+
+        0
+
+      </div>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+
+        Hot White Ball
+
+      </div>
+
+      <div id="hotBall"
+
+           class="stat-value">
+
+        -
+
+      </div>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+
+        Cold White Ball
+
+      </div>
+
+      <div id="coldBall"
+
+           class="stat-value">
+
+        -
+
+      </div>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+
+        Hot Powerball
+
+      </div>
+
+      <div id="hotPB"
+
+           class="stat-value">
+
+        -
+
+      </div>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+
+        Average Sum
+
+      </div>
+
+      <div id="averageSum"
+
+           class="stat-value">
+
+        -
+
+      </div>
+
+    </div>
+
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+
+        Average Odd
+
+      </div>
+
+      <div id="averageOdd"
+
+           class="stat-value">
+
+        -
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     HOT / COLD
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <h2>🔥 Hot & ❄️ Cold Numbers</h2>
+
+
+
+  <div id="hotCold"></div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     FREQUENCY
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <details>
+
+
+
+    <summary>
+
+      White Ball Frequency
+
+    </summary>
+
+
+
+    <div style="height:10px;"></div>
+
+
+
+    <div class="table-wrap">
+
+
+
+      <table>
+
+
+
+        <thead>
+
+          <tr>
+
+            <th>Number</th>
+
+            <th>Hits</th>
+
+            <th>Rate</th>
+
+          </tr>
+
+        </thead>
+
+
+
+        <tbody id="whiteFrequency">
+
+        </tbody>
+
+
+
+      </table>
+
+
+
+    </div>
+
+
+
+  </details>
+
+
+
+  <details>
+
+
+
+    <summary>
+
+      Powerball Frequency
+
+    </summary>
+
+
+
+    <div style="height:10px;"></div>
+
+
+
+    <div class="table-wrap">
+
+
+
+      <table>
+
+
+
+        <thead>
+
+          <tr>
+
+            <th>PB</th>
+
+            <th>Hits</th>
+
+            <th>Rate</th>
+
+          </tr>
+
+        </thead>
+
+
+
+        <tbody id="pbFrequency">
+
+        </tbody>
+
+
+
+      </table>
+
+
+
+    </div>
+
+
+
+  </details>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     BACKTESTING
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <h2>🧪 Walk-Forward Backtesting</h2>
+
+
+
+  <p class="muted">
+
+    Each target drawing is tested using only drawings that
+
+    occurred before it. This prevents future information
+
+    from leaking into the prediction.
+
+  </p>
+
+
+
+  <label for="minTraining">
+
+    Minimum training drawings
+
+  </label>
+
+
+
+  <input
+
+    id="minTraining"
+
+    type="number"
+
+    min="5"
+
+    max="500"
+
+    value="15">
+
+
+
+  <div style="height:10px;"></div>
+
+
+
+  <label for="recencyWindow">
+
+    Recency window
+
+  </label>
+
+
+
+  <input
+
+    id="recencyWindow"
+
+    type="number"
+
+    min="5"
+
+    max="500"
+
+    value="30">
+
+
+
+  <div style="height:12px;"></div>
+
+
+
+  <button
+
+    class="full"
+
+    onclick="runBacktest()">
+
+    Run Backtest
+
+  </button>
+
+
+
+  <div style="height:12px;"></div>
+
+
+
+  <div id="backtestProgress"
+
+       class="progress"
+
+       style="display:none;">
+
+
+
+    <div id="progressBar"
+
+         class="progress-bar">
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <div id="backtestResults"></div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     DATA MANAGEMENT
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <h2>💾 Data Management</h2>
+
+
+
+  <p class="muted">
+
+    Your Powerball history is stored locally on this device.
+
+  </p>
+
+
+
+  <div class="row">
+
+
+
+    <button onclick="exportJSON()">
+
+      Export JSON
+
+    </button>
+
+
+
+    <button onclick="exportCSV()">
+
+      Export CSV
+
+    </button>
+
+
+
+  </div>
+
+
+
+  <div style="height:12px;"></div>
+
+
+
+  <label for="csvFile">
+
+    Import CSV
+
+  </label>
+
+
+
+  <input
+
+    id="csvFile"
+
+    type="file"
+
+    accept=".csv,text/csv">
+
+
+
+  <div style="height:10px;"></div>
+
+
+
+  <button
+
+    class="secondary full"
+
+    onclick="importCSV()">
+
+    Import CSV
+
+  </button>
+
+
+
+  <div style="height:10px;"></div>
+
+
+
+  <button
+
+    class="danger full"
+
+    onclick="resetDatabase()">
+
+    Reset Local Database
+
+  </button>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     AUTOMATIC UPDATE
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <h2>☁️ Automatic Update</h2>
+
+
+
+  <p class="muted">
+
+    Enter your Cloudflare Worker URL. The Worker retrieves
+
+    current Powerball information and previous drawings.
+
+  </p>
+
+
+
+  <label for="workerURL">
+
+    Cloudflare Worker URL
+
+  </label>
+
+
+
+  <input
+
+    id="workerURL"
+
+    type="url"
+
+    placeholder="https://your-worker.workers.dev">
+
+
+
+  <div style="height:10px;"></div>
+
+
+
+  <div class="row">
+
+
+
+    <button onclick="saveWorkerURL()">
+
+      Save URL
+
+    </button>
+
+
+
+    <button
+
+      class="success"
+
+      onclick="updateFromWorker()">
+
+      Update Now
+
+    </button>
+
+
+
+  </div>
+
+
+
+  <div id="updateStatus"
+
+       class="status">
+
+  </div>
+
+
+
+  <div class="muted"
+
+       style="margin-top:10px;">
+
+    Automatic checking occurs approximately every 30 minutes
+
+    while the app is open.
+
+  </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     INFORMATION
+
+====================================================== -->
+
+
+
+<section class="card">
+
+
+
+  <details>
+
+
+
+    <summary>
+
+      Strategy Information
+
+    </summary>
+
+
+
+    <div class="muted"
+
+         style="margin-top:12px;">
+
+
+
+      <p>
+
+        <b>Random:</b>
+
+        Equal-weight Quick Pick baseline.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Balanced Odd / Even:</b>
+
+        Attempts to create a balanced odd/even combination.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Hot Numbers:</b>
+
+        Favors historically frequent numbers.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Cold Numbers:</b>
+
+        Favors historically less frequent numbers.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Hot + Cold Mix:</b>
+
+        Combines historically hot and cold numbers.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Good Spread:</b>
+
+        Attempts to distribute numbers across the 1–69 range.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Weighted Frequency:</b>
+
+        Uses historical frequency as the primary weighting factor.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Weighted + Balanced:</b>
+
+        Combines frequency weighting with odd/even,
+
+        low/high and sum controls.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Low + High Mix:</b>
+
+        Mixes numbers from 1–34 and 35–69.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Recency:</b>
+
+        Gives more weight to recently appearing numbers.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Hybrid AI:</b>
+
+        Combines frequency and recency.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Overdue:</b>
+
+        Favors numbers that have not appeared recently.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Decade Spread:</b>
+
+        Attempts to distribute selections across different
+
+        number ranges.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Sum Balanced:</b>
+
+        Favors combinations near the historical average sum.
+
+      </p>
+
+
+
+      <p>
+
+        <b>Pair Boost:</b>
+
+        Gives additional weight to historically recurring
+
+        number pairs.
+
+      </p>
+
+
+
+    </div>
+
+
+
+  </details>
+
+
+
+  <details>
+
+
+
+    <summary>
+
+      About Powerball AI Lab
+
+    </summary>
+
+
+
+    <p class="muted"
+
+       style="margin-top:12px;">
+
+
+
+      Powerball AI Lab is a statistical research and
+
+      entertainment application.
+
+
+
+      It does not predict future lottery results.
+
+      Lottery drawings are random, and historical patterns
+
+      do not guarantee future outcomes.
+
+
+
+    </p>
+
+
+
+  </details>
+
+
+
+</section>
+
+
+
+
+
+<footer
+
+  style="
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    padding:5px 0 20px;
+
+  ">
+
+
+
+  Powerball AI Lab v6<br>
+
+  For research and entertainment only.
+
+
+
+</footer>
+
+
+
+</div>
+
+
+
+
+
+<div id="toast"></div>
+
+
+
+
+
+<script>
+
+
+
+/* ==========================================================
+
+   POWERBALL AI LAB v6
+
+   ========================================================== */
+
+
+
+const STORAGE_KEY =
+
+  "powerball_ai_lab_v6_draws";
+
+
+
+const SETTINGS_KEY =
+
+  "powerball_ai_lab_v6_settings";
+
+
+
+
+
+/* ==========================================================
+
+   STARTER HISTORY
+
+   ========================================================== */
+
+
+
+const STARTER_HISTORY = [
+
+
+
+  {
+
+    date: "2026-06-27",
+
+    white: [3,16,28,30,59],
+
+    powerball: 11
+
+  },
+
+
+
+  {
+
+    date: "2026-06-29",
+
+    white: [10,14,41,53,59],
+
+    powerball: 3
+
+  },
+
+
+
+  {
+
+    date: "2026-07-01",
+
+    white: [2,6,26,39,68],
+
+    powerball: 6
+
+  },
+
+
+
+  {
+
+    date: "2026-07-04",
+
+    white: [17,38,46,50,69],
+
+    powerball: 20
+
+  },
+
+
+
+  {
+
+    date: "2026-07-06",
+
+    white: [17,44,63,66,67],
+
+    powerball: 4
+
+  },
+
+
+
+  {
+
+    date: "2026-07-08",
+
+    white: [12,29,37,43,55],
+
+    powerball: 18
+
+  },
+
+
+
+  {
+
+    date: "2026-07-11",
+
+    white: [8,10,14,45,59],
+
+    powerball: 5
+
+  },
+
+
+
+  {
+
+    date: "2026-07-13",
+
+    white: [5,25,36,40,48],
+
+    powerball: 3
+
+  },
+
+
+
+  {
+
+    date: "2026-07-15",
+
+    white: [2,7,18,29,38],
+
+    powerball: 16
+
+  },
+
+
+
+  {
+
+    date: "2026-07-18",
+
+    white: [9,14,44,50,56],
+
+    powerball: 3
+
+  },
+
+
+
+  {
+
+    date: "2026-07-20",
+
+    white: [2,9,44,53,59],
+
+    powerball: 8
+
+  },
+
+
+
+  {
+
+    date: "2026-07-22",
+
+    white: [4,5,22,50,58],
+
+    powerball: 1
+
+  },
+
+
+
+  {
+
+    date: "2026-07-25",
+
+    white: [3,4,24,36,47],
+
+    powerball: 17
+
+  },
+
+
+
+  {
+
+    date: "2026-07-27",
+
+    white: [6,26,46,58,65],
+
+    powerball: 25
+
+  },
+
+
+
+  {
+
+    date: "2026-07-29",
+
+    white: [30,36,40,42,57],
+
+    powerball: 2
+
+  },
+
+
+
+  {
+
+    date: "2026-08-01",
+
+    white: [6,17,27,48,50],
+
+    powerball: 5
+
+  },
+
+
+
+  {
+
+    date: "2026-08-03",
+
+    white: [8,30,41,48,54],
+
+    powerball: 4
+
+  },
+
+
+
+  {
+
+    date: "2026-08-05",
+
+    white: [14,20,59,60,61],
+
+    powerball: 25
+
+  },
+
+
+
+  {
+
+    date: "2026-08-08",
+
+    white: [5,9,35,54,63],
+
+    powerball: 7
+
+  },
+
+
+
+  {
+
+    date: "2026-08-10",
+
+    white: [6,37,54,55,64],
+
+    powerball: 10
+
+  },
+
+
+
+  {
+
+    date: "2026-08-12",
+
+    white: [4,26,66,67,69],
+
+    powerball: 9
+
+  },
+
+
+
+  {
+
+    date: "2026-08-15",
+
+    white: [5,8,27,29,63],
+
+    powerball: 13
+
+  },
+
+
+
+  {
+
+    date: "2026-08-17",
+
+    white: [8,15,25,49,65],
+
+    powerball: 22
+
+  },
+
+
+
+  {
+
+    date: "2026-08-19",
+
+    white: [10,21,58,61,64],
+
+    powerball: 17
+
+  },
+
+
+
+  {
+
+    date: "2026-08-22",
+
+    white: [13,31,54,57,65],
+
+    powerball: 23
+
+  },
+
+
+
+  {
+
+    date: "2026-08-24",
+
+    white: [3,16,33,38,68],
+
+    powerball: 2
+
+  },
+
+
+
+  {
+
+    date: "2026-08-26",
+
+    white: [12,32,45,50,58],
+
+    powerball: 2
+
+  },
+
+
+
+  {
+
+    date: "2026-08-29",
+
+    white: [18,56,62,65,67],
+
+    powerball: 18
+
+  },
+
+
+
+  {
+
+    date: "2026-08-31",
+
+    white: [11,17,25,37,49],
+
+    powerball: 10
+
+  },
+
+
+
+  {
+
+    date: "2026-09-02",
+
+    white: [3,10,29,58,64],
+
+    powerball: 14
+
+  }
+
+
+
+];
+
+
+
+
+
+/* ==========================================================
+
+   GLOBAL STATE
+
+========================================================== */
+
+
+
+let draws =
+
+  loadDraws();
+
+
+
+let settings =
+
+  loadSettings();
+
+
+
+let generatedTickets = [];
+
+
+
+
+
+/* ==========================================================
+
+   INITIALIZE
+
+========================================================== */
+
+
+
+document.addEventListener(
+
+  "DOMContentLoaded",
+
+  () => {
+
+
+
+    document.getElementById(
+
+      "workerURL"
+
+    ).value =
+
+      settings.workerURL || "";
+
+
+
+    renderAll();
+
+
+
+    /*
+
+      If a Worker URL is already saved,
+
+      automatically check for updates.
+
+    */
+
+    if (settings.workerURL) {
+
+
+
+      setTimeout(
+
+        () => updateFromWorker(true),
+
+        1200
+
+      );
+
+
+
+    }
+
+
+
+  }
+
+);
+
+
+
+
+
+/* ==========================================================
+
+   LOAD DATA
+
+========================================================== */
+
+
+
+function loadDraws() {
+
+
+
+  try {
+
+
+
+    const saved =
+
+      localStorage.getItem(
+
+        STORAGE_KEY
+
+      );
+
+
+
+    if (saved) {
+
+
+
+      const parsed =
+
+        JSON.parse(saved);
+
+
+
+      if (
+
+        Array.isArray(parsed) &&
+
+        parsed.length > 0
+
+      ) {
+
+
+
+        return normalizeDraws(
+
+          parsed
+
+        );
+
+
+
+      }
+
+
+
+    }
+
+
+
+  } catch(error) {
+
+
+
+    console.warn(
+
+      "Could not load saved drawings:",
+
+      error
+
+    );
+
+
+
+  }
+
+
+
+  const seeded =
+
+    normalizeDraws(
+
+      STARTER_HISTORY
+
+    );
+
+
+
+  localStorage.setItem(
+
+    STORAGE_KEY,
+
+    JSON.stringify(seeded)
+
+  );
+
+
+
+  return seeded;
+
+}
+
+
+
+
+
+function saveDraws() {
+
+
+
+  draws =
+
+    normalizeDraws(draws);
+
+
+
+  localStorage.setItem(
+
+    STORAGE_KEY,
+
+    JSON.stringify(draws)
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   SETTINGS
+
+========================================================== */
+
+
+
+function loadSettings() {
+
+
+
+  try {
+
+
+
+    const saved =
+
+      localStorage.getItem(
+
+        SETTINGS_KEY
+
+      );
+
+
+
+    if (saved) {
+
+
+
+      return {
+
+        workerURL: "",
+
+        ...JSON.parse(saved)
+
+      };
+
+
+
+    }
+
+
+
+  } catch(error) {
+
+
+
+    console.warn(
+
+      "Could not load settings:",
+
+      error
+
+    );
+
+
+
+  }
+
+
+
+  return {
+
+    workerURL: ""
+
+  };
+
+
+
+}
+
+
+
+
+
+function saveSettings() {
+
+
+
+  localStorage.setItem(
+
+    SETTINGS_KEY,
+
+    JSON.stringify(settings)
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   NORMALIZE DRAWINGS
+
+========================================================== */
+
+
+
+function normalizeDraws(
+
+  data
+
+) {
+
+
+
+  const map =
+
+    new Map();
+
+
+
+  for (
+
+    const d of data || []
+
+  ) {
+
+
+
+    if (
+
+      !d ||
+
+      !d.date
+
+    ) {
+
+      continue;
+
+    }
+
+
+
+    const white =
+
+      Array.isArray(d.white)
+
+        ? d.white.map(Number)
+
+        : [];
+
+
+
+    const pb =
+
+      Number(d.powerball);
+
+
+
+    if (
+
+      white.length !== 5 ||
+
+      new Set(white).size !== 5 ||
+
+      white.some(
+
+        n =>
+
+          !Number.isInteger(n) ||
+
+          n < 1 ||
+
+          n > 69
+
+      ) ||
+
+      !Number.isInteger(pb) ||
+
+      pb < 1 ||
+
+      pb > 26
+
+    ) {
+
+      continue;
+
+    }
+
+
+
+    const sorted =
+
+      [...white].sort(
+
+        (a,b) => a-b
+
+      );
+
+
+
+    map.set(
+
+      String(d.date),
+
+      {
+
+        date: String(d.date),
+
+        white: sorted,
+
+        powerball: pb
+
+      }
+
+    );
+
+
+
+  }
+
+
+
+  return [...map.values()]
+
+    .sort(
+
+      (a,b) =>
+
+        a.date.localeCompare(
+
+          b.date
+
+        )
+
+    );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   RENDER ALL
+
+========================================================== */
+
+
+
+function renderAll() {
+
+
+
+  renderDrawings();
+
+
+
+  renderStats();
+
+
+
+  renderHotCold();
+
+
+
+  renderFrequency();
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   DRAWINGS
+
+========================================================== */
+
+
+
+function renderDrawings() {
+
+
+
+  const el =
+
+    document.getElementById(
+
+      "drawings"
+
+    );
+
+
+
+  const latest =
+
+    [...draws]
+
+      .sort(
+
+        (a,b) =>
+
+          b.date.localeCompare(
+
+            a.date
+
+          )
+
+      )
+
+      .slice(0,3);
+
+
+
+  if (!latest.length) {
+
+
+
+    el.innerHTML =
+
+      `<div class="loading">
+
+        No drawings available.
+
+      </div>`;
+
+
+
+    return;
+
+  }
+
+
+
+  el.innerHTML =
+
+    latest.map(
+
+      (d,index) => `
+
+
+
+      <div class="draw-card">
+
+
+
+        <div class="draw-header">
+
+
+
+          <div class="draw-date">
+
+            ${formatDate(d.date)}
+
+          </div>
+
+
+
+          <div class="draw-date">
+
+            ${
+
+              index === 0
+
+                ? "Latest"
+
+                : ""
+
             }
+
+          </div>
+
+
+
+        </div>
+
+
+
+        <div class="balls">
+
+
+
+          ${d.white.map(
+
+            n =>
+
+              `<span class="ball mini-ball white-ball">
+
+                ${n}
+
+              </span>`
+
+          ).join("")}
+
+
+
+          <span class="pb-label">
+
+            PB
+
+          </span>
+
+
+
+          <span class="ball mini-ball pb-ball">
+
+            ${d.powerball}
+
+          </span>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+    `
+
+    ).join("");
+
+
+
+}
+
+
+
+
+
+function formatDate(
+
+  dateString
+
+) {
+
+
+
+  const d =
+
+    new Date(
+
+      dateString +
+
+      "T12:00:00"
+
+    );
+
+
+
+  if (
+
+    Number.isNaN(
+
+      d.getTime()
+
+    )
+
+  ) {
+
+    return dateString;
+
+  }
+
+
+
+  return d.toLocaleDateString(
+
+    "en-US",
+
+    {
+
+      weekday: "short",
+
+      month: "short",
+
+      day: "numeric",
+
+      year: "numeric"
+
+    }
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   FREQUENCY
+
+========================================================== */
+
+
+
+function getWhiteFrequency(
+
+  source = draws
+
+) {
+
+
+
+  const frequency =
+
+    Array(70).fill(0);
+
+
+
+  source.forEach(
+
+    d => {
+
+
+
+      d.white.forEach(
+
+        n => {
+
+
+
+          if (
+
+            n >= 1 &&
+
+            n <= 69
+
+          ) {
+
+            frequency[n]++;
+
           }
 
-          html += `
-            <div class="draw-item">
-              <div class="draw-date">${date.toLocaleDateString("en-US", {
-                weekday: "long", month: "short", day: "numeric", year: "numeric"
-              })}</div>
-              <div class="draw-numbers">
-                ${nums.map(n => `<div class="mini-ball">${n}</div>`).join("")}
-                <div class="mini-ball mini-mega">${mega}</div>
-              </div>
+
+
+        }
+
+      );
+
+
+
+    }
+
+  );
+
+
+
+  return frequency;
+
+
+
+}
+
+
+
+
+
+function getPBFrequency(
+
+  source = draws
+
+) {
+
+
+
+  const frequency =
+
+    Array(27).fill(0);
+
+
+
+  source.forEach(
+
+    d => {
+
+
+
+      if (
+
+        d.powerball >= 1 &&
+
+        d.powerball <= 26
+
+      ) {
+
+        frequency[
+
+          d.powerball
+
+        ]++;
+
+      }
+
+
+
+    }
+
+  );
+
+
+
+  return frequency;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   LAST SEEN
+
+========================================================== */
+
+
+
+function getLastSeen(
+
+  source = draws
+
+) {
+
+
+
+  const last =
+
+    Array(70).fill(-1);
+
+
+
+  source.forEach(
+
+    (d,index) => {
+
+
+
+      d.white.forEach(
+
+        n => {
+
+          last[n] = index;
+
+        }
+
+      );
+
+
+
+    }
+
+  );
+
+
+
+  return last;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   QUICK STATS
+
+========================================================== */
+
+
+
+function renderStats() {
+
+
+
+  const wf =
+
+    getWhiteFrequency();
+
+
+
+  const pf =
+
+    getPBFrequency();
+
+
+
+  document.getElementById(
+
+    "drawCount"
+
+  ).textContent =
+
+    draws.length;
+
+
+
+  if (!draws.length) {
+
+    return;
+
+  }
+
+
+
+  const whiteNumbers =
+
+    Array.from(
+
+      {length:69},
+
+      (_,i) => i+1
+
+    );
+
+
+
+  const hot =
+
+    [...whiteNumbers]
+
+      .sort(
+
+        (a,b) =>
+
+          wf[b] - wf[a] ||
+
+          a - b
+
+      )[0];
+
+
+
+  const cold =
+
+    [...whiteNumbers]
+
+      .sort(
+
+        (a,b) =>
+
+          wf[a] - wf[b] ||
+
+          a - b
+
+      )[0];
+
+
+
+  const hotPB =
+
+    Array.from(
+
+      {length:26},
+
+      (_,i) => i+1
+
+    )
+
+    .sort(
+
+      (a,b) =>
+
+        pf[b] - pf[a] ||
+
+        a - b
+
+    )[0];
+
+
+
+  document.getElementById(
+
+    "hotBall"
+
+  ).textContent =
+
+    hot;
+
+
+
+  document.getElementById(
+
+    "coldBall"
+
+  ).textContent =
+
+    cold;
+
+
+
+  document.getElementById(
+
+    "hotPB"
+
+  ).textContent =
+
+    hotPB;
+
+
+
+
+
+  const sums =
+
+    draws.map(
+
+      d =>
+
+        d.white.reduce(
+
+          (a,b) => a+b,
+
+          0
+
+        )
+
+    );
+
+
+
+  const oddCounts =
+
+    draws.map(
+
+      d =>
+
+        d.white.filter(
+
+          n => n % 2 === 1
+
+        ).length
+
+    );
+
+
+
+  document.getElementById(
+
+    "averageSum"
+
+  ).textContent =
+
+    Math.round(
+
+      average(sums)
+
+    );
+
+
+
+  document.getElementById(
+
+    "averageOdd"
+
+  ).textContent =
+
+    average(
+
+      oddCounts
+
+    ).toFixed(1);
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   HOT / COLD
+
+========================================================== */
+
+
+
+function renderHotCold() {
+
+
+
+  const wf =
+
+    getWhiteFrequency();
+
+
+
+  const numbers =
+
+    Array.from(
+
+      {length:69},
+
+      (_,i) => i+1
+
+    );
+
+
+
+  const hot =
+
+    [...numbers]
+
+      .sort(
+
+        (a,b) =>
+
+          wf[b] - wf[a] ||
+
+          a-b
+
+      )
+
+      .slice(0,10);
+
+
+
+  const cold =
+
+    [...numbers]
+
+      .sort(
+
+        (a,b) =>
+
+          wf[a] - wf[b] ||
+
+          a-b
+
+      )
+
+      .slice(0,10);
+
+
+
+  document.getElementById(
+
+    "hotCold"
+
+  ).innerHTML = `
+
+
+
+    <h3>🔥 Hot</h3>
+
+
+
+    <div class="balls">
+
+
+
+      ${hot.map(
+
+        n =>
+
+          `<span class="ball white-ball">
+
+            ${n}
+
+          </span>`
+
+      ).join("")}
+
+
+
+    </div>
+
+
+
+    <h3>❄️ Cold</h3>
+
+
+
+    <div class="balls">
+
+
+
+      ${cold.map(
+
+        n =>
+
+          `<span class="ball white-ball">
+
+            ${n}
+
+          </span>`
+
+      ).join("")}
+
+
+
+    </div>
+
+
+
+  `;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   FREQUENCY TABLE
+
+========================================================== */
+
+
+
+function renderFrequency() {
+
+
+
+  const wf =
+
+    getWhiteFrequency();
+
+
+
+  const pf =
+
+    getPBFrequency();
+
+
+
+  const totalWhite =
+
+    draws.length * 5;
+
+
+
+  const totalPB =
+
+    draws.length;
+
+
+
+  const whiteRows =
+
+    Array.from(
+
+      {length:69},
+
+      (_,i) => i+1
+
+    )
+
+    .sort(
+
+      (a,b) =>
+
+        wf[b] - wf[a] ||
+
+        a-b
+
+    )
+
+    .map(
+
+      n => `
+
+
+
+        <tr>
+
+
+
+          <td>${n}</td>
+
+
+
+          <td>${wf[n]}</td>
+
+
+
+          <td>
+
+            ${
+
+              totalWhite
+
+                ? (
+
+                    wf[n] /
+
+                    totalWhite *
+
+                    100
+
+                  ).toFixed(2)
+
+                : "0.00"
+
+            }%
+
+          </td>
+
+
+
+        </tr>
+
+
+
+      `
+
+    )
+
+    .join("");
+
+
+
+  const pbRows =
+
+    Array.from(
+
+      {length:26},
+
+      (_,i) => i+1
+
+    )
+
+    .sort(
+
+      (a,b) =>
+
+        pf[b] - pf[a] ||
+
+        a-b
+
+    )
+
+    .map(
+
+      n => `
+
+
+
+        <tr>
+
+
+
+          <td>${n}</td>
+
+
+
+          <td>${pf[n]}</td>
+
+
+
+          <td>
+
+            ${
+
+              totalPB
+
+                ? (
+
+                    pf[n] /
+
+                    totalPB *
+
+                    100
+
+                  ).toFixed(2)
+
+                : "0.00"
+
+            }%
+
+          </td>
+
+
+
+        </tr>
+
+
+
+      `
+
+    )
+
+    .join("");
+
+
+
+  document.getElementById(
+
+    "whiteFrequency"
+
+  ).innerHTML =
+
+    whiteRows;
+
+
+
+  document.getElementById(
+
+    "pbFrequency"
+
+  ).innerHTML =
+
+    pbRows;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   RANDOM HELPERS
+
+========================================================== */
+
+
+
+function randomInt(
+
+  min,
+
+  max
+
+) {
+
+
+
+  return Math.floor(
+
+    Math.random() *
+
+    (max - min + 1)
+
+  ) + min;
+
+
+
+}
+
+
+
+
+
+function randomFrom(
+
+  array
+
+) {
+
+
+
+  if (
+
+    !array ||
+
+    !array.length
+
+  ) {
+
+    return null;
+
+  }
+
+
+
+  return array[
+
+    randomInt(
+
+      0,
+
+      array.length - 1
+
+    )
+
+  ];
+
+
+
+}
+
+
+
+
+
+function average(
+
+  array
+
+) {
+
+
+
+  if (!array.length) {
+
+    return 0;
+
+  }
+
+
+
+  return array.reduce(
+
+    (a,b) => a+b,
+
+    0
+
+  ) / array.length;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   WEIGHTED SAMPLING
+
+========================================================== */
+
+
+
+function weightedSample(
+
+  weights,
+
+  count
+
+) {
+
+
+
+  const result = [];
+
+
+
+  const pool = [];
+
+
+
+  for (
+
+    let n=1;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    pool.push({
+
+      number:n,
+
+      weight:
+
+        Math.max(
+
+          0,
+
+          Number(
+
+            weights[n]
+
+          ) || 0
+
+        )
+
+    });
+
+
+
+  }
+
+
+
+  while (
+
+    result.length < count &&
+
+    pool.length
+
+  ) {
+
+
+
+    const total =
+
+      pool.reduce(
+
+        (sum,item) =>
+
+          sum + item.weight,
+
+        0
+
+      );
+
+
+
+    if (
+
+      total <= 0
+
+    ) {
+
+
+
+      const randomIndex =
+
+        randomInt(
+
+          0,
+
+          pool.length-1
+
+        );
+
+
+
+      result.push(
+
+        pool[
+
+          randomIndex
+
+        ].number
+
+      );
+
+
+
+      pool.splice(
+
+        randomIndex,
+
+        1
+
+      );
+
+
+
+      continue;
+
+    }
+
+
+
+    let r =
+
+      Math.random() *
+
+      total;
+
+
+
+    let selectedIndex =
+
+      pool.length - 1;
+
+
+
+    for (
+
+      let i=0;
+
+      i<pool.length;
+
+      i++
+
+    ) {
+
+
+
+      r -=
+
+        pool[i].weight;
+
+
+
+      if (
+
+        r <= 0
+
+      ) {
+
+
+
+        selectedIndex =
+
+          i;
+
+
+
+        break;
+
+
+
+      }
+
+
+
+    }
+
+
+
+    result.push(
+
+      pool[
+
+        selectedIndex
+
+      ].number
+
+    );
+
+
+
+    pool.splice(
+
+      selectedIndex,
+
+      1
+
+    );
+
+
+
+  }
+
+
+
+  return result;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   UNIQUE FIVE
+
+========================================================== */
+
+
+
+function uniqueFive(
+
+  numbers
+
+) {
+
+
+
+  const result = [];
+
+
+
+  for (
+
+    const n of numbers
+
+  ) {
+
+
+
+    const number =
+
+      Number(n);
+
+
+
+    if (
+
+      number >= 1 &&
+
+      number <= 69 &&
+
+      !result.includes(number)
+
+    ) {
+
+
+
+      result.push(
+
+        number
+
+      );
+
+
+
+    }
+
+
+
+  }
+
+
+
+  while (
+
+    result.length < 5
+
+  ) {
+
+
+
+    const n =
+
+      randomInt(
+
+        1,
+
+        69
+
+      );
+
+
+
+    if (
+
+      !result.includes(n)
+
+    ) {
+
+
+
+      result.push(n);
+
+
+
+    }
+
+
+
+  }
+
+
+
+  return result.sort(
+
+    (a,b) => a-b
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   FREQUENCY / RECENCY SCORES
+
+========================================================== */
+
+
+
+function frequencyScores(
+
+  source
+
+) {
+
+
+
+  const wf =
+
+    getWhiteFrequency(
+
+      source
+
+    );
+
+
+
+  const max =
+
+    Math.max(
+
+      1,
+
+      ...wf.slice(1)
+
+    );
+
+
+
+  const score =
+
+    Array(70).fill(0);
+
+
+
+  for (
+
+    let n=1;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    score[n] =
+
+      wf[n] / max;
+
+
+
+  }
+
+
+
+  return score;
+
+
+
+}
+
+
+
+
+
+function recencyScores(
+
+  source
+
+) {
+
+
+
+  const last =
+
+    getLastSeen(
+
+      source
+
+    );
+
+
+
+  const total =
+
+    source.length;
+
+
+
+  const score =
+
+    Array(70).fill(0);
+
+
+
+  for (
+
+    let n=1;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    let age;
+
+
+
+    if (
+
+      last[n] < 0
+
+    ) {
+
+
+
+      age =
+
+        total + 10;
+
+
+
+    } else {
+
+
+
+      age =
+
+        total -
+
+        1 -
+
+        last[n];
+
+
+
+    }
+
+
+
+    score[n] =
+
+      Math.exp(
+
+        -age / 8
+
+      );
+
+
+
+  }
+
+
+
+  return score;
+
+
+
+}
+
+
+
+
+
+function overdueScores(
+
+  source
+
+) {
+
+
+
+  const last =
+
+    getLastSeen(
+
+      source
+
+    );
+
+
+
+  const total =
+
+    source.length;
+
+
+
+  const score =
+
+    Array(70).fill(0);
+
+
+
+  for (
+
+    let n=1;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    let age;
+
+
+
+    if (
+
+      last[n] < 0
+
+    ) {
+
+
+
+      age =
+
+        total + 10;
+
+
+
+    } else {
+
+
+
+      age =
+
+        total -
+
+        1 -
+
+        last[n];
+
+
+
+    }
+
+
+
+    score[n] =
+
+      1 + age;
+
+
+
+  }
+
+
+
+  return score;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   GENERATOR
+
+========================================================== */
+
+
+
+function generateTickets() {
+
+
+
+  let count =
+
+    parseInt(
+
+      document.getElementById(
+
+        "ticketCount"
+
+      ).value,
+
+      10
+
+    );
+
+
+
+  count =
+
+    Math.max(
+
+      1,
+
+      Math.min(
+
+        20,
+
+        count || 1
+
+      )
+
+    );
+
+
+
+  const strategy =
+
+    document.getElementById(
+
+      "strategy"
+
+    ).value;
+
+
+
+  generatedTickets = [];
+
+
+
+  for (
+
+    let i=0;
+
+    i<count;
+
+    i++
+
+  ) {
+
+
+
+    generatedTickets.push(
+
+      generateTicket(
+
+        strategy,
+
+        draws
+
+      )
+
+    );
+
+
+
+  }
+
+
+
+  renderTickets();
+
+
+
+}
+
+
+
+
+
+function generateTicket(
+
+  strategy,
+
+  source
+
+) {
+
+
+
+  const wf =
+
+    getWhiteFrequency(
+
+      source
+
+    );
+
+
+
+  const frequency =
+
+    frequencyScores(
+
+      source
+
+    );
+
+
+
+  const recency =
+
+    recencyScores(
+
+      source
+
+    );
+
+
+
+  const overdue =
+
+    overdueScores(
+
+      source
+
+    );
+
+
+
+  let weights =
+
+    Array(70).fill(1);
+
+
+
+
+
+  /* --------------------------------
+
+     BASE STRATEGY WEIGHTS
+
+  -------------------------------- */
+
+
+
+  for (
+
+    let n=1;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    if (
+
+      strategy === "hot"
+
+    ) {
+
+
+
+      weights[n] =
+
+        1 +
+
+        wf[n] * 2;
+
+
+
+    }
+
+
+
+    else if (
+
+      strategy === "cold"
+
+    ) {
+
+
+
+      weights[n] =
+
+        1 /
+
+        (1 + wf[n]);
+
+
+
+    }
+
+
+
+    else if (
+
+      strategy === "weighted"
+
+    ) {
+
+
+
+      weights[n] =
+
+        1 +
+
+        wf[n] * 2;
+
+
+
+    }
+
+
+
+    else if (
+
+      strategy === "recency"
+
+    ) {
+
+
+
+      weights[n] =
+
+        .25 +
+
+        recency[n] * 5;
+
+
+
+    }
+
+
+
+    else if (
+
+      strategy === "hybrid"
+
+    ) {
+
+
+
+      weights[n] =
+
+        .5 +
+
+        frequency[n] * 4 +
+
+        recency[n] * 3;
+
+
+
+    }
+
+
+
+    else if (
+
+      strategy === "overdue"
+
+    ) {
+
+
+
+      weights[n] =
+
+        overdue[n];
+
+
+
+    }
+
+
+
+    else {
+
+
+
+      weights[n] = 1;
+
+
+
+    }
+
+
+
+  }
+
+
+
+
+
+  let white;
+
+
+
+
+
+  /* --------------------------------
+
+     BALANCED
+
+  -------------------------------- */
+
+
+
+  if (
+
+    strategy === "balanced"
+
+  ) {
+
+
+
+    white =
+
+      generateBalanced(
+
+        weights
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     HOT + COLD
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "hotcold"
+
+  ) {
+
+
+
+    white =
+
+      generateHotCold(
+
+        wf
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     GOOD SPREAD
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "spread"
+
+  ) {
+
+
+
+    white =
+
+      generateSpread(
+
+        weights
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     WEIGHTED + BALANCED
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "weightedBalanced"
+
+  ) {
+
+
+
+    white =
+
+      generateWeightedBalanced(
+
+        weights
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     LOW + HIGH
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "lowhigh"
+
+  ) {
+
+
+
+    white =
+
+      generateLowHigh(
+
+        weights
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     DECADE
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "decade"
+
+  ) {
+
+
+
+    white =
+
+      generateDecadeSpread(
+
+        weights
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     SUM
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "sum"
+
+  ) {
+
+
+
+    white =
+
+      generateSumBalanced(
+
+        weights
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     PAIRS
+
+  -------------------------------- */
+
+
+
+  else if (
+
+    strategy === "pairs"
+
+  ) {
+
+
+
+    white =
+
+      generatePairBoost(
+
+        weights,
+
+        source
+
+      );
+
+
+
+  }
+
+
+
+
+
+  /* --------------------------------
+
+     RANDOM / HOT / COLD /
+
+     RECENCY / HYBRID / OVERDUE
+
+  -------------------------------- */
+
+
+
+  else {
+
+
+
+    white =
+
+      weightedSample(
+
+        weights,
+
+        5
+
+      );
+
+
+
+  }
+
+
+
+
+
+  white =
+
+    uniqueFive(
+
+      white
+
+    );
+
+
+
+
+
+  /* --------------------------------
+
+     POWERBALL
+
+  -------------------------------- */
+
+
+
+  const pbFrequency =
+
+    getPBFrequency(
+
+      source
+
+    );
+
+
+
+  let pbWeights =
+
+    Array(27).fill(1);
+
+
+
+  for (
+
+    let n=1;
+
+    n<=26;
+
+    n++
+
+  ) {
+
+
+
+    if (
+
+      strategy === "random" ||
+
+      strategy === "balanced" ||
+
+      strategy === "spread" ||
+
+      strategy === "hotcold" ||
+
+      strategy === "lowhigh" ||
+
+      strategy === "decade" ||
+
+      strategy === "sum" ||
+
+      strategy === "pairs"
+
+    ) {
+
+
+
+      pbWeights[n] = 1;
+
+
+
+    }
+
+
+
+    else {
+
+
+
+      pbWeights[n] =
+
+        1 +
+
+        pbFrequency[n];
+
+
+
+    }
+
+
+
+  }
+
+
+
+
+
+  const pb =
+
+    weightedPowerball(
+
+      pbWeights
+
+    );
+
+
+
+
+
+  return {
+
+    white,
+
+    powerball: pb
+
+  };
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   BALANCED STRATEGY
+
+========================================================== */
+
+
+
+function generateBalanced(
+
+  weights
+
+) {
+
+
+
+  for (
+
+    let attempt=0;
+
+    attempt<150;
+
+    attempt++
+
+  ) {
+
+
+
+    const ticket =
+
+      weightedSample(
+
+        weights,
+
+        5
+
+      );
+
+
+
+    const odd =
+
+      ticket.filter(
+
+        n => n % 2 === 1
+
+      ).length;
+
+
+
+    const low =
+
+      ticket.filter(
+
+        n => n <= 34
+
+      ).length;
+
+
+
+    if (
+
+      odd >= 2 &&
+
+      odd <= 3 &&
+
+      low >= 2 &&
+
+      low <= 3
+
+    ) {
+
+
+
+      return ticket;
+
+
+
+    }
+
+
+
+  }
+
+
+
+  return weightedSample(
+
+    weights,
+
+    5
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   HOT + COLD
+
+========================================================== */
+
+
+
+function generateHotCold(
+
+  wf
+
+) {
+
+
+
+  const numbers =
+
+    Array.from(
+
+      {length:69},
+
+      (_,i) => i+1
+
+    );
+
+
+
+  const sorted =
+
+    [...numbers]
+
+      .sort(
+
+        (a,b) =>
+
+          wf[b] - wf[a]
+
+      );
+
+
+
+  const hot =
+
+    sorted.slice(
+
+      0,
+
+      23
+
+    );
+
+
+
+  const cold =
+
+    sorted.slice(
+
+      -23
+
+    );
+
+
+
+  const middle =
+
+    sorted.slice(
+
+      23,
+
+      46
+
+    );
+
+
+
+  const result = [
+
+
+
+    randomFrom(hot),
+
+
+
+    randomFrom(hot),
+
+
+
+    randomFrom(cold),
+
+
+
+    randomFrom(cold),
+
+
+
+    randomFrom(middle)
+
+
+
+  ];
+
+
+
+  return uniqueFive(
+
+    result
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   GOOD SPREAD
+
+========================================================== */
+
+
+
+function generateSpread(
+
+  weights
+
+) {
+
+
+
+  const ranges = [
+
+
+
+    [1,13],
+
+
+
+    [14,26],
+
+
+
+    [27,39],
+
+
+
+    [40,52],
+
+
+
+    [53,69]
+
+
+
+  ];
+
+
+
+  const result = [];
+
+
+
+  for (
+
+    const range of ranges
+
+  ) {
+
+
+
+    const local =
+
+      Array(70).fill(0);
+
+
+
+    for (
+
+      let n=range[0];
+
+      n<=range[1];
+
+      n++
+
+    ) {
+
+
+
+      local[n] =
+
+        weights[n];
+
+
+
+    }
+
+
+
+    const selected =
+
+      weightedSample(
+
+        local,
+
+        1
+
+      )[0];
+
+
+
+    if (
+
+      selected
+
+    ) {
+
+      result.push(
+
+        selected
+
+      );
+
+    }
+
+
+
+  }
+
+
+
+  return uniqueFive(
+
+    result
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   WEIGHTED + BALANCED
+
+========================================================== */
+
+
+
+function generateWeightedBalanced(
+
+  weights
+
+) {
+
+
+
+  for (
+
+    let attempt=0;
+
+    attempt<250;
+
+    attempt++
+
+  ) {
+
+
+
+    const ticket =
+
+      weightedSample(
+
+        weights,
+
+        5
+
+      );
+
+
+
+    const odd =
+
+      ticket.filter(
+
+        n => n % 2 === 1
+
+      ).length;
+
+
+
+    const low =
+
+      ticket.filter(
+
+        n => n <= 34
+
+      ).length;
+
+
+
+    const sum =
+
+      ticket.reduce(
+
+        (a,b) => a+b,
+
+        0
+
+      );
+
+
+
+    if (
+
+      odd >= 2 &&
+
+      odd <= 3 &&
+
+      low >= 2 &&
+
+      low <= 3 &&
+
+      sum >= 100 &&
+
+      sum <= 240
+
+    ) {
+
+
+
+      return ticket;
+
+
+
+    }
+
+
+
+  }
+
+
+
+  return generateBalanced(
+
+    weights
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   LOW + HIGH
+
+========================================================== */
+
+
+
+function generateLowHigh(
+
+  weights
+
+) {
+
+
+
+  const low =
+
+    Array(70).fill(0);
+
+
+
+  const high =
+
+    Array(70).fill(0);
+
+
+
+  for (
+
+    let n=1;
+
+    n<=34;
+
+    n++
+
+  ) {
+
+
+
+    low[n] =
+
+      weights[n];
+
+
+
+  }
+
+
+
+  for (
+
+    let n=35;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    high[n] =
+
+      weights[n];
+
+
+
+  }
+
+
+
+  const result = [
+
+
+
+    ...weightedSample(
+
+      low,
+
+      2
+
+    ),
+
+
+
+    ...weightedSample(
+
+      high,
+
+      3
+
+    )
+
+
+
+  ];
+
+
+
+  return uniqueFive(
+
+    result
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   DECADE SPREAD
+
+========================================================== */
+
+
+
+function generateDecadeSpread(
+
+  weights
+
+) {
+
+
+
+  const ranges = [
+
+
+
+    [1,10],
+
+
+
+    [11,20],
+
+
+
+    [21,30],
+
+
+
+    [31,40],
+
+
+
+    [41,50],
+
+
+
+    [51,60],
+
+
+
+    [61,69]
+
+
+
+  ];
+
+
+
+  const shuffled =
+
+    [...ranges]
+
+      .sort(
+
+        () =>
+
+          Math.random() - .5
+
+      );
+
+
+
+  const result = [];
+
+
+
+  shuffled
+
+    .slice(0,5)
+
+    .forEach(
+
+      range => {
+
+
+
+        const local =
+
+          Array(70).fill(0);
+
+
+
+        for (
+
+          let n=range[0];
+
+          n<=range[1];
+
+          n++
+
+        ) {
+
+
+
+          local[n] =
+
+            weights[n];
+
+
+
+        }
+
+
+
+        const pick =
+
+          weightedSample(
+
+            local,
+
+            1
+
+          )[0];
+
+
+
+        if (
+
+          pick
+
+        ) {
+
+          result.push(
+
+            pick
+
+          );
+
+        }
+
+
+
+      }
+
+    );
+
+
+
+  return uniqueFive(
+
+    result
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   SUM BALANCED
+
+========================================================== */
+
+
+
+function generateSumBalanced(
+
+  weights
+
+) {
+
+
+
+  const target =
+
+    historicalAverageSum(
+
+      draws
+
+    );
+
+
+
+  let best =
+
+    null;
+
+
+
+  let bestDifference =
+
+    Infinity;
+
+
+
+  for (
+
+    let i=0;
+
+    i<250;
+
+    i++
+
+  ) {
+
+
+
+    const ticket =
+
+      weightedSample(
+
+        weights,
+
+        5
+
+      );
+
+
+
+    const sum =
+
+      ticket.reduce(
+
+        (a,b) => a+b,
+
+        0
+
+      );
+
+
+
+    const difference =
+
+      Math.abs(
+
+        sum - target
+
+      );
+
+
+
+    if (
+
+      difference <
+
+      bestDifference
+
+    ) {
+
+
+
+      bestDifference =
+
+        difference;
+
+
+
+      best =
+
+        ticket;
+
+
+
+    }
+
+
+
+    if (
+
+      difference <= 10
+
+    ) {
+
+
+
+      return ticket;
+
+
+
+    }
+
+
+
+  }
+
+
+
+  return best ||
+
+    weightedSample(
+
+      weights,
+
+      5
+
+    );
+
+
+
+}
+
+
+
+
+
+function historicalAverageSum(
+
+  source
+
+) {
+
+
+
+  if (
+
+    !source.length
+
+  ) {
+
+    return 175;
+
+  }
+
+
+
+  const sums =
+
+    source.map(
+
+      d =>
+
+        d.white.reduce(
+
+          (a,b) => a+b,
+
+          0
+
+        )
+
+    );
+
+
+
+  return average(
+
+    sums
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   PAIR BOOST
+
+========================================================== */
+
+
+
+function generatePairBoost(
+
+  weights,
+
+  source
+
+) {
+
+
+
+  const pairMap = {};
+
+
+
+  source.forEach(
+
+    d => {
+
+
+
+      for (
+
+        let i=0;
+
+        i<d.white.length;
+
+        i++
+
+      ) {
+
+
+
+        for (
+
+          let j=i+1;
+
+          j<d.white.length;
+
+          j++
+
+        ) {
+
+
+
+          const a =
+
+            Math.min(
+
+              d.white[i],
+
+              d.white[j]
+
+            );
+
+
+
+          const b =
+
+            Math.max(
+
+              d.white[i],
+
+              d.white[j]
+
+            );
+
+
+
+          const key =
+
+            `${a}-${b}`;
+
+
+
+          pairMap[key] =
+
+            (
+
+              pairMap[key] || 0
+
+            ) + 1;
+
+
+
+        }
+
+
+
+      }
+
+
+
+    }
+
+  );
+
+
+
+
+
+  const pairs =
+
+    Object.entries(
+
+      pairMap
+
+    )
+
+    .sort(
+
+      (a,b) =>
+
+        b[1] - a[1]
+
+    );
+
+
+
+
+
+  if (
+
+    !pairs.length
+
+  ) {
+
+
+
+    return weightedSample(
+
+      weights,
+
+      5
+
+    );
+
+
+
+  }
+
+
+
+
+
+  const topPairs =
+
+    pairs.slice(
+
+      0,
+
+      Math.min(
+
+        20,
+
+        pairs.length
+
+      )
+
+    );
+
+
+
+  const selected =
+
+    randomFrom(
+
+      topPairs
+
+    );
+
+
+
+
+
+  const pair =
+
+    selected[0]
+
+      .split("-")
+
+      .map(Number);
+
+
+
+
+
+  const result =
+
+    [...pair];
+
+
+
+
+
+  const adjusted =
+
+    Array(70).fill(0);
+
+
+
+
+
+  for (
+
+    let n=1;
+
+    n<=69;
+
+    n++
+
+  ) {
+
+
+
+    if (
+
+      result.includes(n)
+
+    ) {
+
+
+
+      adjusted[n] = 0;
+
+
+
+    } else {
+
+
+
+      let boost =
+
+        weights[n];
+
+
+
+      for (
+
+        const selectedNumber
+
+        of result
+
+      ) {
+
+
+
+        const a =
+
+          Math.min(
+
+            n,
+
+            selectedNumber
+
+          );
+
+
+
+        const b =
+
+          Math.max(
+
+            n,
+
+            selectedNumber
+
+          );
+
+
+
+        const key =
+
+          `${a}-${b}`;
+
+
+
+        boost *=
+
+          1 +
+
+          (
+
+            pairMap[key] || 0
+
+          ) * .12;
+
+
+
+      }
+
+
+
+      adjusted[n] =
+
+        boost;
+
+
+
+    }
+
+
+
+  }
+
+
+
+
+
+  result.push(
+
+    ...weightedSample(
+
+      adjusted,
+
+      3
+
+    )
+
+  );
+
+
+
+
+
+  return uniqueFive(
+
+    result
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   POWERBALL WEIGHTED PICK
+
+========================================================== */
+
+
+
+function weightedPowerball(
+
+  weights
+
+) {
+
+
+
+  let total = 0;
+
+
+
+  for (
+
+    let n=1;
+
+    n<=26;
+
+    n++
+
+  ) {
+
+
+
+    total +=
+
+      Math.max(
+
+        0,
+
+        weights[n]
+
+      );
+
+
+
+  }
+
+
+
+  let r =
+
+    Math.random() *
+
+    total;
+
+
+
+  for (
+
+    let n=1;
+
+    n<=26;
+
+    n++
+
+  ) {
+
+
+
+    r -=
+
+      Math.max(
+
+        0,
+
+        weights[n]
+
+      );
+
+
+
+    if (
+
+      r <= 0
+
+    ) {
+
+
+
+      return n;
+
+
+
+    }
+
+
+
+  }
+
+
+
+  return randomInt(
+
+    1,
+
+    26
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   RENDER TICKETS
+
+========================================================== */
+
+
+
+function renderTickets() {
+
+
+
+  const el =
+
+    document.getElementById(
+
+      "tickets"
+
+    );
+
+
+
+  if (
+
+    !generatedTickets.length
+
+  ) {
+
+
+
+    el.innerHTML = "";
+
+
+
+    return;
+
+  }
+
+
+
+  const strategyText =
+
+    document.getElementById(
+
+      "strategy"
+
+    )
+
+    .selectedOptions[0]
+
+    .textContent
+
+    .trim();
+
+
+
+  el.innerHTML =
+
+    generatedTickets
+
+      .map(
+
+        (ticket,index) => `
+
+
+
+        <div class="ticket">
+
+
+
+          <div class="ticket-top">
+
+
+
+            <div class="ticket-number">
+
+              Ticket ${index+1}
+
             </div>
-          `;
+
+
+
+            <button
+
+              class="small secondary"
+
+              onclick="copyTicket(${index})">
+
+              Copy
+
+            </button>
+
+
+
+          </div>
+
+
+
+          <div class="muted"
+
+               style="margin-bottom:9px;">
+
+            ${escapeHTML(
+
+              strategyText
+
+            )}
+
+          </div>
+
+
+
+          <div class="balls">
+
+
+
+            ${ticket.white.map(
+
+              n =>
+
+                `<span class="ball white-ball">
+
+                  ${n}
+
+                </span>`
+
+            ).join("")}
+
+
+
+            <span class="pb-label">
+
+              PB
+
+            </span>
+
+
+
+            <span class="ball pb-ball">
+
+              ${ticket.powerball}
+
+            </span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+      `
+
+      )
+
+      .join("");
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   COPY TICKET
+
+========================================================== */
+
+
+
+function copyTicket(
+
+  index
+
+) {
+
+
+
+  const ticket =
+
+    generatedTickets[index];
+
+
+
+  if (!ticket) {
+
+    return;
+
+  }
+
+
+
+  const text =
+
+    `${ticket.white.join(" ")} + PB ${ticket.powerball}`;
+
+
+
+  if (
+
+    navigator.clipboard &&
+
+    navigator.clipboard.writeText
+
+  ) {
+
+
+
+    navigator.clipboard
+
+      .writeText(text)
+
+      .then(
+
+        () =>
+
+          showToast(
+
+            "Ticket copied!"
+
+          )
+
+      )
+
+      .catch(
+
+        () =>
+
+          fallbackCopy(
+
+            text
+
+          )
+
+      );
+
+
+
+  } else {
+
+
+
+    fallbackCopy(
+
+      text
+
+    );
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+function fallbackCopy(
+
+  text
+
+) {
+
+
+
+  const textarea =
+
+    document.createElement(
+
+      "textarea"
+
+    );
+
+
+
+  textarea.value =
+
+    text;
+
+
+
+  textarea.style.position =
+
+    "fixed";
+
+
+
+  textarea.style.opacity =
+
+    "0";
+
+
+
+  document.body.appendChild(
+
+    textarea
+
+  );
+
+
+
+  textarea.select();
+
+
+
+  try {
+
+
+
+    document.execCommand(
+
+      "copy"
+
+    );
+
+
+
+    showToast(
+
+      "Ticket copied!"
+
+    );
+
+
+
+  } catch(error) {
+
+
+
+    showToast(
+
+      text
+
+    );
+
+
+
+  }
+
+
+
+  textarea.remove();
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   CLOUDflare WORKER UPDATE
+
+========================================================== */
+
+
+
+async function updateFromWorker(
+
+  automatic = false
+
+) {
+
+
+
+  const url =
+
+    (
+
+      settings.workerURL ||
+
+      document.getElementById(
+
+        "workerURL"
+
+      ).value
+
+    ).trim();
+
+
+
+  const status =
+
+    document.getElementById(
+
+      "updateStatus"
+
+    );
+
+
+
+
+
+  if (!url) {
+
+
+
+    if (!automatic) {
+
+
+
+      showStatus(
+
+        status,
+
+        "Please enter your Cloudflare Worker URL first.",
+
+        "error"
+
+      );
+
+
+
+    }
+
+
+
+    return;
+
+
+
+  }
+
+
+
+
+
+  if (!automatic) {
+
+
+
+    showStatus(
+
+      status,
+
+      "Updating Powerball data...",
+
+      "info"
+
+    );
+
+
+
+  }
+
+
+
+
+
+  try {
+
+
+
+    const response =
+
+      await fetch(
+
+        url,
+
+        {
+
+          method: "GET",
+
+          cache: "no-store"
+
+        }
+
+      );
+
+
+
+    if (!response.ok) {
+
+
+
+      throw new Error(
+
+        `Worker returned HTTP ${response.status}`
+
+      );
+
+
+
+    }
+
+
+
+    const data =
+
+      await response.json();
+
+
+
+
+
+    if (
+
+      data.error
+
+    ) {
+
+
+
+      throw new Error(
+
+        data.error
+
+      );
+
+
+
+    }
+
+
+
+
+
+    /* JACKPOT */
+
+
+
+    if (
+
+      data.jackpot
+
+    ) {
+
+
+
+      document.getElementById(
+
+        "jackpot"
+
+      ).textContent =
+
+        data.jackpot;
+
+
+
+    }
+
+
+
+
+
+    /* CASH */
+
+
+
+    if (
+
+      data.cashValue
+
+    ) {
+
+
+
+      document.getElementById(
+
+        "cashValue"
+
+      ).textContent =
+
+        data.cashValue;
+
+
+
+    }
+
+
+
+
+
+    /* NEXT DRAWING */
+
+
+
+    if (
+
+      data.nextDrawing
+
+    ) {
+
+
+
+      document.getElementById(
+
+        "nextDrawing"
+
+      ).textContent =
+
+        "Next Drawing: " +
+
+        formatNextDrawing(
+
+          data.nextDrawing
+
+        );
+
+
+
+    }
+
+
+
+
+
+    /* DRAWINGS */
+
+
+
+    let added = 0;
+
+
+
+    if (
+
+      Array.isArray(
+
+        data.draws
+
+      )
+
+    ) {
+
+
+
+      const before =
+
+        draws.length;
+
+
+
+      draws =
+
+        normalizeDraws([
+
+          ...draws,
+
+          ...data.draws
+
+        ]);
+
+
+
+      added =
+
+        draws.length -
+
+        before;
+
+
+
+      saveDraws();
+
+
+
+      renderAll();
+
+
+
+    }
+
+
+
+
+
+    document.getElementById(
+
+      "updatedAt"
+
+    ).textContent =
+
+      data.updatedAt
+
+        ? new Date(
+
+            data.updatedAt
+
+          ).toLocaleString()
+
+        : new Date()
+
+            .toLocaleString();
+
+
+
+
+
+    if (!automatic) {
+
+
+
+      showStatus(
+
+        status,
+
+        added > 0
+
+          ? `Update successful. ${added} new drawing(s) added.`
+
+          : "Update successful. Your data is already current.",
+
+        "success"
+
+      );
+
+
+
+    }
+
+
+
+
+
+  } catch(error) {
+
+
+
+    console.error(
+
+      "Worker update failed:",
+
+      error
+
+    );
+
+
+
+    if (!automatic) {
+
+
+
+      showStatus(
+
+        status,
+
+        "Update failed: " +
+
+        error.message,
+
+        "error"
+
+      );
+
+
+
+    }
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   NEXT DRAWING FORMAT
+
+========================================================== */
+
+
+
+function formatNextDrawing(
+
+  value
+
+) {
+
+
+
+  const d =
+
+    new Date(value);
+
+
+
+  if (
+
+    !Number.isNaN(
+
+      d.getTime()
+
+    )
+
+  ) {
+
+
+
+    return d.toLocaleString(
+
+      "en-US",
+
+      {
+
+        weekday: "short",
+
+        month: "short",
+
+        day: "numeric",
+
+        year: "numeric",
+
+        hour: "numeric",
+
+        minute: "2-digit",
+
+        timeZone:
+
+          "America/New_York",
+
+        timeZoneName: "short"
+
+      }
+
+    );
+
+
+
+  }
+
+
+
+  return value;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   SAVE WORKER URL
+
+========================================================== */
+
+
+
+function saveWorkerURL() {
+
+
+
+  const url =
+
+    document.getElementById(
+
+      "workerURL"
+
+    ).value.trim();
+
+
+
+  settings.workerURL =
+
+    url;
+
+
+
+  saveSettings();
+
+
+
+  showStatus(
+
+    document.getElementById(
+
+      "updateStatus"
+
+    ),
+
+    url
+
+      ? "Worker URL saved."
+
+      : "Worker URL cleared.",
+
+    "success"
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   WALK-FORWARD BACKTEST
+
+========================================================== */
+
+
+
+function runBacktest() {
+
+
+
+  const minTraining =
+
+    Math.max(
+
+      5,
+
+      parseInt(
+
+        document.getElementById(
+
+          "minTraining"
+
+        ).value,
+
+        10
+
+      ) || 15
+
+    );
+
+
+
+  const recencyWindow =
+
+    Math.max(
+
+      5,
+
+      parseInt(
+
+        document.getElementById(
+
+          "recencyWindow"
+
+        ).value,
+
+        10
+
+      ) || 30
+
+    );
+
+
+
+
+
+  const history =
+
+    normalizeDraws(
+
+      draws
+
+    );
+
+
+
+
+
+  if (
+
+    history.length <=
+
+    minTraining
+
+  ) {
+
+
+
+    document.getElementById(
+
+      "backtestResults"
+
+    ).innerHTML =
+
+      `<div class="status error show">
+
+        Not enough historical drawings for this backtest.
+
+      </div>`;
+
+
+
+    return;
+
+
+
+  }
+
+
+
+
+
+  const strategies = [
+
+
+
+    ["random","Random"],
+
+
+
+    ["balanced","Balanced Odd / Even"],
+
+
+
+    ["hot","Hot Numbers"],
+
+
+
+    ["cold","Cold Numbers"],
+
+
+
+    ["hotcold","Hot + Cold Mix"],
+
+
+
+    ["spread","Good Spread"],
+
+
+
+    ["weighted","Weighted Frequency"],
+
+
+
+    [
+
+      "weightedBalanced",
+
+      "Weighted + Balanced"
+
+    ],
+
+
+
+    ["lowhigh","Low + High Mix"],
+
+
+
+    ["recency","Recency"],
+
+
+
+    ["hybrid","Hybrid AI"],
+
+
+
+    ["overdue","Overdue Numbers"],
+
+
+
+    ["decade","Decade Spread"],
+
+
+
+    ["sum","Sum Balanced"],
+
+
+
+    ["pairs","Pair Boost"]
+
+
+
+  ];
+
+
+
+
+
+  const results = {};
+
+
+
+
+
+  strategies.forEach(
+
+    ([key,name]) => {
+
+
+
+      results[key] = {
+
+
+
+        name,
+
+
+
+        tests: 0,
+
+
+
+        whiteHits: 0,
+
+
+
+        pbHits: 0,
+
+
+
+        threePlus: 0,
+
+
+
+        fourPlus: 0,
+
+
+
+        fivePlusPB: 0
+
+
+
+      };
+
+
+
+    }
+
+  );
+
+
+
+
+
+  const totalTests =
+
+    history.length -
+
+    minTraining;
+
+
+
+
+
+  const progress =
+
+    document.getElementById(
+
+      "backtestProgress"
+
+    );
+
+
+
+  const progressBar =
+
+    document.getElementById(
+
+      "progressBar"
+
+    );
+
+
+
+  progress.style.display =
+
+    "block";
+
+
+
+  progressBar.style.width =
+
+    "0%";
+
+
+
+
+
+  /*
+
+    Walk forward through history.
+
+
+
+    IMPORTANT:
+
+    target drawing is NEVER included
+
+    in the training data.
+
+  */
+
+
+
+  for (
+
+    let targetIndex =
+
+      minTraining;
+
+
+
+    targetIndex <
+
+      history.length;
+
+
+
+    targetIndex++
+
+  ) {
+
+
+
+    const training =
+
+      history.slice(
+
+        0,
+
+        targetIndex
+
+      );
+
+
+
+
+
+    const recent =
+
+      training.slice(
+
+        -recencyWindow
+
+      );
+
+
+
+
+
+    const actual =
+
+      history[
+
+        targetIndex
+
+      ];
+
+
+
+
+
+    strategies.forEach(
+
+      ([key]) => {
+
+
+
+        const ticket =
+
+          generateTicket(
+
+            key,
+
+            recent
+
+          );
+
+
+
+
+
+        const whiteHits =
+
+          ticket.white.filter(
+
+            n =>
+
+              actual.white.includes(
+
+                n
+
+              )
+
+          ).length;
+
+
+
+
+
+        const pbHit =
+
+          ticket.powerball ===
+
+          actual.powerball;
+
+
+
+
+
+        const result =
+
+          results[key];
+
+
+
+
+
+        result.tests++;
+
+
+
+        result.whiteHits +=
+
+          whiteHits;
+
+
+
+
+
+        if (
+
+          pbHit
+
+        ) {
+
+
+
+          result.pbHits++;
+
+
+
+        }
+
+
+
+
+
+        if (
+
+          whiteHits >= 3
+
+        ) {
+
+
+
+          result.threePlus++;
+
+
+
+        }
+
+
+
+
+
+        if (
+
+          whiteHits >= 4
+
+        ) {
+
+
+
+          result.fourPlus++;
+
+
+
+        }
+
+
+
+
+
+        if (
+
+          whiteHits === 5 &&
+
+          pbHit
+
+        ) {
+
+
+
+          result.fivePlusPB++;
+
+
+
+        }
+
+
+
+      }
+
+    );
+
+
+
+
+
+    const completed =
+
+      targetIndex -
+
+      minTraining +
+
+      1;
+
+
+
+    const percent =
+
+      completed /
+
+      totalTests *
+
+      100;
+
+
+
+    progressBar.style.width =
+
+      `${percent}%`;
+
+
+
+  }
+
+
+
+
+
+  renderBacktestResults(
+
+    results
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   BACKTEST RESULTS
+
+========================================================== */
+
+
+
+function renderBacktestResults(
+
+  results
+
+) {
+
+
+
+  const list =
+
+    Object.values(
+
+      results
+
+    );
+
+
+
+
+
+  list.sort(
+
+    (a,b) =>
+
+      (
+
+        b.whiteHits /
+
+        Math.max(1,b.tests)
+
+      ) -
+
+      (
+
+        a.whiteHits /
+
+        Math.max(1,a.tests)
+
+      )
+
+  );
+
+
+
+
+
+  let html = `
+
+
+
+    <h3>
+
+      Backtest Results
+
+    </h3>
+
+
+
+    <div class="table-wrap">
+
+
+
+      <table>
+
+
+
+        <thead>
+
+
+
+          <tr>
+
+
+
+            <th>Strategy</th>
+
+
+
+            <th>Avg White</th>
+
+
+
+            <th>PB Hit</th>
+
+
+
+            <th>3+</th>
+
+
+
+            <th>4+</th>
+
+
+
+            <th>5+PB</th>
+
+
+
+          </tr>
+
+
+
+        </thead>
+
+
+
+        <tbody>
+
+
+
+  `;
+
+
+
+
+
+  list.forEach(
+
+    result => {
+
+
+
+      const tests =
+
+        Math.max(
+
+          1,
+
+          result.tests
+
+        );
+
+
+
+
+
+      html += `
+
+
+
+        <tr>
+
+
+
+          <td>
+
+            ${escapeHTML(
+
+              result.name
+
+            )}
+
+          </td>
+
+
+
+          <td>
+
+            ${
+
+              (
+
+                result.whiteHits /
+
+                tests
+
+              ).toFixed(3)
+
+            }
+
+          </td>
+
+
+
+          <td>
+
+            ${
+
+              (
+
+                result.pbHits /
+
+                tests *
+
+                100
+
+              ).toFixed(1)
+
+            }%
+
+          </td>
+
+
+
+          <td>
+
+            ${
+
+              (
+
+                result.threePlus /
+
+                tests *
+
+                100
+
+              ).toFixed(1)
+
+            }%
+
+          </td>
+
+
+
+          <td>
+
+            ${
+
+              (
+
+                result.fourPlus /
+
+                tests *
+
+                100
+
+              ).toFixed(1)
+
+            }%
+
+          </td>
+
+
+
+          <td>
+
+            ${
+
+              result.fivePlusPB
+
+            }
+
+          </td>
+
+
+
+        </tr>
+
+
+
+      `;
+
+
+
+    }
+
+  );
+
+
+
+
+
+  html += `
+
+
+
+        </tbody>
+
+
+
+      </table>
+
+
+
+    </div>
+
+
+
+    <p class="muted"
+
+       style="margin-top:12px;">
+
+
+
+      Higher historical backtest performance does not mean
+
+      a strategy has a predictive advantage in future
+
+      Powerball drawings.
+
+
+
+    </p>
+
+
+
+  `;
+
+
+
+
+
+  document.getElementById(
+
+    "backtestResults"
+
+  ).innerHTML =
+
+    html;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   CSV IMPORT
+
+========================================================== */
+
+
+
+async function importCSV() {
+
+
+
+  const input =
+
+    document.getElementById(
+
+      "csvFile"
+
+    );
+
+
+
+
+
+  if (
+
+    !input.files ||
+
+    !input.files.length
+
+  ) {
+
+
+
+    showToast(
+
+      "Choose a CSV file first."
+
+    );
+
+
+
+    return;
+
+
+
+  }
+
+
+
+
+
+  try {
+
+
+
+    const text =
+
+      await input.files[0].text();
+
+
+
+
+
+    const lines =
+
+      text
+
+        .split(/\r?\n/)
+
+        .map(
+
+          line =>
+
+            line.trim()
+
+        )
+
+        .filter(Boolean);
+
+
+
+
+
+    const imported = [];
+
+
+
+
+
+    lines.forEach(
+
+      (line,index) => {
+
+
+
+        if (
+
+          index === 0 &&
+
+          line
+
+            .toLowerCase()
+
+            .includes("date")
+
+        ) {
+
+
+
+          return;
+
+
+
+        }
+
+
+
+
+
+        const parts =
+
+          line.split(",")
+
+            .map(
+
+              x =>
+
+                x.trim()
+
+            );
+
+
+
+
+
+        if (
+
+          parts.length < 7
+
+        ) {
+
+
+
+          return;
+
+
+
+        }
+
+
+
+
+
+        const date =
+
+          parts[0];
+
+
+
+        const white =
+
+          parts
+
+            .slice(1,6)
+
+            .map(Number);
+
+
+
+        const powerball =
+
+          Number(parts[6]);
+
+
+
+
+
+        imported.push({
+
+
+
+          date,
+
+
+
+          white,
+
+
+
+          powerball
+
+
+
         });
 
-        recentDraws.innerHTML = html;
 
-      } catch (err) {
-        console.error(err);
-        recentDraws.innerHTML = `<div class="error">Could not load latest results.<br>Please check your internet connection.</div>`;
-        jackpotAmount.textContent = "—";
-        jackpotDate.textContent = "Unable to load";
+
       }
-    }
 
-    // Load when app opens
-    loadLatestResults();
+    );
 
-    // ========== STRATEGIES (same as before) ==========
-    const hotNumbers = [3, 7, 12, 19, 25, 32, 36, 41, 45, 5, 11, 18, 27, 34];
-    const coldNumbers = [2, 8, 14, 21, 28, 33, 39, 44, 47, 1, 9, 16, 23, 30];
 
-    function randomTicket() {
-      const main = sample(range(1, 47), 5).sort((a, b) => a - b);
-      return { main, mega: rand(1, 27) };
-    }
 
-    function balancedTicket() {
-      while (true) {
-        const main = sample(range(1, 47), 5).sort((a, b) => a - b);
-        const odds = main.filter(n => n % 2 === 1).length;
-        const lows = main.filter(n => n <= 24).length;
-        if (odds >= 2 && odds <= 3 && lows >= 2 && lows <= 3) {
-          return { main, mega: rand(1, 27) };
-        }
+
+
+    const before =
+
+      draws.length;
+
+
+
+
+
+    draws =
+
+      normalizeDraws([
+
+        ...draws,
+
+        ...imported
+
+      ]);
+
+
+
+
+
+    saveDraws();
+
+
+
+    renderAll();
+
+
+
+
+
+    showToast(
+
+      `${
+
+        draws.length -
+
+        before
+
+      } new drawing(s) imported.`
+
+    );
+
+
+
+
+
+    input.value = "";
+
+
+
+
+
+  } catch(error) {
+
+
+
+    console.error(
+
+      error
+
+    );
+
+
+
+    showToast(
+
+      "CSV import failed."
+
+    );
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   EXPORT JSON
+
+========================================================== */
+
+
+
+function exportJSON() {
+
+
+
+  const blob =
+
+    new Blob(
+
+      [
+
+        JSON.stringify(
+
+          draws,
+
+          null,
+
+          2
+
+        )
+
+      ],
+
+      {
+
+        type:
+
+          "application/json"
+
       }
+
+    );
+
+
+
+
+
+  downloadBlob(
+
+    blob,
+
+    "powerball-history.json"
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   EXPORT CSV
+
+========================================================== */
+
+
+
+function exportCSV() {
+
+
+
+  let csv =
+
+    "date,w1,w2,w3,w4,w5,powerball\n";
+
+
+
+
+
+  draws.forEach(
+
+    d => {
+
+
+
+      csv +=
+
+        [
+
+          d.date,
+
+          ...d.white,
+
+          d.powerball
+
+        ].join(",") +
+
+        "\n";
+
+
+
     }
 
-    function hotTicket() {
-      const pool = [...new Set([...hotNumbers, ...sample(range(1, 47), 8)])];
-      return { main: sample(pool, 5).sort((a, b) => a - b), mega: rand(1, 27) };
-    }
+  );
 
-    function coldTicket() {
-      const pool = [...new Set([...coldNumbers, ...sample(range(1, 47), 8)])];
-      return { main: sample(pool, 5).sort((a, b) => a - b), mega: rand(1, 27) };
-    }
 
-    function hotColdTicket() {
-      const pool = [...new Set([...hotNumbers, ...coldNumbers])];
-      return { main: sample(pool, 5).sort((a, b) => a - b), mega: rand(1, 27) };
-    }
 
-    function spreadTicket() {
-      while (true) {
-        const main = sample(range(1, 47), 5).sort((a, b) => a - b);
-        const gaps = [];
-        for (let i = 0; i < 4; i++) gaps.push(main[i + 1] - main[i]);
-        if (Math.min(...gaps) >= 3 && Math.max(...gaps) <= 18) {
-          return { main, mega: rand(1, 27) };
-        }
+
+
+  downloadBlob(
+
+    new Blob(
+
+      [csv],
+
+      {
+
+        type:
+
+          "text/csv"
+
       }
+
+    ),
+
+    "powerball-history.csv"
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   DOWNLOAD
+
+========================================================== */
+
+
+
+function downloadBlob(
+
+  blob,
+
+  filename
+
+) {
+
+
+
+  const url =
+
+    URL.createObjectURL(
+
+      blob
+
+    );
+
+
+
+
+
+  const a =
+
+    document.createElement(
+
+      "a"
+
+    );
+
+
+
+
+
+  a.href =
+
+    url;
+
+
+
+  a.download =
+
+    filename;
+
+
+
+
+
+  document.body.appendChild(
+
+    a
+
+  );
+
+
+
+
+
+  a.click();
+
+
+
+
+
+  a.remove();
+
+
+
+
+
+  setTimeout(
+
+    () =>
+
+      URL.revokeObjectURL(
+
+        url
+
+      ),
+
+    1000
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   RESET DATABASE
+
+========================================================== */
+
+
+
+function resetDatabase() {
+
+
+
+  const confirmed =
+
+    confirm(
+
+      "Reset the local Powerball database to the starter history?"
+
+    );
+
+
+
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+
+
+
+  draws =
+
+    normalizeDraws(
+
+      STARTER_HISTORY
+
+    );
+
+
+
+
+
+  saveDraws();
+
+
+
+  renderAll();
+
+
+
+
+
+  showToast(
+
+    "Database reset."
+
+  );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   STATUS
+
+========================================================== */
+
+
+
+function showStatus(
+
+  element,
+
+  message,
+
+  type
+
+) {
+
+
+
+  element.className =
+
+    `status show ${type}`;
+
+
+
+  element.textContent =
+
+    message;
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   TOAST
+
+========================================================== */
+
+
+
+let toastTimer = null;
+
+
+
+
+
+function showToast(
+
+  message
+
+) {
+
+
+
+  const toast =
+
+    document.getElementById(
+
+      "toast"
+
+    );
+
+
+
+
+
+  toast.textContent =
+
+    message;
+
+
+
+
+
+  toast.classList.add(
+
+    "show"
+
+  );
+
+
+
+
+
+  clearTimeout(
+
+    toastTimer
+
+  );
+
+
+
+
+
+  toastTimer =
+
+    setTimeout(
+
+      () => {
+
+
+
+        toast.classList.remove(
+
+          "show"
+
+        );
+
+
+
+      },
+
+      2200
+
+    );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   ESCAPE HTML
+
+========================================================== */
+
+
+
+function escapeHTML(
+
+  text
+
+) {
+
+
+
+  return String(text)
+
+
+
+    .replace(
+
+      /&/g,
+
+      "&amp;"
+
+    )
+
+
+
+    .replace(
+
+      /</g,
+
+      "&lt;"
+
+    )
+
+
+
+    .replace(
+
+      />/g,
+
+      "&gt;"
+
+    )
+
+
+
+    .replace(
+
+      /"/g,
+
+      "&quot;"
+
+    )
+
+
+
+    .replace(
+
+      /'/g,
+
+      "&#039;"
+
+    );
+
+
+
+}
+
+
+
+
+
+/* ==========================================================
+
+   AUTOMATIC UPDATE
+
+========================================================== */
+
+
+
+setInterval(
+
+  () => {
+
+
+
+    if (
+
+      settings.workerURL
+
+    ) {
+
+
+
+      updateFromWorker(
+
+        true
+
+      );
+
+
+
     }
 
-    function weightedTicket() {
-      const weights = range(1, 47).map(n => {
-        if (hotNumbers.includes(n)) return 2.8;
-        if (coldNumbers.includes(n)) return 0.45;
-        return 1;
-      });
-      return {
-        main: weightedSample(range(1, 47), weights, 5).sort((a, b) => a - b),
-        mega: rand(1, 27)
-      };
-    }
 
-    function weightedBalancedTicket() {
-      for (let i = 0; i < 80; i++) {
-        const t = weightedTicket();
-        const odds = t.main.filter(n => n % 2 === 1).length;
-        const sum = t.main.reduce((a, b) => a + b, 0);
-        if (odds >= 2 && odds <= 3 && sum >= 95 && sum <= 135) return t;
-      }
-      return weightedTicket();
-    }
 
-    function lowHighTicket() {
-      const lowCount = rand(2, 3);
-      const lows = sample(range(1, 24), lowCount);
-      const highs = sample(range(25, 47), 5 - lowCount);
-      return {
-        main: [...lows, ...highs].sort((a, b) => a - b),
-        mega: rand(1, 27)
-      };
-    }
+  },
 
-    // Helpers
-    function range(start, end) {
-      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-    }
-    function rand(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    function sample(arr, k) {
-      const copy = [...arr];
-      const result = [];
-      for (let i = 0; i < k; i++) {
-        const idx = Math.floor(Math.random() * copy.length);
-        result.push(copy.splice(idx, 1)[0]);
-      }
-      return result;
-    }
-    function weightedSample(numbers, weights, k) {
-      const result = [], nums = [...numbers], ws = [...weights];
-      for (let i = 0; i < k; i++) {
-        const total = ws.reduce((a, b) => a + b, 0);
-        let r = Math.random() * total, idx = 0;
-        for (; idx < ws.length; idx++) {
-          r -= ws[idx];
-          if (r <= 0) break;
-        }
-        result.push(nums[idx]);
-        nums.splice(idx, 1);
-        ws.splice(idx, 1);
-      }
-      return result;
-    }
+  30 * 60 * 1000
 
-    // UI
-    function generate() {
-      const strategy = document.getElementById("strategy").value;
-      const count = Math.min(20, Math.max(1, parseInt(document.getElementById("count").value) || 5));
-      const results = document.getElementById("results");
-      results.innerHTML = "";
+);
 
-      const generators = {
-        random: randomTicket,
-        balanced: balancedTicket,
-        hot: hotTicket,
-        cold: coldTicket,
-        hotcold: hotColdTicket,
-        spread: spreadTicket,
-        weighted: weightedTicket,
-        weightedBalanced: weightedBalancedTicket,
-        lowhigh: lowHighTicket
-      };
 
-      const gen = generators[strategy];
-      const strategyName = document.getElementById("strategy").selectedOptions[0].text;
 
-      for (let i = 1; i <= count; i++) {
-        const ticket = gen();
-        const sum = ticket.main.reduce((a, b) => a + b, 0);
-        const odds = ticket.main.filter(n => n % 2 === 1).length;
 
-        const div = document.createElement("div");
-        div.className = "ticket";
-        div.innerHTML = `
-          <div class="ticket-header">Ticket ${i} • ${strategyName.split(". ")[1] || strategyName}</div>
-          <div class="numbers">
-            ${ticket.main.map(n => `<div class="ball">${n}</div>`).join("")}
-            <div class="ball mega">${ticket.mega}</div>
-          </div>
-          <div class="meta">Sum: ${sum} • Odds: ${odds}</div>
-          <button class="copy-btn" onclick="copyTicket([${ticket.main}], ${ticket.mega})">Copy</button>
-        `;
-        results.appendChild(div);
-      }
-    }
 
-    function copyTicket(main, mega) {
-      const text = main.join(" - ") + "  Mega: " + mega;
-      navigator.clipboard.writeText(text).then(() => showToast());
-    }
+/* ==========================================================
 
-    function clearTickets() {
-      document.getElementById("results").innerHTML = `<div class="empty">No tickets generated yet</div>`;
-    }
+   END POWERBALL AI LAB v6
 
-    function showToast() {
-      const toast = document.getElementById("toast");
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 1500);
-    }
+========================================================== */
 
-    clearTickets();
-  </script>
+
+
+</script>
+
+
+
 </body>
+
 </html>
