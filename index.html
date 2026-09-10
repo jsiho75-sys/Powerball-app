@@ -2,411 +2,262 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport"
+content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
-<title>Powerball AI Lab V6.1</title>
-
+<title>Powerball AI Lab V6.2</title>
 <style>
 :root{
-  --bg:#0f172a;
-  --card:#1e293b;
-  --card2:#172033;
-  --text:#f1f5f9;
-  --muted:#94a3b8;
-  --accent:#38bdf8;
-  --accent2:#818cf8;
-  --success:#34d399;
-  --danger:#fb7185;
-  --border:#334155;
+--bg:#0f172a;
+--card:#1e293b;
+--card2:#172033;
+--text:#f1f5f9;
+--muted:#94a3b8;
+--accent:#38bdf8;
+--accent2:#818cf8;
+--success:#34d399;
+--danger:#fb7185;
+--border:#334155;
+--shadow:0 10px 30px rgba(0,0,0,.25);
 }
-
-*{box-sizing:border-box}
-
-html{background:var(--bg)}
-
+*{
+box-sizing:border-box;
+}
+html{
+background:var(--bg);
+}
 body{
-  margin:0;
-  background:
-    radial-gradient(circle at top left,rgba(56,189,248,.08),transparent 35%),
-    radial-gradient(circle at top right,rgba(129,140,248,.08),transparent 35%),
-    var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  min-height:100vh;
-  padding:
-    env(safe-area-inset-top)
-    12px
-    calc(20px + env(safe-area-inset-bottom));
+margin:0;
+background:
+radial-gradient(circle at top left,rgba(56,189,248,.08),transparent 35%),
+radial-gradient(circle at top right,rgba(129,140,248,.08),transparent 35%),
+var(--bg);
+color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+min-height:100vh;
+padding:
+env(safe-area-inset-top)
+12px
+calc(20px + env(safe-area-inset-bottom));
 }
-
 .container{
-  max-width:760px;
-  margin:0 auto;
+max-width:760px;
+margin:0 auto;
 }
-
 header{
-  text-align:center;
-  padding:18px 4px 12px;
+text-align:center;
+padding:18px 4px 12px;
 }
-
 h1{
-  margin:0;
-  font-size:30px;
-  font-weight:900;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+margin:0;
+font-size:30px;
+font-weight:800;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
 }
-
 .subtitle{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:13px;
+margin-top:5px;
+color:var(--muted);
+font-size:13px;
 }
-
 .card{
-  background:linear-gradient(
-    145deg,
-    rgba(30,41,59,.98),
-    rgba(23,32,51,.98)
-  );
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px;
-  margin:12px 0;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
+background:linear-gradient(145deg,rgba(30,41,59,.98),rgba(23,32,51,.98));
+border:1px solid var(--border);
+border-radius:18px;
+padding:16px;
+margin:12px 0;
+box-shadow:var(--shadow);
 }
-
 .card h2{
-  margin:0 0 12px;
-  font-size:18px;
+margin:0 0 12px;
+font-size:18px;
 }
-
 .card h3{
-  margin:12px 0 8px;
-  font-size:15px;
+margin:12px 0 8px;
+font-size:15px;
 }
-
 .jackpot{
-  text-align:center;
-  padding:20px 16px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(56,189,248,.16),
-      rgba(129,140,248,.18)
-    ),
-    var(--card);
+text-align:center;
+padding:20px 16px;
+background:
+linear-gradient(135deg,
+rgba(56,189,248,.16),
+rgba(129,140,248,.18)),
+var(--card);
 }
-
 .jackpot-label{
-  color:var(--muted);
-  font-size:13px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
+color:var(--muted);
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:.08em;
 }
-
 .jackpot-value{
-  font-size:38px;
-  font-weight:900;
-  margin:4px 0;
+font-size:38px;
+font-weight:900;
+margin:4px 0;
 }
-
 .cash{
-  color:var(--success);
-  font-size:15px;
-  font-weight:700;
+color:var(--success);
+font-size:15px;
+font-weight:700;
 }
-
 .next{
-  color:var(--muted);
-  margin-top:6px;
-  font-size:13px;
+color:var(--muted);
+margin-top:6px;
+font-size:13px;
 }
-
 .status{
-  margin-top:10px;
-  padding:8px 10px;
-  border-radius:10px;
-  background:rgba(15,23,42,.55);
-  color:var(--muted);
-  font-size:12px;
+margin-top:10px;
+padding:8px 10px;
+border-radius:10px;
+background:rgba(15,23,42,.55);
+color:var(--muted);
+font-size:12px;
 }
-
-.status.ok{color:var(--success)}
-.status.error{color:var(--danger)}
-
+.status.ok{
+color:var(--success);
+}
+.status.error{
+color:var(--danger);
+}
 .compact-card{
-  padding:12px 14px;
+padding:12px 14px;
 }
-
 .compact-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  margin-bottom:7px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+margin-bottom:7px;
 }
-
 .compact-head h2{
-  margin:0;
-  font-size:16px;
+margin:0;
+font-size:16px;
 }
-
 .draw-row{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:7px 0;
-  border-bottom:1px solid rgba(51,65,85,.65);
+display:flex;
+align-items:center;
+gap:7px;
+padding:7px 0;
+border-bottom:1px solid rgba(51,65,85,.65);
 }
-
 .draw-row:last-child{
-  border-bottom:0;
+border-bottom:0;
 }
-
 .draw-date{
-  width:82px;
-  color:var(--muted);
-  font-size:11px;
-  flex-shrink:0;
+width:82px;
+color:var(--muted);
+font-size:11px;
+flex-shrink:0;
 }
-
 .balls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px;
-  align-items:center;
+display:flex;
+flex-wrap:wrap;
+gap:4px;
+align-items:center;
 }
-
 .ball{
-  width:29px;
-  height:29px;
-  border-radius:50%;
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  background:#f8fafc;
-  color:#0f172a;
-  font-weight:800;
-  font-size:12px;
-  box-shadow:inset 0 -2px 0 rgba(0,0,0,.15);
+width:29px;
+height:29px;
+border-radius:50%;
+display:inline-flex;
+justify-content:center;
+align-items:center;
+background:#f8fafc;
+color:#0f172a;
+font-weight:800;
+font-size:12px;
+box-shadow:inset 0 -2px 0 rgba(0,0,0,.15);
 }
-
 .ball.pb{
-  background:linear-gradient(135deg,#fb7185,#a855f7);
-  color:white;
+background:linear-gradient(135deg,#fb7185,#a855f7);
+color:white;
 }
-
 button,
 select,
 input{
-  font:inherit;
+font:inherit;
 }
-
 button{
-  border:0;
-  cursor:pointer;
+border:0;
+cursor:pointer;
 }
-
 .btn{
-  padding:10px 13px;
-  border-radius:11px;
-  color:white;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--accent2),var(--accent));
+padding:10px 13px;
+border-radius:11px;
+color:white;
+font-weight:700;
+background:linear-gradient(135deg,var(--accent2),var(--accent));
+box-shadow:0 5px 15px rgba(56,189,248,.12);
 }
-
 .btn.small{
-  padding:7px 10px;
-  font-size:12px;
+padding:7px 10px;
+font-size:12px;
 }
-
 .btn.secondary{
-  background:#334155;
+background:#334155;
 }
-
 .btn.success{
-  background:linear-gradient(135deg,#059669,var(--success));
+background:linear-gradient(135deg,#059669,var(--success));
 }
-
 .btn.danger{
-  background:linear-gradient(135deg,#be123c,var(--danger));
+background:linear-gradient(135deg,#be123c,var(--danger));
 }
-
 .btn:disabled{
-  opacity:.5;
-  cursor:not-allowed;
+opacity:.5;
+cursor:not-allowed;
 }
-
-/* GENERATOR */
-
 .controls{
-  display:grid;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+/* V6.2 UI adjustments */
+.generator-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.generator-header h2{margin:0;}
+.generator-btn{padding:7px 11px;font-size:11px;line-height:1.1;white-space:nowrap;}
+.saved-top{margin-top:10px;}
+.manual-entry-wrap{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
+@media (max-width:520px){
+  .generator-header{gap:7px;margin-bottom:8px;}
+  .generator-header h2{font-size:17px;}
+  .generator-btn{padding:6px 9px;font-size:10px;}
+}
+/* V6.1 UI adjustments */
+.generator-controls{
   grid-template-columns:minmax(0,2fr) minmax(110px,1fr);
-  gap:10px;
   align-items:end;
 }
-
-.control-group{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-}
-
-label{
-  color:var(--muted);
-  font-size:12px;
-  font-weight:600;
-}
-
-select,
-input[type="number"],
-input[type="text"],
-input[type="url"]{
-  width:100%;
-  border:1px solid var(--border);
-  background:#0f172a;
-  color:var(--text);
-  border-radius:10px;
-  padding:10px;
-  outline:none;
-}
-
-select:focus,
-input:focus{
-  border-color:var(--accent);
-}
-
-.generate-row{
-  margin-top:12px;
-}
-
-.ticket{
-  background:#0f172a;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-  margin-top:9px;
-}
-
-.ticket-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:9px;
-}
-
-.ticket-title{
-  font-size:13px;
-  font-weight:800;
-}
-
-.ticket-actions{
-  display:flex;
-  gap:6px;
-}
-
-.ticket-actions button{
-  font-size:11px;
-  padding:6px 8px;
-  border-radius:8px;
-  background:#334155;
-  color:white;
-}
-
-.ticket-actions .save-btn{
-  background:linear-gradient(135deg,#059669,var(--success));
-}
-
-.ticket-edit-grid{
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr)) minmax(48px,.8fr);
-  gap:5px;
-}
-
-.ticket-edit-grid input{
-  text-align:center;
-  padding:8px 2px;
-  min-width:0;
-  font-weight:800;
-}
-
-.ticket-edit-grid input.pb-edit{
-  border-color:#a855f7;
-}
-
 .manual-entry-head{
   color:var(--muted);
   font-size:12px;
   font-weight:700;
   margin:10px 0 5px;
 }
-
-.manual-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(5,minmax(0,1fr))
-    minmax(48px,.75fr);
+.compact-manual-grid{
+  grid-template-columns:repeat(5,minmax(0,1fr)) minmax(48px,.75fr);
   gap:5px;
 }
-
-.manual-grid input{
-  text-align:center;
-  padding:7px 2px;
+.compact-manual-grid input{
   min-width:0;
+  padding:7px 2px;
   font-size:13px;
 }
-
 .manual-actions{
-  display:flex;
-  gap:6px;
   margin-top:7px;
 }
-
 .manual-actions .btn{
   padding:7px 10px;
   font-size:11px;
 }
-
-/* SAVED */
-
-.saved-ticket{
-  background:#0f172a;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:11px;
-  margin-top:8px;
-}
-
-.saved-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-}
-
-.saved-name{
-  font-weight:800;
-  font-size:13px;
-}
-
-.saved-meta{
-  color:var(--muted);
-  font-size:10px;
-  margin-top:3px;
-}
-
 .saved-edit-grid{
   display:grid;
-  grid-template-columns:
-    repeat(5,minmax(0,1fr))
-    minmax(48px,.8fr);
+  grid-template-columns:repeat(5,minmax(0,1fr)) minmax(48px,.8fr);
   gap:5px;
   margin-top:8px;
 }
-
 .saved-edit-grid input{
   width:100%;
   box-sizing:border-box;
@@ -419,4258 +270,2209 @@ input:focus{
   color:white;
   font-weight:700;
 }
-
 .saved-edit-grid input.pb-edit{
   border-color:#a855f7;
 }
-
-.saved-actions{
-  display:flex;
-  gap:5px;
-  margin-top:8px;
-  flex-wrap:wrap;
-}
-
-.saved-actions button{
-  padding:7px 9px;
-  border-radius:8px;
-  background:#334155;
-  color:white;
-  font-size:11px;
-}
-
 .saved-actions .update{
   background:linear-gradient(135deg,#059669,var(--success));
 }
-
-.saved-actions .delete{
-  background:#7f1d1d;
-}
-
-.empty{
-  color:var(--muted);
-  text-align:center;
-  padding:12px 4px;
-  font-size:13px;
-}
-
-.section-note{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-}
-
-/* STATISTICS */
-
-.stat-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-
-.stat{
-  background:#0f172a;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:11px;
-  text-align:center;
-}
-
-.stat-value{
-  font-size:20px;
-  font-weight:900;
-}
-
-.stat-label{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:2px;
-}
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:11px;
-}
-
-th,
-td{
-  padding:8px 5px;
-  border-bottom:1px solid var(--border);
-  text-align:center;
-  white-space:nowrap;
-}
-
-th{
-  color:var(--accent);
-  font-weight:800;
-}
-
-.progress{
-  height:9px;
-  background:#0f172a;
-  border-radius:99px;
-  overflow:hidden;
-  margin:10px 0;
-  border:1px solid var(--border);
-}
-
-.progress-bar{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  transition:width .2s;
-}
-
-.action-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:10px;
-}
-
-.file-label{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 13px;
-  border-radius:11px;
-  background:#334155;
-  color:white;
-  font-weight:700;
-  font-size:13px;
-  cursor:pointer;
-}
-
-.file-label input{
-  display:none;
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:20px;
-  transform:translateX(-50%);
-  background:#020617;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px 14px;
-  font-size:12px;
-  z-index:9999;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-}
-
-.toast.show{
-  opacity:1;
-}
-
-@media(max-width:520px){
-
-  body{
-    padding-left:9px;
-    padding-right:9px;
-  }
-
-  h1{
-    font-size:27px;
-  }
-
-  .card{
-    padding:13px;
-  }
-
-  .controls{
+@media (max-width:520px){
+  .generator-controls{
     grid-template-columns:minmax(0,1.7fr) minmax(92px,1fr);
     gap:7px;
   }
-
-  .controls select{
+  .generator-controls select{
     min-width:0;
     width:100%;
-    padding:9px 7px;
   }
-
-  .manual-grid,
-  .saved-edit-grid,
-  .ticket-edit-grid{
+  .compact-manual-grid,
+  .saved-edit-grid{
     gap:4px;
   }
-
-  .manual-grid input,
-  .saved-edit-grid input,
-  .ticket-edit-grid input{
+  .compact-manual-grid input,
+  .saved-edit-grid input{
     font-size:12px;
     padding:6px 1px;
   }
-
-  .draw-date{
-    width:72px;
-  }
-
-  .ball{
-    width:27px;
-    height:27px;
-  }
-
-  .ticket-edit-grid input{
-    min-width:0;
-  }
+}
+.control-group{
+display:flex;
+flex-direction:column;
+gap:5px;
+}
+.control-group.full{
+grid-column:1/-1;
+}
+label{
+color:var(--muted);
+font-size:12px;
+font-weight:600;
+}
+select,
+input[type="number"],
+input[type="text"],
+input[type="url"]{
+width:100%;
+border:1px solid var(--border);
+background:#0f172a;
+color:var(--text);
+border-radius:10px;
+padding:10px;
+outline:none;
+}
+select:focus,
+input:focus{
+border-color:var(--accent);
+}
+.generate-row{
+display:grid;
+grid-template-columns:1fr auto;
+gap:10px;
+margin-top:12px;
+}
+.ticket{
+background:#0f172a;
+border:1px solid var(--border);
+border-radius:14px;
+padding:12px;
+margin-top:9px;
+}
+.ticket-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:9px;
+}
+.ticket-title{
+font-size:13px;
+font-weight:800;
+}
+.ticket-actions{
+display:flex;
+gap:6px;
+}
+.ticket-actions button{
+font-size:11px;
+padding:6px 8px;
+border-radius:8px;
+background:#334155;
+color:white;
+}
+.ticket-actions .save-btn{
+background:linear-gradient(135deg,#059669,var(--success));
+}
+.ticket-balls{
+display:flex;
+justify-content:center;
+gap:7px;
+flex-wrap:wrap;
+}
+.ticket-balls .ball{
+width:38px;
+height:38px;
+font-size:14px;
+}
+.ticket-balls .ball.pb{
+width:42px;
+height:42px;
+margin-left:5px;
+}
+.manual-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr) 1fr;
+gap:6px;
+}
+.manual-grid input{
+text-align:center;
+padding:9px 3px;
+}
+.saved-ticket{
+background:#0f172a;
+border:1px solid var(--border);
+border-radius:12px;
+padding:11px;
+margin-top:8px;
+}
+.saved-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+}
+.saved-name{
+font-weight:800;
+font-size:13px;
+}
+.saved-meta{
+color:var(--muted);
+font-size:10px;
+margin-top:3px;
+}
+.saved-actions{
+display:flex;
+gap:5px;
+margin-top:8px;
+flex-wrap:wrap;
+}
+.saved-actions button{
+padding:7px 9px;
+border-radius:8px;
+background:#334155;
+color:white;
+font-size:11px;
+}
+.saved-actions .delete{
+background:#7f1d1d;
+}
+.empty{
+color:var(--muted);
+text-align:center;
+padding:12px 4px;
+font-size:13px;
+}
+.section-note{
+color:var(--muted);
+font-size:11px;
+line-height:1.5;
+}
+.stat-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+}
+.stat{
+background:#0f172a;
+border:1px solid var(--border);
+border-radius:12px;
+padding:11px;
+text-align:center;
+}
+.stat-value{
+font-size:20px;
+font-weight:900;
+}
+.stat-label{
+font-size:10px;
+color:var(--muted);
+margin-top:2px;
+}
+.table-wrap{
+overflow-x:auto;
+}
+table{
+width:100%;
+border-collapse:collapse;
+font-size:11px;
+}
+th,
+td{
+padding:8px 5px;
+border-bottom:1px solid var(--border);
+text-align:center;
+white-space:nowrap;
+}
+th{
+color:var(--accent);
+font-weight:800;
+}
+.progress{
+height:9px;
+background:#0f172a;
+border-radius:99px;
+overflow:hidden;
+margin:10px 0;
+border:1px solid var(--border);
+}
+.progress-bar{
+width:0%;
+height:100%;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+transition:width .2s;
+}
+.action-row{
+display:flex;
+flex-wrap:wrap;
+gap:7px;
+margin-top:10px;
+}
+.file-label{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:10px 13px;
+border-radius:11px;
+background:#334155;
+color:white;
+font-weight:700;
+font-size:13px;
+cursor:pointer;
+}
+.file-label input{
+display:none;
+}
+.checkbox-row{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:9px;
+color:var(--muted);
+font-size:12px;
+}
+.checkbox-row input{
+width:18px;
+height:18px;
+}
+footer{
+color:var(--muted);
+text-align:center;
+font-size:10px;
+line-height:1.5;
+padding:10px 8px 20px;
+}
+.toast{
+position:fixed;
+left:50%;
+bottom:calc(22px + env(safe-area-inset-bottom));
+transform:translate(-50%,120px);
+background:#020617;
+border:1px solid var(--border);
+color:white;
+padding:11px 15px;
+border-radius:12px;
+box-shadow:var(--shadow);
+font-size:12px;
+z-index:9999;
+transition:.25s;
+max-width:90%;
+text-align:center;
+}
+.toast.show{
+transform:translate(-50%,0);
+}
+.loading{
+opacity:.65;
+pointer-events:none;
+}
+@media(max-width:430px){
+.manual-grid{
+grid-template-columns:repeat(5,1fr);
+}
+.manual-grid .pb-input{
+grid-column:1/-1;
+}
+.controls{
+grid-template-columns:1fr;
+}
+.generate-row{
+grid-template-columns:1fr;
+}
+.draw-date{
+width:72px;
+}
+.ball{
+width:27px;
+height:27px;
+}
+}
+/* Final V6.2 iPhone layout overrides */
+@media(max-width:430px){
+  .generator-controls{grid-template-columns:minmax(0,1.7fr) minmax(92px,1fr) !important;gap:7px;}
+  .generator-controls .control-group{min-width:0;}
+  .compact-manual-grid{grid-template-columns:repeat(5,minmax(0,1fr)) minmax(48px,.75fr) !important;gap:4px;}
+  .compact-manual-grid .pb-input{grid-column:auto !important;}
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
 <header>
-  <h1>🎱 Powerball AI Lab</h1>
-  <div class="subtitle">V6.1 • Statistics • AI Strategies • Backtesting</div>
+<h1>Powerball AI Lab</h1>
+<div class="subtitle">Version 6.2 • Statistics • Strategies • Backtesting</div>
 </header>
-
 <!-- JACKPOT -->
-
 <section class="card jackpot">
-
-  <div class="jackpot-label">Current Powerball Jackpot</div>
-
-  <div id="jackpotValue" class="jackpot-value">
-    Loading...
-  </div>
-
-  <div id="cashValue" class="cash">
-    Cash value: —
-  </div>
-
-  <div id="nextDrawing" class="next">
-    Next drawing: —
-  </div>
-
-  <div id="syncStatus" class="status">
-    Waiting for data...
-  </div>
-
+<div class="jackpot-label">Current Estimated Jackpot</div>
+<div id="jackpot" class="jackpot-value">—</div>
+<div id="cashValue" class="cash">Cash Value: —</div>
+<div id="nextDrawing" class="next">Next Drawing: —</div>
+<div id="syncStatus" class="status">Waiting for automatic update…</div>
 </section>
-
-<!-- LATEST DRAWINGS -->
-
+<!-- LAST 3 -->
 <section class="card compact-card">
-
-  <div class="compact-head">
-    <h2>Latest Drawings</h2>
-    <button class="btn small secondary" id="refreshBtn">
-      Refresh
-    </button>
-  </div>
-
-  <div id="latestDraws"></div>
-
-</section>
-
-<!-- GENERATOR -->
-
-<section class="card">
-
-  <h2>🎯 AI Ticket Generator</h2>
-
-  <div class="controls">
-
-    <div class="control-group">
-      <label for="strategy">Strategy</label>
-
-      <select id="strategy">
-
-        <option value="weightedBalanced" selected>
-          Weighted + Balanced ⭐
-        </option>
-
-        <option value="frequency">
-          Frequency
-        </option>
-
-        <option value="recency">
-          Recency
-        </option>
-
-        <option value="overdue">
-          Overdue
-        </option>
-
-        <option value="hotCold">
-          Hot + Cold
-        </option>
-
-        <option value="balanced">
-          Odd + Even Balanced
-        </option>
-
-        <option value="spread">
-          Number Spread
-        </option>
-
-        <option value="lowHigh">
-          Low + High
-        </option>
-
-        <option value="decades">
-          Decades
-        </option>
-
-        <option value="sumBalanced">
-          Sum Balanced
-        </option>
-
-        <option value="pairBoost">
-          Pair Boost
-        </option>
-
-        <option value="random">
-          Random
-        </option>
-
-      </select>
-
-    </div>
-
-    <div class="control-group">
-
-      <label for="ticketCount">
-        Number of Tickets
-      </label>
-
-      <select id="ticketCount">
-        <option value="1">1</option>
-        <option value="3">3</option>
-        <option value="5" selected>5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-      </select>
-
-    </div>
-
-  </div>
-
-  <div class="generate-row">
-    <button class="btn" id="generateBtn">
-      Generate Tickets
-    </button>
-  </div>
-
-  <div id="generatedTickets"></div>
-
-  <p class="section-note">
-    These strategies analyze historical Powerball drawings.
-    Lottery drawings remain random and past results do not predict future results.
-  </p>
-
-</section>
-
-<!-- SAVING -->
-
-<section class="card">
-
-  <h2>💾 Saving Numbers</h2>
-
-  <div class="manual-entry-head">
-    Manual Entry
-  </div>
-
-  <div class="manual-grid">
-
-    <input id="m1" type="number" min="1" max="69" placeholder="1">
-    <input id="m2" type="number" min="1" max="69" placeholder="2">
-    <input id="m3" type="number" min="1" max="69" placeholder="3">
-    <input id="m4" type="number" min="1" max="69" placeholder="4">
-    <input id="m5" type="number" min="1" max="69" placeholder="5">
-
-    <input
-      id="mpb"
-      type="number"
-      min="1"
-      max="26"
-      placeholder="PB"
-    >
-
-  </div>
-
-  <div class="manual-actions">
-
-    <button class="btn success" id="saveManualBtn">
-      Save
-    </button>
-
-    <button class="btn secondary" id="clearManualBtn">
-      Clear
-    </button>
-
-  </div>
-
-  <h3>Saved Numbers</h3>
-
-  <div id="savedNumbers"></div>
-
-  <p class="section-note">
-    Edit any saved numbers directly below, then tap Update.
-  </p>
-
-</section>
-
-<!-- STATISTICS -->
-
-<section class="card">
-
-  <h2>📊 Historical Statistics</h2>
-
-  <div class="controls">
-
-    <div class="control-group">
-
-      <label for="statsWindow">
-        Historical Window
-      </label>
-
-      <select id="statsWindow">
-        <option value="50">Last 50 Draws</option>
-        <option value="100" selected>Last 100 Draws</option>
-        <option value="250">Last 250 Draws</option>
-        <option value="500">Last 500 Draws</option>
-        <option value="all">All Available</option>
-      </select>
-
-    </div>
-
-    <div class="control-group">
-
-      <label for="statsMode">
-        Statistics
-      </label>
-
-      <select id="statsMode">
-        <option value="white" selected>White Balls</option>
-        <option value="pb">Powerball</option>
-      </select>
-
-    </div>
-
-  </div>
-
-  <div id="statsOutput"></div>
-
-</section>
-
-<!-- BACKTEST -->
-
-<section class="card">
-
-  <h2>🧪 AI Strategy Backtester</h2>
-
-  <p class="section-note">
-    Walk-forward testing generates a ticket using only drawings
-    that occurred before each target drawing.
-  </p>
-
-  <div class="controls">
-
-    <div class="control-group">
-
-      <label for="minTraining">
-        Minimum Training Draws
-      </label>
-
-      <select id="minTraining">
-        <option value="25">25</option>
-        <option value="50" selected>50</option>
-        <option value="100">100</option>
-      </select>
-
-    </div>
-
-    <div class="control-group">
-
-      <label for="recencyWindow">
-        Training Window
-      </label>
-
-      <select id="recencyWindow">
-        <option value="0" selected>All</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-        <option value="250">250</option>
-      </select>
-
-    </div>
-
-  </div>
-
-  <div class="generate-row">
-
-    <button class="btn" id="backtestBtn">
-      Run Backtest
-    </button>
-
-  </div>
-
-  <div id="progressArea" style="display:none">
-
-    <div class="progress">
-      <div id="progressBar" class="progress-bar"></div>
-    </div>
-
-    <div id="progressText" class="section-note">
-      Starting...
-    </div>
-
-  </div>
-
-  <div id="backtestOutput"></div>
-
-</section>
-
-<!-- DATA -->
-
-<section class="card">
-
-  <h2>🗄️ Data Management</h2>
-
-  <div class="action-row">
-
-    <button class="btn secondary" id="exportCsvBtn">
-      Export CSV
-    </button>
-
-    <button class="btn secondary" id="exportJsonBtn">
-      Export JSON
-    </button>
-
-    <label class="file-label">
-      Import CSV
-      <input type="file" id="csvFile" accept=".csv,text/csv">
-    </label>
-
-    <button class="btn danger" id="resetDbBtn">
-      Reset Database
-    </button>
-
-  </div>
-
-</section>
-
-<!-- SETTINGS -->
-
-<section class="card">
-
-  <h2>⚙️ Automatic Data Update</h2>
-
-  <div class="control-group">
-
-    <label for="workerUrl">
-      Cloudflare Worker URL
-    </label>
-
-    <input
-      id="workerUrl"
-      type="url"
-      placeholder="https://your-worker.workers.dev"
-    >
-
-  </div>
-
-  <div style="margin-top:10px">
-
-    <label style="display:flex;align-items:center;gap:8px">
-
-      <input
-        id="updateOnOpen"
-        type="checkbox"
-        checked
-        style="width:auto"
-      >
-
-      Update data automatically when app opens
-
-    </label>
-
-  </div>
-
-  <div class="action-row">
-
-    <button class="btn success" id="saveSettingsBtn">
-      Save Settings
-    </button>
-
-    <button class="btn secondary" id="updateNowBtn">
-      Update Now
-    </button>
-
-  </div>
-
-</section>
-
+<div class="compact-head">
+<h2>Last 3 Drawings</h2>
+<button class="btn small" id="refreshBtn">↻ Refresh</button>
 </div>
-
+<div id="latestDraws"></div>
+</section>
+<!-- GENERATOR -->
+<section class="card">
+<div class="generator-header"><h2>🎯 AI Ticket Generator</h2><button class="btn generator-btn" id="generateBtn">Generate Tickets</button></div><div class="controls generator-controls">
+<div class="control-group">
+<label for="strategy">Strategy</label>
+<select id="strategy">
+<option value="random">Random</option>
+<option value="balanced">Balanced Odd / Even</option>
+<option value="hot">Hot Numbers</option>
+<option value="cold">Cold Numbers</option>
+<option value="hotcold">Hot + Cold Mix</option>
+<option value="spread">Good Spread</option>
+<option value="weighted">Weighted Frequency</option>
+<option value="weightedBalanced" selected>
+Weighted + Balanced ⭐
+</option>
+<option value="lowhigh">Low + High Mix</option>
+<option value="recency">Recency</option>
+<option value="hybrid">Hybrid AI</option>
+<option value="overdue">Overdue Numbers</option>
+<option value="decades">Decade Spread</option>
+<option value="sum">Sum Balanced</option>
+<option value="pair">Pair Boost</option>
+</select>
+</div>
+<div class="control-group">
+<label for="ticketCount">Number of Tickets</label>
+<select id="ticketCount">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+<option>15</option>
+<option>20</option>
+</select>
+</div>
+</div>
+<p class="section-note">
+These strategies analyze historical data and generate combinations for
+research/entertainment. Lottery drawings remain random and past results
+cannot predict future results.
+</p>
+<div id="generatedTickets"></div>
+</section>
+<!-- SAVING NUMBERS -->
+<section class="card">
+  <h2>💾 Saving Numbers</h2>
+  <p class="section-note">
+Save generated tickets or enter your own Powerball numbers manually.
+Saved numbers remain on this device using local storage.
+</p>
+  <div class="saved-top">
+    <div id="savedNumbers"></div>
+  </div>
+  <div class="manual-entry-wrap">
+    <div class="manual-entry-head">Manual Entry</div>
+<div class="manual-grid compact-manual-grid">
+<input id="m1" type="number" min="1" max="69" placeholder="1">
+<input id="m2" type="number" min="1" max="69" placeholder="2">
+<input id="m3" type="number" min="1" max="69" placeholder="3">
+<input id="m4" type="number" min="1" max="69" placeholder="4">
+<input id="m5" type="number" min="1" max="69" placeholder="5">
+<input
+id="mpb"
+class="pb-input"
+type="number"
+min="1"
+max="26"
+placeholder="PB">
+</div>
+<div class="action-row">
+<button class="btn success" id="saveManualBtn">
+Save Manual Numbers
+</button>
+<button class="btn secondary" id="clearManualBtn">
+Clear
+</button>
+</div>
+  </div>
+</section>
+<!-- STATISTICS -->
+<section class="card">
+<h2>📊 Historical Statistics</h2>
+<div class="controls">
+<div class="control-group">
+<label for="statsWindow">Analysis Window</label>
+<select id="statsWindow">
+<option value="20">Last 20</option>
+<option value="30" selected>Last 30</option>
+<option value="50">Last 50</option>
+<option value="100">Last 100</option>
+<option value="all">All Available</option>
+</select>
+</div>
+<div class="control-group">
+<label for="statsMode">Statistics</label>
+<select id="statsMode">
+<option value="white">White Balls</option>
+<option value="pb">Powerball</option>
+</select>
+</div>
+</div>
+<div id="statsOutput" style="margin-top:12px"></div>
+</section>
+<!-- BACKTEST -->
+<section class="card">
+<h2>🧪 Walk-Forward Backtesting</h2>
+<p class="section-note">
+Each historical draw is tested using only draws that occurred before it.
+This prevents future information from leaking into the training data.
+Results are historical research, not predictions.
+</p>
+<div class="controls">
+<div class="control-group">
+<label for="minTraining">Minimum Training Draws</label>
+<select id="minTraining">
+<option value="10">10</option>
+<option value="15" selected>15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="50">50</option>
+</select>
+</div>
+<div class="control-group">
+<label for="recencyWindow">Recency Window</label>
+<select id="recencyWindow">
+<option value="10">10</option>
+<option value="20" selected>20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="120">120</option>
+</select>
+</div>
+</div>
+<button class="btn" id="backtestBtn" style="margin-top:12px">
+Run Walk-Forward Backtest
+</button>
+<div id="progressArea" style="display:none">
+<div class="progress">
+<div id="progressBar" class="progress-bar"></div>
+</div>
+<div id="progressText" class="section-note">
+Running…
+</div>
+</div>
+<div id="backtestOutput" style="margin-top:12px"></div>
+</section>
+<!-- AUTOMATIC UPDATE -->
+<section class="card">
+<h2>🔄 Automatic Update</h2>
+<div class="control-group">
+<label for="workerUrl">
+Cloudflare Worker URL
+</label>
+<input
+id="workerUrl"
+type="url"
+placeholder="https://your-worker.workers.dev">
+</div>
+<div class="checkbox-row">
+<input type="checkbox" id="updateOnOpen" checked>
+<label for="updateOnOpen">
+Automatically update every time the app opens or returns to foreground
+</label>
+</div>
+<div class="action-row">
+<button class="btn" id="saveSettingsBtn">
+Save Settings
+</button>
+<button class="btn secondary" id="updateNowBtn">
+Update Now
+</button>
+</div>
+<div id="updateMessage" class="status">
+Automatic updates use your Cloudflare Worker.
+</div>
+</section>
+<!-- DATA TOOLS -->
+<section class="card">
+<h2>🗄 Data Tools</h2>
+<div class="action-row">
+<button class="btn secondary" id="exportCsvBtn">
+Export CSV
+</button>
+<button class="btn secondary" id="exportJsonBtn">
+Export JSON
+</button>
+<label class="file-label">
+Import CSV
+<input id="csvFile" type="file" accept=".csv,text/csv">
+</label>
+</div>
+<div class="action-row">
+<button class="btn danger" id="resetDbBtn">
+Reset Historical Database
+</button>
+</div>
+<p class="section-note">
+Historical results are stored locally in your browser. Resetting the
+historical database does not delete your saved numbers.
+</p>
+</section>
+<footer>
+Powerball AI Lab V6.2<br>
+For research and entertainment only. No strategy can predict a random
+Powerball drawing or improve the mathematical odds of a ticket.
+</footer>
+</div>
 <div id="toast" class="toast"></div>
-
 <script>
-
+"use strict";
 /* ============================================================
-   POWERBALL AI LAB V6.1
-   ============================================================ */
-
-const STORAGE_KEY =
-  "powerball_ai_lab_v6_draws";
-
-const SAVED_KEY =
-  "powerball_ai_lab_v6_saved_numbers";
-
-const SETTINGS_KEY =
-  "powerball_ai_lab_v6_settings";
-
-const OLD_STORAGE_KEY =
-  "powerball_ai_lab_v5_draws";
-
-const OLD_SETTINGS_KEY =
-  "powerball_ai_lab_v5_settings";
-
-
+POWERBALL AI LAB V6
+============================================================ */
+const STORAGE_KEY = "powerball_ai_lab_v6_draws";
+const SETTINGS_KEY = "powerball_ai_lab_v6_settings";
+const SAVED_KEY = "powerball_ai_lab_v6_saved_numbers";
+const OLD_STORAGE_KEY = "powerball_ai_lab_v5_draws";
+const OLD_SETTINGS_KEY = "powerball_ai_lab_v5_settings";
 /* ------------------------------------------------------------
-   SEED DATA
-   ------------------------------------------------------------ */
-
+STARTER HISTORICAL DATA
+------------------------------------------------------------ */
 const SEED_DRAWS = [
-  {date:"2026-09-05",white:[11,14,34,47,51],pb:18},
-  {date:"2026-09-02",white:[8,17,23,40,65],pb:10},
-  {date:"2026-08-31",white:[4,13,25,39,64],pb:18},
-  {date:"2026-08-29",white:[3,11,27,40,58],pb:10},
-  {date:"2026-08-26",white:[7,15,27,33,61],pb:17},
-  {date:"2026-08-24",white:[16,19,34,37,64],pb:2},
-  {date:"2026-08-22",white:[14,18,34,44,62],pb:19},
-  {date:"2026-08-19",white:[6,18,26,27,49],pb:22},
-  {date:"2026-08-17",white:[7,11,21,53,61],pb:3},
-  {date:"2026-08-15",white:[5,12,19,29,36],pb:4}
+{date:"2026-09-02",white:[3,10,29,58,64],pb:14},
+{date:"2026-08-31",white:[11,17,25,37,49],pb:10},
+{date:"2026-08-29",white:[18,56,62,65,67],pb:18},
+{date:"2026-08-26",white:[12,32,45,50,58],pb:2},
+{date:"2026-08-24",white:[3,16,33,38,68],pb:2},
+{date:"2026-08-22",white:[13,31,54,57,65],pb:23},
+{date:"2026-08-19",white:[10,21,58,61,64],pb:17},
+{date:"2026-08-17",white:[8,15,25,49,65],pb:22},
+{date:"2026-08-15",white:[5,8,27,29,63],pb:13},
+{date:"2026-08-12",white:[4,26,66,67,69],pb:9},
+{date:"2026-08-10",white:[6,37,54,55,64],pb:10},
+{date:"2026-08-08",white:[5,9,35,54,63],pb:7},
+{date:"2026-08-05",white:[14,20,59,60,61],pb:25},
+{date:"2026-08-03",white:[8,30,41,48,54],pb:4},
+{date:"2026-08-01",white:[6,17,27,48,50],pb:5},
+{date:"2026-07-29",white:[30,36,40,42,57],pb:2},
+{date:"2026-07-27",white:[6,26,46,58,65],pb:25},
+{date:"2026-07-25",white:[3,4,24,36,47],pb:17},
+{date:"2026-07-22",white:[4,5,22,50,58],pb:1},
+{date:"2026-07-20",white:[2,9,44,53,59],pb:8},
+{date:"2026-07-18",white:[9,14,44,50,56],pb:3},
+{date:"2026-07-15",white:[2,7,18,29,38],pb:16},
+{date:"2026-07-13",white:[5,25,36,40,48],pb:3},
+{date:"2026-07-11",white:[8,10,14,45,59],pb:5},
+{date:"2026-07-08",white:[12,29,37,43,55],pb:18},
+{date:"2026-07-06",white:[17,44,63,66,67],pb:4},
+{date:"2026-07-04",white:[17,38,46,50,69],pb:20},
+{date:"2026-07-01",white:[2,6,26,39,68],pb:6},
+{date:"2026-06-29",white:[10,14,41,53,59],pb:3},
+{date:"2026-06-27",white:[3,16,28,30,59],pb:11}
 ];
-
-
 /* ------------------------------------------------------------
-   STATE
-   ------------------------------------------------------------ */
-
+STATE
+------------------------------------------------------------ */
 let history = [];
-
 let savedNumbers = [];
-
-let currentGenerated = [];
-
 let settings = {
-  workerUrl:"",
-  updateOnOpen:true
+workerUrl:"",
+updateOnOpen:true
 };
-
-
+let lastSyncTime = 0;
+let updateInProgress = false;
 /* ------------------------------------------------------------
-   HELPERS
-   ------------------------------------------------------------ */
-
-const $ = id =>
-  document.getElementById(id);
-
-
-function safeGet(key,fallback=null){
-
-  try{
-
-    const raw =
-      localStorage.getItem(key);
-
-    if(raw===null)
-      return fallback;
-
-    return JSON.parse(raw);
-
-  }catch(error){
-
-    console.error(error);
-
-    return fallback;
-  }
+DOM
+------------------------------------------------------------ */
+const $ = id => document.getElementById(id);
+/* ------------------------------------------------------------
+STORAGE
+------------------------------------------------------------ */
+function safeGet(key, fallback=null){
+try{
+const raw = localStorage.getItem(key);
+if(raw === null) return fallback;
+return JSON.parse(raw);
+}catch(e){
+return fallback;
 }
-
-
+}
 function safeSet(key,value){
-
-  try{
-
-    localStorage.setItem(
-      key,
-      JSON.stringify(value)
-    );
-
-    return true;
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      "Could not save local data"
-    );
-
-    return false;
-  }
+try{
+localStorage.setItem(key,JSON.stringify(value));
+return true;
+}catch(e){
+return false;
 }
-
-
-function escapeHtml(str){
-
-  return String(str)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
 }
-
-
-function showToast(message){
-
-  const toast =
-    $("toast");
-
-  toast.textContent =
-    message;
-
-  toast.classList.add("show");
-
-  clearTimeout(
-    window.toastTimer
-  );
-
-  window.toastTimer =
-    setTimeout(
-      ()=>{
-        toast.classList.remove("show");
-      },
-      2200
-    );
-}
-
-
-/* ------------------------------------------------------------
-   RANDOM / ARRAY
-   ------------------------------------------------------------ */
-
-function randomInt(
-  min,
-  max,
-  rng=Math.random
-){
-
-  return Math.floor(
-    rng()*(max-min+1)
-  )+min;
-}
-
-
-function shuffle(
-  arr,
-  rng=Math.random
-){
-
-  const a=[...arr];
-
-  for(
-    let i=a.length-1;
-    i>0;
-    i--
-  ){
-
-    const j=
-      Math.floor(
-        rng()*(i+1)
-      );
-
-    [a[i],a[j]]=
-      [a[j],a[i]];
-  }
-
-  return a;
-}
-
-
-function sampleUnique(
-  arr,
-  count,
-  rng=Math.random
-){
-
-  return shuffle(
-    arr,
-    rng
-  ).slice(0,count);
-}
-
-
-function allWhite(){
-
-  return Array.from(
-    {length:69},
-    (_,i)=>i+1
-  );
-}
-
-
-function allPB(){
-
-  return Array.from(
-    {length:26},
-    (_,i)=>i+1
-  );
-}
-
-
-/* ------------------------------------------------------------
-   NORMALIZATION
-   ------------------------------------------------------------ */
-
 function normalizeDraw(d){
-
-  if(!d)
-    return null;
-
-  const date =
-    String(
-      d.date ||
-      d.drawDate ||
-      ""
-    ).slice(0,10);
-
-  if(!date)
-    return null;
-
-  let white =
-    Array.isArray(d.white)
-      ? d.white
-      : Array.isArray(d.numbers)
-        ? d.numbers
-        : null;
-
-  if(!white || white.length!==5)
-    return null;
-
-  white =
-    white
-      .map(Number)
-      .filter(
-        n =>
-          Number.isInteger(n) &&
-          n>=1 &&
-          n<=69
-      );
-
-  if(white.length!==5)
-    return null;
-
-  white =
-    [...new Set(white)];
-
-  if(white.length!==5)
-    return null;
-
-  const pb =
-    Number(
-      d.pb ??
-      d.powerball ??
-      d.Powerball
-    );
-
-  if(
-    !Number.isInteger(pb) ||
-    pb<1 ||
-    pb>26
-  )
-    return null;
-
-  return {
-    date,
-    white:white.sort(
-      (a,b)=>a-b
-    ),
-    pb
-  };
+if(!d) return null;
+const date = String(d.date || d.drawDate || "").slice(0,10);
+const white = Array.isArray(d.white)
+? d.white.map(Number)
+: Array.isArray(d.numbers)
+? d.numbers.slice(0,5).map(Number)
+: [];
+const pb = Number(
+d.pb ??
+d.powerball ??
+d.powerBall ??
+d.redBall
+);
+if(!date) return null;
+if(white.length !== 5) return null;
+if(white.some(n => !Number.isInteger(n) || n<1 || n>69)) return null;
+if(new Set(white).size !== 5) return null;
+if(!Number.isInteger(pb) || pb<1 || pb>26) return null;
+return {
+date,
+white:[...white].sort((a,b)=>a-b),
+pb
+};
 }
-
-
 function normalizeHistory(arr){
-
-  if(!Array.isArray(arr))
-    return [];
-
-  const map =
-    new Map();
-
-  arr.forEach(d=>{
-
-    const n=
-      normalizeDraw(d);
-
-    if(n)
-      map.set(
-        n.date,
-        n
-      );
-  });
-
-  return [...map.values()]
-    .sort(
-      (a,b)=>
-        a.date.localeCompare(b.date)
-    );
+if(!Array.isArray(arr)) return [];
+const map = new Map();
+arr.forEach(d=>{
+const n = normalizeDraw(d);
+if(n) map.set(n.date,n);
+});
+return [...map.values()]
+.sort((a,b)=>a.date.localeCompare(b.date));
 }
-
-
-/* ------------------------------------------------------------
-   LOAD / SAVE
-   ------------------------------------------------------------ */
-
 function loadData(){
-
-  let stored =
-    safeGet(
-      STORAGE_KEY,
-      null
-    );
-
-  if(
-    !Array.isArray(stored) ||
-    stored.length===0
-  ){
-
-    const old =
-      safeGet(
-        OLD_STORAGE_KEY,
-        null
-      );
-
-    if(Array.isArray(old))
-      stored=old;
-  }
-
-  history =
-    normalizeHistory(
-      stored ||
-      SEED_DRAWS
-    );
-
-
-  const storedSettings =
-    safeGet(
-      SETTINGS_KEY,
-      null
-    );
-
-  if(
-    storedSettings &&
-    typeof storedSettings==="object"
-  ){
-
-    settings={
-      ...settings,
-      ...storedSettings
-    };
-
-  }else{
-
-    const oldSettings =
-      safeGet(
-        OLD_SETTINGS_KEY,
-        null
-      );
-
-    if(oldSettings)
-      settings={
-        ...settings,
-        ...oldSettings
-      };
-  }
-
-
-  const storedSaved =
-    safeGet(
-      SAVED_KEY,
-      []
-    );
-
-  savedNumbers =
-    Array.isArray(storedSaved)
-      ? storedSaved
-      : [];
-
-
-  $("workerUrl").value =
-    settings.workerUrl || "";
-
-  $("updateOnOpen").checked =
-    settings.updateOnOpen !== false;
+let stored = safeGet(STORAGE_KEY,null);
+if(!stored){
+const old = safeGet(OLD_STORAGE_KEY,null);
+if(Array.isArray(old)){
+stored = old;
+}else if(old && Array.isArray(old.draws)){
+stored = old.draws;
 }
-
-
+}
+history = normalizeHistory(stored);
+if(history.length === 0){
+history = normalizeHistory(SEED_DRAWS);
+saveHistory();
+}
+const storedSettings = safeGet(SETTINGS_KEY,null);
+if(storedSettings && typeof storedSettings === "object"){
+settings = {
+...settings,
+...storedSettings
+};
+}else{
+const oldSettings = safeGet(OLD_SETTINGS_KEY,null);
+if(oldSettings && typeof oldSettings === "object"){
+settings = {
+...settings,
+...oldSettings
+};
+safeSet(SETTINGS_KEY,settings);
+}
+}
+const storedSaved = safeGet(SAVED_KEY,[]);
+if(Array.isArray(storedSaved)){
+savedNumbers = storedSaved;
+}
+$("workerUrl").value = settings.workerUrl || "";
+$("updateOnOpen").checked = settings.updateOnOpen !== false;
+}
 function saveHistory(){
-
-  safeSet(
-    STORAGE_KEY,
-    history
-  );
+safeSet(STORAGE_KEY,history);
 }
-
-
 function saveSaved(){
-
-  safeSet(
-    SAVED_KEY,
-    savedNumbers
-  );
+safeSet(SAVED_KEY,savedNumbers);
 }
-
-
 function saveSettings(){
-
-  settings={
-    workerUrl:
-      $("workerUrl").value.trim(),
-
-    updateOnOpen:
-      $("updateOnOpen").checked
-  };
-
-  safeSet(
-    SETTINGS_KEY,
-    settings
-  );
+settings.workerUrl = $("workerUrl").value.trim();
+settings.updateOnOpen = $("updateOnOpen").checked;
+safeSet(SETTINGS_KEY,settings);
 }
-
-
 /* ------------------------------------------------------------
-   DATE / MONEY
-   ------------------------------------------------------------ */
-
+HELPERS
+------------------------------------------------------------ */
+function escapeHtml(str){
+return String(str)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
 function formatDate(date){
-
-  if(!date)
-    return "—";
-
-  const d=
-    new Date(
-      date+"T12:00:00"
-    );
-
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  )
-    return date;
-
-  return d.toLocaleDateString(
-    undefined,
-    {
-      month:"short",
-      day:"numeric",
-      year:"numeric"
-    }
-  );
+if(!date) return "—";
+const d = new Date(date + "T12:00:00");
+if(Number.isNaN(d.getTime())) return date;
+return d.toLocaleDateString(undefined,{
+month:"short",
+day:"numeric",
+year:"numeric"
+});
 }
-
-
-function formatMoney(value){
-
-  if(value===null ||
-     value===undefined ||
-     value==="")
-    return "—";
-
-  return String(value);
+function formatDrawingDate(date){
+  if(!date) return "—";
+  const raw=String(date).trim();
+  if(/^(SUN|MON|TUE|WED|THU|FRI|SAT)\b/i.test(raw)) return raw;
+  let d=new Date(raw.includes("T") ? raw : raw+"T12:00:00");
+  if(Number.isNaN(d.getTime())) d=new Date(raw);
+  if(Number.isNaN(d.getTime())) return raw;
+  return d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric",year:"numeric"});
 }
-
-
-/* ------------------------------------------------------------
-   COUNTS
-   ------------------------------------------------------------ */
-
-function countsWhite(data){
-
-  const c={};
-
-  allWhite().forEach(
-    n=>c[n]=0
-  );
-
-  data.forEach(d=>{
-
-    d.white.forEach(n=>{
-      c[n]++;
-    });
-
-  });
-
-  return c;
+function formatMoney(v){
+if(v === null || v === undefined || v === "") return "—";
+if(typeof v === "number"){
+return "$" + v.toLocaleString();
 }
-
-
-function countsPB(data){
-
-  const c={};
-
-  allPB().forEach(
-    n=>c[n]=0
-  );
-
-  data.forEach(d=>{
-    c[d.pb]++;
-  });
-
-  return c;
+const s = String(v);
+if(s.includes("$")) return s;
+return "$" + s;
 }
-
-
-/* ------------------------------------------------------------
-   RECENCY
-   ------------------------------------------------------------ */
-
-function lastSeenAges(
-  data,
-  maxNum,
-  type="white"
-){
-
-  const ages={};
-
-  for(
-    let n=1;
-    n<=maxNum;
-    n++
-  ){
-
-    ages[n]=
-      data.length;
-  }
-
-  for(
-    let i=data.length-1;
-    i>=0;
-    i--
-  ){
-
-    const nums =
-      type==="pb"
-        ? [data[i].pb]
-        : data[i].white;
-
-    nums.forEach(n=>{
-
-      if(
-        ages[n]===data.length
-      ){
-
-        ages[n]=
-          data.length-1-i;
-      }
-
-    });
-  }
-
-  return ages;
+function showToast(message){
+const t = $("toast");
+t.textContent = message;
+t.classList.add("show");
+clearTimeout(showToast.timer);
+showToast.timer = setTimeout(()=>{
+t.classList.remove("show");
+},2600);
 }
-
-
-/* ------------------------------------------------------------
-   BASIC MATH
-   ------------------------------------------------------------ */
-
+function randomInt(min,max,rng=Math.random){
+return Math.floor(rng()*(max-min+1))+min;
+}
+function shuffle(arr,rng=Math.random){
+const a = [...arr];
+for(let i=a.length-1;i>0;i--){
+const j=Math.floor(rng()*(i+1));
+[a[i],a[j]]=[a[j],a[i]];
+}
+return a;
+}
+function sampleUnique(range,count,rng=Math.random){
+return shuffle(range,rng).slice(0,count).sort((a,b)=>a-b);
+}
+function allWhite(){
+return Array.from({length:69},(_,i)=>i+1);
+}
+function allPB(){
+return Array.from({length:26},(_,i)=>i+1);
+}
 function mean(arr){
-
-  if(!arr.length)
-    return 0;
-
-  return arr.reduce(
-    (a,b)=>a+b,
-    0
-  )/arr.length;
+if(!arr.length) return 0;
+return arr.reduce((a,b)=>a+b,0)/arr.length;
 }
-
-
 function median(arr){
-
-  if(!arr.length)
-    return 0;
-
-  const a=
-    [...arr].sort(
-      (x,y)=>x-y
-    );
-
-  const mid=
-    Math.floor(
-      a.length/2
-    );
-
-  return a.length%2
-    ? a[mid]
-    : (a[mid-1]+a[mid])/2;
+if(!arr.length) return 0;
+const a=[...arr].sort((x,y)=>x-y);
+const mid=Math.floor(a.length/2);
+return a.length%2
+? a[mid]
+: (a[mid-1]+a[mid])/2;
 }
-
-
 /* ------------------------------------------------------------
-   WEIGHTED SELECTION
-   ------------------------------------------------------------ */
-
-function weightedPick(
-  items,
-  weights,
-  rng=Math.random
+FREQUENCY / RECENCY
+------------------------------------------------------------ */
+function countsWhite(data){
+const c = {};
+for(let i=1;i<=69;i++) c[i]=0;
+data.forEach(d=>{
+d.white.forEach(n=>c[n]++);
+});
+return c;
+}
+function countsPB(data){
+const c = {};
+for(let i=1;i<=26;i++) c[i]=0;
+data.forEach(d=>{
+c[d.pb]++;
+});
+return c;
+}
+function lastSeenAges(data,maxNum,type="white"){
+const ages={};
+for(let n=1;n<=maxNum;n++){
+ages[n]=data.length+1;
+}
+for(let i=data.length-1;i>=0;i--){
+const age=data.length-1-i;
+const nums =
+type==="pb"
+? [data[i].pb]
+: data[i].white;
+nums.forEach(n=>{
+if(ages[n] > age){
+ages[n]=age;
+}
+});
+}
+return ages;
+}
+function weightedPick(items,weights,rng=Math.random){
+let total=0;
+const safe=weights.map(w=>{
+const x=Number(w);
+return Number.isFinite(x) && x>0 ? x : 0;
+});
+total=safe.reduce((a,b)=>a+b,0);
+if(total<=0){
+return items[randomInt(0,items.length-1,rng)];
+}
+let r=rng()*total;
+for(let i=0;i<items.length;i++){
+r-=safe[i];
+if(r<=0){
+return items[i];
+}
+}
+return items[items.length-1];
+}
+function selectWeightedUnique(items,weights,count,rng=Math.random){
+const pool=[...items];
+const ws=[...weights];
+const result=[];
+while(result.length<count && pool.length){
+const pick=weightedPick(pool,ws,rng);
+const idx=pool.indexOf(pick);
+result.push(pick);
+pool.splice(idx,1);
+ws.splice(idx,1);
+}
+return result.sort((a,b)=>a-b);
+}
+function normalizeWeights(weights){
+const max=Math.max(...weights,1);
+return weights.map(w=>w/max);
+}
+/* ------------------------------------------------------------
+STRATEGY SCORES
+------------------------------------------------------------ */
+function getScores(data,strategy){
+const c=countsWhite(data);
+const ages=lastSeenAges(data,69);
+const freq=allWhite().map(n=>c[n]);
+const maxFreq=Math.max(...freq,1);
+const freqScore=n=>{
+return (c[n]+1)/(maxFreq+1);
+};
+const recencyScore=n=>{
+return Math.exp(-ages[n]/8);
+};
+const overdueScore=n=>{
+return ages[n]+1;
+};
+switch(strategy){
+case "hot":
+return allWhite().map(n=>Math.pow(c[n]+1,1.7));
+case "cold":
+return allWhite().map(n=>
+1/(c[n]+1)
+);
+case "weighted":
+return allWhite().map(n=>
+c[n]+1
+);
+case "recency":
+return allWhite().map(n=>
+recencyScore(n)
+);
+case "hybrid":
+return allWhite().map(n=>
+.55*freqScore(n)+
+.45*recencyScore(n)
+);
+case "overdue":
+return allWhite().map(n=>
+overdueScore(n)
+);
+case "weightedBalanced":
+return allWhite().map(n=>{
+const odd=n%2===1 ? 1.15 : 1;
+return (c[n]+1)*odd;
+});
+default:
+return allWhite().map(()=>1);
+}
+}
+/* ------------------------------------------------------------
+POWERBALL STRATEGY
+------------------------------------------------------------ */
+function generatePB(strategy,data,rng=Math.random){
+if(strategy==="random" ||
+strategy==="balanced" ||
+strategy==="spread" ||
+strategy==="lowhigh" ||
+strategy==="decades" ||
+strategy==="sum"){
+return randomInt(1,26,rng);
+}
+const nums=allPB();
+const c=countsPB(data);
+const ages=lastSeenAges(data,26,"pb");
+let weights;
+switch(strategy){
+case "hot":
+weights=nums.map(n=>Math.pow(c[n]+1,1.7));
+break;
+case "cold":
+weights=nums.map(n=>1/(c[n]+1));
+break;
+case "weighted":
+case "weightedBalanced":
+weights=nums.map(n=>c[n]+1);
+break;
+case "recency":
+weights=nums.map(n=>Math.exp(-ages[n]/8));
+break;
+case "hybrid":
+weights=nums.map(n=>{
+const max=Math.max(...Object.values(c),1);
+const f=(c[n]+1)/(max+1);
+const r=Math.exp(-ages[n]/8);
+return .55*f+.45*r;
+});
+break;
+case "overdue":
+weights=nums.map(n=>ages[n]+1);
+break;
+case "hotcold":
+weights=nums.map(n=>{
+return (c[n]+1) *
+(ages[n]+1)/Math.max(data.length,1);
+});
+break;
+case "pair":
+weights=nums.map(n=>c[n]+1);
+break;
+default:
+weights=nums.map(()=>1);
+}
+return weightedPick(nums,weights,rng);
+}
+/* ------------------------------------------------------------
+SPECIAL STRATEGIES
+------------------------------------------------------------ */
+function generateBalanced(data,rng){
+const odd=allWhite().filter(n=>n%2);
+const even=allWhite().filter(n=>n%2===0);
+const oddCount=rng()<.5 ? 2 : 3;
+return [
+...sampleUnique(odd,oddCount,rng),
+...sampleUnique(even,5-oddCount,rng)
+].sort((a,b)=>a-b);
+}
+function generateSpread(data,rng){
+const low=Array.from({length:23},(_,i)=>i+1);
+const mid=Array.from({length:23},(_,i)=>i+24);
+const high=Array.from({length:23},(_,i)=>i+47);
+let result=[
+...sampleUnique(low,1,rng),
+...sampleUnique(mid,1,rng),
+...sampleUnique(high,1,rng)
+];
+const remaining=allWhite().filter(n=>!result.includes(n));
+result=[
+...result,
+...sampleUnique(remaining,2,rng)
+];
+return result.sort((a,b)=>a-b);
+}
+function generateHotCold(data,rng){
+const c=countsWhite(data);
+const sorted=allWhite().sort((a,b)=>c[b]-c[a]);
+const hotPool=sorted.slice(0,20);
+const coldPool=sorted.slice(-20);
+let result=[
+...sampleUnique(hotPool,3,rng),
+...sampleUnique(
+coldPool.filter(n=>!result?.includes(n)),
+2,
+rng
+)
+];
+result=[...new Set(result)];
+while(result.length<5){
+const n=randomInt(1,69,rng);
+if(!result.includes(n)) result.push(n);
+}
+return result.sort((a,b)=>a-b);
+}
+function generateLowHigh(data,rng){
+const low=Array.from({length:34},(_,i)=>i+1);
+const high=Array.from({length:35},(_,i)=>i+35);
+const lowCount=rng()<.5 ? 2 : 3;
+return [
+...sampleUnique(low,lowCount,rng),
+...sampleUnique(high,5-lowCount,rng)
+].sort((a,b)=>a-b);
+}
+function generateDecades(data,rng){
+const decades=[
+[1,10],
+[11,20],
+[21,30],
+[31,40],
+[41,50],
+[51,60],
+[61,69]
+];
+let result=[];
+const chosen=shuffle(
+decades.map((d,i)=>i),
+rng
+).slice(0,5);
+chosen.forEach(i=>{
+result.push(
+randomInt(decades[i][0],decades[i][1],rng)
+);
+});
+return result.sort((a,b)=>a-b);
+}
+function generateSumBalanced(data,rng){
+const sums=data.map(d=>
+d.white.reduce((a,b)=>a+b,0)
+);
+const target=median(sums);
+let best=null;
+let bestDiff=Infinity;
+for(let i=0;i<120;i++){
+const ticket=sampleUnique(allWhite(),5,rng);
+const sum=ticket.reduce((a,b)=>a+b,0);
+const diff=Math.abs(sum-target);
+if(diff<bestDiff){
+best=ticket;
+bestDiff=diff;
+}
+if(diff<=8) break;
+}
+return best.sort((a,b)=>a-b);
+}
+function generatePairBoost(data,rng){
+if(!data.length){
+return sampleUnique(allWhite(),5,rng);
+}
+const counts=countsWhite(data);
+const pair={};
+data.forEach(d=>{
+const nums=d.white;
+for(let i=0;i<nums.length;i++){
+for(let j=i+1;j<nums.length;j++){
+const a=nums[i];
+const b=nums[j];
+const key=a+"-"+b;
+pair[key]=(pair[key]||0)+1;
+}
+}
+});
+let result=[];
+const firstPool=allWhite();
+const firstWeights=firstPool.map(n=>counts[n]+1);
+result.push(
+weightedPick(firstPool,firstWeights,rng)
+);
+while(result.length<5){
+const candidates=allWhite()
+.filter(n=>!result.includes(n));
+const weights=candidates.map(n=>{
+let score=counts[n]+1;
+result.forEach(existing=>{
+const a=Math.min(existing,n);
+const b=Math.max(existing,n);
+score+=2*(pair[a+"-"+b]||0);
+});
+return score;
+});
+result.push(
+weightedPick(candidates,weights,rng)
+);
+}
+return result.sort((a,b)=>a-b);
+}
+/* ------------------------------------------------------------
+GENERATE TICKET
+------------------------------------------------------------ */
+function generateTicket(strategy,data,rng=Math.random){
+let white;
+switch(strategy){
+case "random":
+white=sampleUnique(allWhite(),5,rng);
+break;
+case "balanced":
+white=generateBalanced(data,rng);
+break;
+case "hot":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"hot"),
+5,
+rng
+);
+break;
+case "cold":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"cold"),
+5,
+rng
+);
+break;
+case "hotcold":
+white=generateHotCold(data,rng);
+break;
+case "spread":
+white=generateSpread(data,rng);
+break;
+case "weighted":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"weighted"),
+5,
+rng
+);
+break;
+case "weightedBalanced":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"weightedBalanced"),
+5,
+rng
+);
+/* Encourage 2/3 or 3/2 odd/even */
+let tries=0;
+while(
+tries<40 &&
+!isBalanced(white)
 ){
-
-  let total=0;
-
-  const safe=
-    weights.map(w=>{
-      const x=Number(w);
-      return Number.isFinite(x) &&
-        x>0
-        ? x
-        : .0001;
-    });
-
-  safe.forEach(
-    w=>total+=w
-  );
-
-  let r=
-    rng()*total;
-
-  for(
-    let i=0;
-    i<items.length;
-    i++
-  ){
-
-    r-=safe[i];
-
-    if(r<=0)
-      return items[i];
-  }
-
-  return items[
-    items.length-1
-  ];
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"weightedBalanced"),
+5,
+rng
+);
+tries++;
 }
-
-
-function selectWeightedUnique(
-  items,
-  weights,
-  count,
-  rng=Math.random
-){
-
-  const pool=[...items];
-  const ws=[...weights];
-  const result=[];
-
-  while(
-    result.length<count &&
-    pool.length
-  ){
-
-    const pick=
-      weightedPick(
-        pool,
-        ws,
-        rng
-      );
-
-    result.push(pick);
-
-    const idx=
-      pool.indexOf(pick);
-
-    pool.splice(idx,1);
-    ws.splice(idx,1);
-  }
-
-  return result;
+break;
+case "lowhigh":
+white=generateLowHigh(data,rng);
+break;
+case "recency":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"recency"),
+5,
+rng
+);
+break;
+case "hybrid":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"hybrid"),
+5,
+rng
+);
+break;
+case "overdue":
+white=selectWeightedUnique(
+allWhite(),
+getScores(data,"overdue"),
+5,
+rng
+);
+break;
+case "decades":
+white=generateDecades(data,rng);
+break;
+case "sum":
+white=generateSumBalanced(data,rng);
+break;
+case "pair":
+white=generatePairBoost(data,rng);
+break;
+default:
+white=sampleUnique(allWhite(),5,rng);
 }
-
-
+return {
+white:white.sort((a,b)=>a-b),
+pb:generatePB(strategy,data,rng)
+};
+}
+function isBalanced(white){
+const odd=white.filter(n=>n%2).length;
+return odd===2 || odd===3;
+}
 /* ------------------------------------------------------------
-   STRATEGY SCORES
-   ------------------------------------------------------------ */
-
-function getScores(
-  data,
-  strategy
-){
-
-  const counts=
-    countsWhite(data);
-
-  const ages=
-    lastSeenAges(
-      data,
-      69
-    );
-
-  const scores=
-    allWhite().map(n=>{
-
-      const freq=
-        counts[n];
-
-      const age=
-        ages[n];
-
-      if(strategy==="frequency")
-        return freq+1;
-
-      if(strategy==="recency")
-        return 1/(age+1);
-
-      if(strategy==="overdue")
-        return age+1;
-
-      if(strategy==="hotCold"){
-
-        const hot=
-          freq+1;
-
-        const cold=
-          age+1;
-
-        return hot*cold;
-      }
-
-      if(strategy==="weightedBalanced"){
-
-        return (
-          (freq+1)*.45+
-          (age+1)*.35+
-          (n%2===1?.1:.08)+
-          (n>=35?.08:.06)
-        );
-      }
-
-      return 1;
-    });
-
-  return scores;
+RENDER LATEST
+------------------------------------------------------------ */
+function ballsHtml(white,pb){
+return `
+<div class="balls">
+${white.map(n=>`
+<span class="ball">${n}</span>
+`).join("")}
+<span class="ball pb">${pb}</span>
+</div>
+`;
 }
-
-
-/* ------------------------------------------------------------
-   POWERBALL GENERATOR
-   ------------------------------------------------------------ */
-
-function generatePB(
-  strategy,
-  data,
-  rng=Math.random
-){
-
-  const nums=
-    allPB();
-
-  const counts=
-    countsPB(data);
-
-  const ages=
-    lastSeenAges(
-      data,
-      26,
-      "pb"
-    );
-
-  let weights;
-
-  if(strategy==="frequency"){
-
-    weights=
-      nums.map(
-        n=>counts[n]+1
-      );
-
-  }else if(strategy==="recency"){
-
-    weights=
-      nums.map(
-        n=>1/(ages[n]+1)
-      );
-
-  }else if(strategy==="overdue"){
-
-    weights=
-      nums.map(
-        n=>ages[n]+1
-      );
-
-  }else{
-
-    weights=
-      nums.map(n=>
-        (counts[n]+1)*.45+
-        (ages[n]+1)*.35+
-        1
-      );
-  }
-
-  return weightedPick(
-    nums,
-    weights,
-    rng
-  );
-}
-
-
-/* ------------------------------------------------------------
-   BALANCED
-   ------------------------------------------------------------ */
-
-function generateBalanced(
-  data,
-  rng
-){
-
-  const odd=
-    allWhite()
-      .filter(n=>n%2);
-
-  const even=
-    allWhite()
-      .filter(n=>n%2===0);
-
-  const oddCount=
-    rng()<.5
-      ? 2
-      : 3;
-
-  const result=[
-    ...sampleUnique(
-      odd,
-      oddCount,
-      rng
-    ),
-    ...sampleUnique(
-      even,
-      5-oddCount,
-      rng
-    )
-  ];
-
-  return result.sort(
-    (a,b)=>a-b
-  );
-}
-
-
-/* ------------------------------------------------------------
-   SPREAD
-   ------------------------------------------------------------ */
-
-function generateSpread(
-  data,
-  rng
-){
-
-  const low=
-    Array.from(
-      {length:23},
-      (_,i)=>i+1
-    );
-
-  const mid=
-    Array.from(
-      {length:23},
-      (_,i)=>i+24
-    );
-
-  const high=
-    Array.from(
-      {length:23},
-      (_,i)=>i+47
-    );
-
-  let result=[
-    ...sampleUnique(
-      low,
-      2,
-      rng
-    ),
-    ...sampleUnique(
-      mid,
-      2,
-      rng
-    ),
-    ...sampleUnique(
-      high,
-      1,
-      rng
-    )
-  ];
-
-  return result.sort(
-    (a,b)=>a-b
-  );
-}
-
-
-/* ------------------------------------------------------------
-   LOW / HIGH
-   ------------------------------------------------------------ */
-
-function generateLowHigh(
-  data,
-  rng
-){
-
-  const low=
-    Array.from(
-      {length:34},
-      (_,i)=>i+1
-    );
-
-  const high=
-    Array.from(
-      {length:35},
-      (_,i)=>i+35
-    );
-
-  const lowCount=
-    rng()<.5
-      ? 2
-      : 3;
-
-  const result=[
-    ...sampleUnique(
-      low,
-      lowCount,
-      rng
-    ),
-    ...sampleUnique(
-      high,
-      5-lowCount,
-      rng
-    )
-  ];
-
-  return result.sort(
-    (a,b)=>a-b
-  );
-}
-
-
-/* ------------------------------------------------------------
-   HOT / COLD
-   ------------------------------------------------------------ */
-
-function generateHotCold(
-  data,
-  rng
-){
-
-  const counts=
-    countsWhite(data);
-
-  const ages=
-    lastSeenAges(
-      data,
-      69
-    );
-
-  const nums=
-    allWhite();
-
-  const hot=
-    [...nums].sort(
-      (a,b)=>counts[b]-counts[a]
-    ).slice(0,20);
-
-  const cold=
-    [...nums].sort(
-      (a,b)=>ages[b]-ages[a]
-    ).slice(0,20);
-
-  const result=[
-    ...sampleUnique(
-      hot,
-      3,
-      rng
-    )
-  ];
-
-  for(
-    const n of shuffle(
-      cold,
-      rng
-    )
-  ){
-
-    if(
-      result.length>=5
-    )
-      break;
-
-    if(!result.includes(n))
-      result.push(n);
-  }
-
-  while(
-    result.length<5
-  ){
-
-    const n=
-      randomInt(
-        1,
-        69,
-        rng
-      );
-
-    if(!result.includes(n))
-      result.push(n);
-  }
-
-  return result.sort(
-    (a,b)=>a-b
-  );
-}
-
-
-/* ------------------------------------------------------------
-   DECADES
-   ------------------------------------------------------------ */
-
-function generateDecades(
-  data,
-  rng
-){
-
-  const groups=[
-    Array.from(
-      {length:9},
-      (_,i)=>i+1
-    ),
-    Array.from(
-      {length:10},
-      (_,i)=>i+10
-    ),
-    Array.from(
-      {length:10},
-      (_,i)=>i+20
-    ),
-    Array.from(
-      {length:10},
-      (_,i)=>i+30
-    ),
-    Array.from(
-      {length:10},
-      (_,i)=>i+40
-    ),
-    Array.from(
-      {length:10},
-      (_,i)=>i+50
-    ),
-    Array.from(
-      {length:10},
-      (_,i)=>i+60
-    ),
-    [69]
-  ];
-
-  let result=[];
-
-  const order=
-    shuffle(
-      groups,
-      rng
-    );
-
-  for(
-    const group of order
-  ){
-
-    if(result.length>=5)
-      break;
-
-    const n=
-      group[
-        randomInt(
-          0,
-          group.length-1,
-          rng
-        )
-      ];
-
-    if(!result.includes(n))
-      result.push(n);
-  }
-
-  while(result.length<5){
-
-    const n=
-      randomInt(
-        1,
-        69,
-        rng
-      );
-
-    if(!result.includes(n))
-      result.push(n);
-  }
-
-  return result.sort(
-    (a,b)=>a-b
-  );
-}
-
-
-/* ------------------------------------------------------------
-   SUM BALANCED
-   ------------------------------------------------------------ */
-
-function generateSumBalanced(
-  data,
-  rng
-){
-
-  const sums=
-    data.map(
-      d=>
-        d.white.reduce(
-          (a,b)=>a+b,
-          0
-        )
-    );
-
-  const target=
-    median(sums);
-
-  let best=null;
-
-  let bestDiff=
-    Infinity;
-
-  for(
-    let i=0;
-    i<150;
-    i++
-  ){
-
-    const ticket=
-      sampleUnique(
-        allWhite(),
-        5,
-        rng
-      ).sort(
-        (a,b)=>a-b
-      );
-
-    const sum=
-      ticket.reduce(
-        (a,b)=>a+b,
-        0
-      );
-
-    const diff=
-      Math.abs(
-        sum-target
-      );
-
-    if(diff<bestDiff){
-
-      bestDiff=diff;
-      best=ticket;
-    }
-  }
-
-  return best ||
-    sampleUnique(
-      allWhite(),
-      5,
-      rng
-    ).sort(
-      (a,b)=>a-b
-    );
-}
-
-
-/* ------------------------------------------------------------
-   PAIR BOOST
-   ------------------------------------------------------------ */
-
-function generatePairBoost(
-  data,
-  rng
-){
-
-  const counts=
-    countsWhite(data);
-
-  const pair={};
-
-  data.forEach(d=>{
-
-    for(
-      let i=0;
-      i<d.white.length;
-      i++
-    ){
-
-      for(
-        let j=i+1;
-        j<d.white.length;
-        j++
-      ){
-
-        const a=
-          Math.min(
-            d.white[i],
-            d.white[j]
-          );
-
-        const b=
-          Math.max(
-            d.white[i],
-            d.white[j]
-          );
-
-        const key=
-          a+"-"+b;
-
-        pair[key]=
-          (pair[key]||0)+1;
-      }
-    }
-  });
-
-  const firstPool=
-    allWhite();
-
-  const firstWeights=
-    firstPool.map(
-      n=>counts[n]+1
-    );
-
-  const first=
-    weightedPick(
-      firstPool,
-      firstWeights,
-      rng
-    );
-
-  const result=[first];
-
-  while(
-    result.length<5
-  ){
-
-    const candidates=
-      allWhite()
-        .filter(
-          n=>!result.includes(n)
-        );
-
-    const weights=
-      candidates.map(n=>{
-
-        let score=
-          counts[n]+1;
-
-        result.forEach(existing=>{
-
-          const a=
-            Math.min(
-              existing,
-              n
-            );
-
-          const b=
-            Math.max(
-              existing,
-              n
-            );
-
-          score +=
-            (pair[a+"-"+b]||0)*2;
-        });
-
-        return score;
-      });
-
-    const next=
-      weightedPick(
-        candidates,
-        weights,
-        rng
-      );
-
-    result.push(next);
-  }
-
-  return result.sort(
-    (a,b)=>a-b
-  );
-}
-
-
-/* ------------------------------------------------------------
-   MASTER TICKET GENERATOR
-   ------------------------------------------------------------ */
-
-function generateTicket(
-  strategy,
-  data,
-  rng=Math.random
-){
-
-  let white;
-
-  if(strategy==="balanced"){
-
-    white=
-      generateBalanced(
-        data,
-        rng
-      );
-
-  }else if(strategy==="spread"){
-
-    white=
-      generateSpread(
-        data,
-        rng
-      );
-
-  }else if(strategy==="hotCold"){
-
-    white=
-      generateHotCold(
-        data,
-        rng
-      );
-
-  }else if(strategy==="lowHigh"){
-
-    white=
-      generateLowHigh(
-        data,
-        rng
-      );
-
-  }else if(strategy==="decades"){
-
-    white=
-      generateDecades(
-        data,
-        rng
-      );
-
-  }else if(strategy==="sumBalanced"){
-
-    white=
-      generateSumBalanced(
-        data,
-        rng
-      );
-
-  }else if(strategy==="pairBoost"){
-
-    white=
-      generatePairBoost(
-        data,
-        rng
-      );
-
-  }else if(
-    strategy==="frequency" ||
-    strategy==="recency" ||
-    strategy==="overdue" ||
-    strategy==="weightedBalanced"
-  ){
-
-    const scores=
-      getScores(
-        data,
-        strategy
-      );
-
-    white=
-      selectWeightedUnique(
-        allWhite(),
-        scores,
-        5,
-        rng
-      ).sort(
-        (a,b)=>a-b
-      );
-
-  }else{
-
-    white=
-      sampleUnique(
-        allWhite(),
-        5,
-        rng
-      ).sort(
-        (a,b)=>a-b
-      );
-  }
-
-  const pb=
-    generatePB(
-      strategy,
-      data,
-      rng
-    );
-
-  return {
-    white,
-    pb
-  };
-}
-
-
-/* ------------------------------------------------------------
-   STRATEGY NAMES
-   ------------------------------------------------------------ */
-
-function strategyName(key){
-
-  const map={
-
-    random:"Random",
-
-    frequency:"Frequency",
-
-    recency:"Recency",
-
-    overdue:"Overdue",
-
-    hotCold:"Hot + Cold",
-
-    balanced:"Odd + Even Balanced",
-
-    spread:"Number Spread",
-
-    lowHigh:"Low + High",
-
-    decades:"Decades",
-
-    sumBalanced:"Sum Balanced",
-
-    pairBoost:"Pair Boost",
-
-    weightedBalanced:"Weighted + Balanced ⭐"
-
-  };
-
-  return map[key] ||
-    key;
-}
-
-
-/* ------------------------------------------------------------
-   TICKET VALIDATION
-   ------------------------------------------------------------ */
-
-function validateTicket(
-  white,
-  pb
-){
-
-  if(!Array.isArray(white) ||
-     white.length!==5){
-
-    return "Enter exactly 5 white numbers.";
-  }
-
-  const nums=
-    white.map(Number);
-
-  if(
-    nums.some(
-      n =>
-        !Number.isInteger(n) ||
-        n<1 ||
-        n>69
-    )
-  ){
-
-    return "White numbers must be from 1–69.";
-  }
-
-  if(
-    new Set(nums).size!==5
-  ){
-
-    return "White numbers must be unique.";
-  }
-
-  const p=
-    Number(pb);
-
-  if(
-    !Number.isInteger(p) ||
-    p<1 ||
-    p>26
-  ){
-
-    return "Powerball must be from 1–26.";
-  }
-
-  return null;
-}
-
-
-/* ------------------------------------------------------------
-   TICKET TEXT
-   ------------------------------------------------------------ */
-
-function ticketText(t){
-
-  return (
-    t.white.join(" ") +
-    " | PB " +
-    t.pb
-  );
-}
-
-
-/* ------------------------------------------------------------
-   RENDER BALLS
-   ------------------------------------------------------------ */
-
-function ballsHtml(
-  white,
-  pb
-){
-
-  return `
-    <div class="ticket-balls">
-      ${white.map(
-        n=>`
-          <span class="ball">
-            ${n}
-          </span>
-        `
-      ).join("")}
-
-      <span class="ball pb">
-        ${pb}
-      </span>
-    </div>
-  `;
-}
-
-
-/* ------------------------------------------------------------
-   RENDER LATEST
-   ------------------------------------------------------------ */
-
 function renderLatest(){
-
-  const target=
-    $("latestDraws");
-
-  const latest=
-    [...history]
-      .sort(
-        (a,b)=>
-          b.date.localeCompare(
-            a.date
-          )
-      )
-      .slice(0,3);
-
-  if(!latest.length){
-
-    target.innerHTML=
-      `<div class="empty">
-        No drawing data available.
-      </div>`;
-
-    return;
-  }
-
-  target.innerHTML=
-    latest.map(d=>`
-
-      <div class="draw-row">
-
-        <div class="draw-date">
-          ${escapeHtml(
-            formatDate(d.date)
-          )}
-        </div>
-
-        <div class="balls">
-
-          ${d.white.map(
-            n=>`
-              <span class="ball">
-                ${n}
-              </span>
-            `
-          ).join("")}
-
-          <span class="ball pb">
-            ${d.pb}
-          </span>
-
-        </div>
-
-      </div>
-
-    `).join("");
+const target=$("latestDraws");
+const latest=[...history]
+.sort((a,b)=>b.date.localeCompare(a.date))
+.slice(0,3);
+if(!latest.length){
+target.innerHTML=`<div class="empty">No drawings available.</div>`;
+return;
 }
-
-
+target.innerHTML=latest.map(d=>`
+<div class="draw-row">
+<div class="draw-date">${escapeHtml(formatDrawingDate(d.date))}</div>
+${ballsHtml(d.white,d.pb)}
+</div>
+`).join("");
+}
 /* ------------------------------------------------------------
-   GENERATED TICKETS
-   ------------------------------------------------------------ */
-
+STATISTICS
+------------------------------------------------------------ */
+function getStatsData(){
+const value=$("statsWindow").value;
+if(value==="all"){
+return [...history];
+}
+return [...history].slice(-Number(value));
+}
+function renderStatistics(){
+const data=getStatsData();
+if(!data.length){
+$("statsOutput").innerHTML=
+`<div class="empty">No historical data.</div>`;
+return;
+}
+const mode=$("statsMode").value;
+if(mode==="pb"){
+renderPBStats(data);
+}else{
+renderWhiteStats(data);
+}
+}
+function renderWhiteStats(data){
+const c=countsWhite(data);
+const nums=allWhite();
+const hot=[...nums]
+.sort((a,b)=>c[b]-c[a])
+.slice(0,10);
+const cold=[...nums]
+.sort((a,b)=>c[a]-c[b])
+.slice(0,10);
+const oddCount=data.map(d=>
+d.white.filter(n=>n%2).length
+);
+const sums=data.map(d=>
+d.white.reduce((a,b)=>a+b,0)
+);
+$("statsOutput").innerHTML=`
+<div class="stat-grid">
+<div class="stat">
+<div class="stat-value">${data.length}</div>
+<div class="stat-label">Draws Analyzed</div>
+</div>
+<div class="stat">
+<div class="stat-value">${Math.round(mean(sums))}</div>
+<div class="stat-label">Average White Sum</div>
+</div>
+<div class="stat">
+<div class="stat-value">${mean(oddCount).toFixed(2)}</div>
+<div class="stat-label">Average Odd Balls</div>
+</div>
+<div class="stat">
+<div class="stat-value">${Math.round(mean(
+data.map(d=>d.white.filter(n=>n>=35).length)
+))}</div>
+<div class="stat-label">Avg High Balls</div>
+</div>
+</div>
+<h3>🔥 Hot Numbers</h3>
+${numberStatsHtml(hot,c)}
+<h3>❄️ Cold Numbers</h3>
+${numberStatsHtml(cold,c)}
+`;
+}
+function numberStatsHtml(nums,c){
+return `
+<div class="balls">
+${nums.map(n=>`
+<span class="ball" title="${c[n]} appearances">
+${n}
+</span>
+`).join("")}
+</div>
+`;
+}
+function renderPBStats(data){
+const c=countsPB(data);
+const nums=allPB();
+const hot=[...nums]
+.sort((a,b)=>c[b]-c[a])
+.slice(0,10);
+const cold=[...nums]
+.sort((a,b)=>c[a]-c[b])
+.slice(0,10);
+$("statsOutput").innerHTML=`
+<div class="stat-grid">
+<div class="stat">
+<div class="stat-value">${data.length}</div>
+<div class="stat-label">Draws Analyzed</div>
+</div>
+<div class="stat">
+<div class="stat-value">
+${Math.round(mean(data.map(d=>d.pb)))}
+</div>
+<div class="stat-label">Average PB</div>
+</div>
+</div>
+<h3>🔥 Hot Powerballs</h3>
+<div class="balls">
+${hot.map(n=>`
+<span class="ball pb">${n}</span>
+`).join("")}
+</div>
+<h3>❄️ Cold Powerballs</h3>
+<div class="balls">
+${cold.map(n=>`
+<span class="ball pb">${n}</span>
+`).join("")}
+</div>
+`;
+}
+/* ------------------------------------------------------------
+GENERATED TICKETS
+------------------------------------------------------------ */
+function strategyName(key){
+const map={
+random:"Random",
+balanced:"Balanced Odd / Even",
+hot:"Hot Numbers",
+cold:"Cold Numbers",
+hotcold:"Hot + Cold Mix",
+spread:"Good Spread",
+weighted:"Weighted Frequency",
+weightedBalanced:"Weighted + Balanced",
+lowhigh:"Low + High Mix",
+recency:"Recency",
+hybrid:"Hybrid AI",
+overdue:"Overdue Numbers",
+decades:"Decade Spread",
+sum:"Sum Balanced",
+pair:"Pair Boost"
+};
+return map[key] || key;
+}
+let currentGenerated=[];
 function renderGenerated(){
+const target=$("generatedTickets");
+if(!currentGenerated.length){
+target.innerHTML="";
+return;
+}
+target.innerHTML=currentGenerated.map((t,i)=>`
+<div class="ticket">
+<div class="ticket-top">
+<div class="ticket-title">
+Ticket ${i+1}
+</div>
+<div class="ticket-actions">
+<button onclick="copyGenerated(${i})">
+Copy
+</button>
+<button
+class="save-btn"
+onclick="saveGenerated(${i})">
+Save
+</button>
+</div>
+</div>
+<div class="ticket-balls">
+${t.white.map(n=>`
+<span class="ball">${n}</span>
+`).join("")}
+<span class="ball pb">${t.pb}</span>
+</div>
+</div>
+`).join("");
+}
+function generateTickets(strategy=null){
+if(!strategy){
+strategy=$("strategy").value;
+}
+const count=Math.min(
+20,
 
-  const target=
-    $("generatedTickets");
-
-  if(!currentGenerated.length){
-
-    target.innerHTML="";
+Math.max(1,Number($("ticketCount").value))
+);
+currentGenerated=[];
+const used=new Set();
+let attempts=0;
+while(currentGenerated.length<count && attempts<500){
+const ticket=generateTicket(strategy,history);
+const key=ticket.white.join(",")+"|"+ticket.pb;
+if(!used.has(key)){
+used.add(key);
+currentGenerated.push(ticket);
+}
+attempts++;
+}
+renderGenerated();
+showToast(
+`${currentGenerated.length} ticket${currentGenerated.length===1?"":"s"} generated`
+);
+}
+/* ------------------------------------------------------------
+COPY
+------------------------------------------------------------ */
+function ticketText(t){
+return `${t.white.join(" - ")} | Powerball ${t.pb}`;
+}
+async function copyText(text){
+try{
+await navigator.clipboard.writeText(text);
+showToast("Copied to clipboard");
+return;
+}catch(e){}
+const ta=document.createElement("textarea");
+ta.value=text;
+ta.style.position="fixed";
+ta.style.opacity="0";
+document.body.appendChild(ta);
+ta.select();
+try{
+document.execCommand("copy");
+showToast("Copied to clipboard");
+}catch(e){
+showToast("Copy failed");
+}
+ta.remove();
+}
+window.copyGenerated=function(index){
+const t=currentGenerated[index];
+if(t){
+copyText(ticketText(t));
+}
+};
+/* ------------------------------------------------------------
+SAVED NUMBERS
+------------------------------------------------------------ */
+function saveTicket(ticket,source="Generated"){
+if(!ticket) return;
+const entry={
+id:Date.now()+"_"+Math.random().toString(36).slice(2),
+white:[...ticket.white].sort((a,b)=>a-b),
+pb:Number(ticket.pb),
+name:`Saved #${savedNumbers.length+1}`,
+source,
+createdAt:new Date().toISOString()
+};
+savedNumbers.unshift(entry);
+saveSaved();
+renderSaved();
+showToast("Numbers saved");
+}
+window.saveGenerated=function(index){
+const t=currentGenerated[index];
+if(t){
+saveTicket(t,"Generated");
+}
+};
+function getManualTicket(){
+const white=[
+$("m1").value,
+$("m2").value,
+$("m3").value,
+$("m4").value,
+$("m5").value
+].map(Number);
+const pb=Number($("mpb").value);
+if(
+white.some(n=>!Number.isInteger(n)||n<1||n>69)
+){
+showToast("Enter 5 valid white numbers from 1–69");
+return null;
+}
+if(new Set(white).size!==5){
+showToast("White numbers must be unique");
+return null;
+}
+if(!Number.isInteger(pb)||pb<1||pb>26){
+showToast("Powerball must be from 1–26");
+return null;
+}
+return {
+white:white.sort((a,b)=>a-b),
+pb
+};
+}
+function clearManual(){
+["m1","m2","m3","m4","m5","mpb"].forEach(id=>{
+$(id).value="";
+});
+}
+function renderSaved(){
+  const target=$("savedNumbers");
+  if(!savedNumbers.length){
+    target.innerHTML=
+      `<div class="empty">No saved numbers yet.</div>`;
     return;
   }
-
-  target.innerHTML=
-    currentGenerated.map(
-      (t,index)=>`
-
-      <div class="ticket">
-
-        <div class="ticket-top">
-
-          <div class="ticket-title">
-            Ticket ${index+1}
+  target.innerHTML=savedNumbers.map((s,i)=>`
+    <div class="saved-ticket">
+      <div class="saved-head">
+        <div>
+          <div class="saved-name">
+            ${escapeHtml(s.name || `Saved #${i+1}`)}
           </div>
-
-          <div class="ticket-actions">
-
-            <button
-              onclick="copyGenerated(${index})"
-            >
-              Copy
-            </button>
-
-            <button
-              class="save-btn"
-              onclick="saveGenerated(${index})"
-            >
-              Save
-            </button>
-
+          <div class="saved-meta">
+            ${escapeHtml(s.source || "Saved")}
+            ${s.createdAt
+              ? " • "+escapeHtml(new Date(s.createdAt).toLocaleString())
+              : ""}
           </div>
-
         </div>
-
-        <div class="ticket-edit-grid">
-
-          ${t.white.map(
-            (n,j)=>`
-              <input
-                id="gen_${index}_${j}"
-                type="number"
-                min="1"
-                max="69"
-                value="${n}"
-              >
-            `
-          ).join("")}
-
+      </div>
+      <!-- Edit the saved ticket directly on the spot -->
+      <div class="saved-edit-grid">
+        ${s.white.map((n,j)=>`
           <input
-            id="gen_${index}_pb"
-            class="pb-edit"
+            id="saved_${i}_${j}"
             type="number"
             min="1"
-            max="26"
-            value="${t.pb}"
-          >
-
-        </div>
-
-        <div class="saved-actions">
-
-          <button
-            class="update"
-            onclick="updateGenerated(${index})"
-          >
-            Update
-          </button>
-
-        </div>
-
+            max="69"
+            value="${n}"
+            aria-label="Saved ticket ${i+1} white number ${j+1}">
+        `).join("")}
+        <input
+          id="saved_${i}_pb"
+          class="pb-edit"
+          type="number"
+          min="1"
+          max="26"
+          value="${s.pb}"
+          aria-label="Saved ticket ${i+1} Powerball">
       </div>
-
-    `
-    ).join("");
+      <div class="saved-actions">
+        <button class="update" onclick="updateSaved(${i})">Update</button>
+        <button onclick="copySaved(${i})">Copy</button>
+        <button class="delete" onclick="deleteSaved(${i})">Delete</button>
+      </div>
+    </div>
+  `).join("");
 }
-
-
-function updateGenerated(index){
-
-  const t=
-    currentGenerated[index];
-
-  if(!t)
-    return;
-
+window.updateSaved=function(index){
+  const s=savedNumbers[index];
+  if(!s) return;
   const white=[];
-
-  for(
-    let j=0;
-    j<5;
-    j++
-  ){
-
-    const value=
-      Number(
-        $(
-          `gen_${index}_${j}`
-        ).value
-      );
-
+  for(let j=0;j<5;j++){
+    const value=Number($(`saved_${index}_${j}`).value);
+    if(!Number.isInteger(value) || value<1 || value>69){
+      showToast("White numbers must be from 1–69");
+      return;
+    }
     white.push(value);
   }
-
-  const pb=
-    Number(
-      $(
-        `gen_${index}_pb`
-      ).value
-    );
-
-  const error=
-    validateTicket(
-      white,
-      pb
-    );
-
-  if(error){
-
-    showToast(error);
+  if(new Set(white).size!==5){
+    showToast("White numbers must be unique");
     return;
   }
-
-  t.white=
-    white.sort(
-      (a,b)=>a-b
-    );
-
-  t.pb=pb;
-
-  renderGenerated();
-
-  showToast(
-    "Ticket updated"
-  );
-}
-
-
-/* ------------------------------------------------------------
-   GENERATE
-   ------------------------------------------------------------ */
-
-function generateTickets(){
-
-  const strategy=
-    $("strategy").value;
-
-  const count=
-    Math.min(
-      20,
-      Math.max(
-        1,
-        Number(
-          $("ticketCount").value
-        )
-      )
-    );
-
-  currentGenerated=[];
-
-  const used=
-    new Set();
-
-  let attempts=0;
-
-  while(
-    currentGenerated.length<count &&
-    attempts<1000
-  ){
-
-    attempts++;
-
-    const ticket=
-      generateTicket(
-        strategy,
-        history
-      );
-
-    const key=
-      ticket.white.join(",") +
-      "|" +
-      ticket.pb;
-
-    if(
-      !used.has(key)
-    ){
-
-      used.add(key);
-
-      currentGenerated.push(
-        ticket
-      );
-    }
+  const pb=Number($(`saved_${index}_pb`).value);
+  if(!Number.isInteger(pb) || pb<1 || pb>26){
+    showToast("Powerball must be from 1–26");
+    return;
   }
-
-  renderGenerated();
-
-  showToast(
-    `${currentGenerated.length} ticket${
-      currentGenerated.length===1
-        ? ""
-        : "s"
-    } generated`
-  );
-}
-
-
-/* ------------------------------------------------------------
-   COPY
-   ------------------------------------------------------------ */
-
-async function copyText(text){
-
-  try{
-
-    await navigator.clipboard.writeText(
-      text
-    );
-
-    showToast(
-      "Copied to clipboard"
-    );
-
-  }catch(error){
-
-    const ta=
-      document.createElement(
-        "textarea"
-      );
-
-    ta.value=text;
-
-    document.body.appendChild(
-      ta
-    );
-
-    ta.select();
-
-    document.execCommand(
-      "copy"
-    );
-
-    ta.remove();
-
-    showToast(
-      "Copied"
-    );
-  }
-}
-
-
-window.copyGenerated=
-  function(index){
-
-    const t=
-      currentGenerated[index];
-
-    if(!t)
-      return;
-
-    copyText(
-      ticketText(t)
-    );
-  };
-
-
-/* ------------------------------------------------------------
-   SAVED TICKETS
-   ------------------------------------------------------------ */
-
-function saveTicket(
-  ticket,
-  source="Generated"
-){
-
-  const error=
-    validateTicket(
-      ticket.white,
-      ticket.pb
-    );
-
-  if(error){
-
-    showToast(error);
-    return false;
-  }
-
-  savedNumbers.unshift({
-
-    id:
-      Date.now()+
-      "-" +
-      Math.random()
-        .toString(36)
-        .slice(2,8),
-
-    source,
-
-    white:
-      [...ticket.white]
-        .sort(
-          (a,b)=>a-b
-        ),
-
-    pb:
-      ticket.pb,
-
-    createdAt:
-      new Date().toISOString()
-
-  });
-
+  s.white=white.sort((a,b)=>a-b);
+  s.pb=pb;
+  s.editedAt=new Date().toISOString();
   saveSaved();
-
   renderSaved();
-
-  showToast(
-    "Numbers saved"
-  );
-
-  return true;
+  showToast("Saved numbers updated");
+};
+window.copySaved=function(index){
+const s=savedNumbers[index];
+if(s){
+copyText(ticketText(s));
 }
-
-
-window.saveGenerated=
-  function(index){
-
-    const t=
-      currentGenerated[index];
-
-    if(!t)
-      return;
-
-    updateGenerated(
-      index
-    );
-
-    saveTicket(
-      currentGenerated[index],
-      "Generated"
-    );
-  };
-
-
-function renderSaved(){
-
-  const target=
-    $("savedNumbers");
-
-  if(!savedNumbers.length){
-
-    target.innerHTML=
-      `<div class="empty">
-        No saved numbers yet.
-      </div>`;
-
-    return;
-  }
-
-  target.innerHTML=
-    savedNumbers.map(
-      (s,index)=>`
-
-      <div class="saved-ticket">
-
-        <div class="saved-head">
-
-          <div>
-
-            <div class="saved-name">
-              Saved #${index+1}
-            </div>
-
-            <div class="saved-meta">
-              ${escapeHtml(
-                s.source ||
-                "Saved"
-              )}
-              •
-              ${escapeHtml(
-                s.createdAt
-                  ? new Date(
-                      s.createdAt
-                    ).toLocaleDateString()
-                  : ""
-              )}
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="saved-edit-grid">
-
-          ${s.white.map(
-            (n,j)=>`
-
-              <input
-                id="saved_${index}_${j}"
-                type="number"
-                min="1"
-                max="69"
-                value="${n}"
-              >
-
-            `
-          ).join("")}
-
-          <input
-            id="saved_${index}_pb"
-            class="pb-edit"
-            type="number"
-            min="1"
-            max="26"
-            value="${s.pb}"
-          >
-
-        </div>
-
-        <div class="saved-actions">
-
-          <button
-            class="update"
-            onclick="updateSaved(${index})"
-          >
-            Update
-          </button>
-
-          <button
-            onclick="copySaved(${index})"
-          >
-            Copy
-          </button>
-
-          <button
-            onclick="loadSaved(${index})"
-          >
-            Load
-          </button>
-
-          <button
-            class="delete"
-            onclick="deleteSaved(${index})"
-          >
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    `
-    ).join("");
-}
-
-
-window.updateSaved=
-  function(index){
-
-    const s=
-      savedNumbers[index];
-
-    if(!s)
-      return;
-
-    const white=[];
-
-    for(
-      let j=0;
-      j<5;
-      j++
-    ){
-
-      const value=
-        Number(
-          $(
-            `saved_${index}_${j}`
-          ).value
-        );
-
-      if(
-        !Number.isInteger(value) ||
-        value<1 ||
-        value>69
-      ){
-
-        showToast(
-          "White numbers must be from 1–69"
-        );
-
-        return;
-      }
-
-      white.push(value);
-    }
-
-    if(
-      new Set(white).size!==5
-    ){
-
-      showToast(
-        "White numbers must be unique"
-      );
-
-      return;
-    }
-
-    const pb=
-      Number(
-        $(
-          `saved_${index}_pb`
-        ).value
-      );
-
-    if(
-      !Number.isInteger(pb) ||
-      pb<1 ||
-      pb>26
-    ){
-
-      showToast(
-        "Powerball must be from 1–26"
-      );
-
-      return;
-    }
-
-    s.white=
-      white.sort(
-        (a,b)=>a-b
-      );
-
-    s.pb=pb;
-
-    s.editedAt=
-      new Date().toISOString();
-
-    saveSaved();
-
-    renderSaved();
-
-    showToast(
-      "Saved numbers updated"
-    );
-  };
-
-
-window.copySaved=
-  function(index){
-
-    const s=
-      savedNumbers[index];
-
-    if(!s)
-      return;
-
-    copyText(
-      ticketText(s)
-    );
-  };
-
-
-window.loadSaved=
-  function(index){
-
-    const s=
-      savedNumbers[index];
-
-    if(!s)
-      return;
-
-    s.white.forEach(
-      (n,i)=>{
-        $(
-          `m${i+1}`
-        ).value=n;
-      }
-    );
-
-    $("mpb").value=
-      s.pb;
-
-    window.scrollTo({
-      top:
-        document.body.scrollHeight,
-      behavior:"smooth"
-    });
-
-    showToast(
-      "Loaded into Manual Entry"
-    );
-  };
-
-
-window.deleteSaved=
-  function(index){
-
-    if(
-      !confirm(
-        "Delete this saved number?"
-      )
-    )
-      return;
-
-    savedNumbers.splice(
-      index,
-      1
-    );
-
-    saveSaved();
-
-    renderSaved();
-
-    showToast(
-      "Saved number deleted"
-    );
-  };
-
-
+};
+window.loadSaved=function(index){
+const s=savedNumbers[index];
+if(!s) return;
+$("m1").value=s.white[0];
+$("m2").value=s.white[1];
+$("m3").value=s.white[2];
+$("m4").value=s.white[3];
+$("m5").value=s.white[4];
+$("mpb").value=s.pb;
+savedNumbers.splice(index,1);
+saveSaved();
+renderSaved();
+window.scrollTo({
+top:$("mpb").getBoundingClientRect().top+
+window.scrollY-100,
+behavior:"smooth"
+});
+showToast("Loaded into manual entry. Save when finished.");
+};
+window.deleteSaved=function(index){
+if(!savedNumbers[index]) return;
+if(!confirm("Delete this saved number set?")) return;
+savedNumbers.splice(index,1);
+saveSaved();
+renderSaved();
+showToast("Saved numbers deleted");
+};
 /* ------------------------------------------------------------
-   MANUAL
-   ------------------------------------------------------------ */
-
-function getManualTicket(){
-
-  const white=[
-    $("m1").value,
-    $("m2").value,
-    $("m3").value,
-    $("m4").value,
-    $("m5").value
-  ].map(Number);
-
-  const pb=
-    Number(
-      $("mpb").value
-    );
-
-  const error=
-    validateTicket(
-      white,
-      pb
-    );
-
-  if(error){
-
-    showToast(error);
-    return null;
-  }
-
-  return {
-    white:
-      white.sort(
-        (a,b)=>a-b
-      ),
-    pb
-  };
+WORKER / AUTOMATIC UPDATE
+------------------------------------------------------------ */
+function setSyncStatus(message,type=""){
+const el=$("syncStatus");
+el.textContent=message;
+el.className="status "+type;
 }
-
-
-function clearManual(){
-
-  [
-    "m1",
-    "m2",
-    "m3",
-    "m4",
-    "m5",
-    "mpb"
-  ].forEach(
-    id=>{
-      $(id).value="";
-    }
-  );
+function updateHeader(data){
+if(data.jackpot !== undefined){
+$("jackpot").textContent=
+formatMoney(data.jackpot);
 }
-
-
-/* ------------------------------------------------------------
-   STATISTICS
-   ------------------------------------------------------------ */
-
-function getStatsData(){
-
-  const value=
-    $("statsWindow").value;
-
-  if(value==="all")
-    return [...history];
-
-  const n=
-    Number(value);
-
-  return history.slice(
-    -n
-  );
+if(data.cashValue !== undefined){
+$("cashValue").textContent=
+"Cash Value: "+formatMoney(data.cashValue);
 }
-
-
-function renderStatistics(){
-
-  const data=
-    getStatsData();
-
-  const mode=
-    $("statsMode").value;
-
-  if(!data.length){
-
-    $("statsOutput").innerHTML=
-      `<div class="empty">
-        No historical data.
-      </div>`;
-
-    return;
-  }
-
-  if(mode==="pb"){
-
-    renderPBStats(
-      data
-    );
-
-  }else{
-
-    renderWhiteStats(
-      data
-    );
-  }
+if(data.nextDrawing){
+$("nextDrawing").textContent=
+"Next Drawing: "+formatDrawingDate(data.nextDrawing);
 }
-
-
-function renderWhiteStats(
-  data
-){
-
-  const c=
-    countsWhite(data);
-
-  const nums=
-    allWhite();
-
-  const hot=
-    [...nums]
-      .sort(
-        (a,b)=>c[b]-c[a]
-      )
-      .slice(0,10);
-
-  const cold=
-    [...nums]
-      .sort(
-        (a,b)=>c[a]-c[b]
-      )
-      .slice(0,10);
-
-  const oddCounts=
-    data.map(
-      d=>
-        d.white.filter(
-          n=>n%2
-        ).length
-    );
-
-  const sums=
-    data.map(
-      d=>
-        d.white.reduce(
-          (a,b)=>a+b,
-          0
-        )
-    );
-
-  $("statsOutput").innerHTML=`
-
-    <div class="stat-grid">
-
-      <div class="stat">
-        <div class="stat-value">
-          ${data.length}
-        </div>
-        <div class="stat-label">
-          Draws Analyzed
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-value">
-          ${mean(sums).toFixed(1)}
-        </div>
-        <div class="stat-label">
-          Average White Sum
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-value">
-          ${mean(oddCounts).toFixed(2)}
-        </div>
-        <div class="stat-label">
-          Avg Odd Numbers
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-value">
-          ${median(sums).toFixed(0)}
-        </div>
-        <div class="stat-label">
-          Median Sum
-        </div>
-      </div>
-
-    </div>
-
-    <h3>🔥 Most Frequent White Balls</h3>
-
-    <div class="balls">
-
-      ${hot.map(
-        n=>`
-          <span class="ball">
-            ${n}
-          </span>
-        `
-      ).join("")}
-
-    </div>
-
-    <p class="section-note">
-      Frequency:
-      ${hot.map(
-        n=>`${n} (${c[n]})`
-      ).join(", ")}
-    </p>
-
-    <h3>❄️ Least Frequent White Balls</h3>
-
-    <div class="balls">
-
-      ${cold.map(
-        n=>`
-          <span class="ball">
-            ${n}
-          </span>
-        `
-      ).join("")}
-
-    </div>
-
-    <p class="section-note">
-      Frequency:
-      ${cold.map(
-        n=>`${n} (${c[n]})`
-      ).join(", ")}
-    </p>
-
-  `;
 }
-
-
-function renderPBStats(
-  data
-){
-
-  const c=
-    countsPB(data);
-
-  const nums=
-    allPB();
-
-  const hot=
-    [...nums]
-      .sort(
-        (a,b)=>c[b]-c[a]
-      )
-      .slice(0,10);
-
-  const cold=
-    [...nums]
-      .sort(
-        (a,b)=>c[a]-c[b]
-      )
-      .slice(0,10);
-
-  $("statsOutput").innerHTML=`
-
-    <div class="stat-grid">
-
-      <div class="stat">
-        <div class="stat-value">
-          ${data.length}
-        </div>
-        <div class="stat-label">
-          Draws Analyzed
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-value">
-          ${mean(
-            data.map(
-              d=>d.pb
-            )
-          ).toFixed(1)}
-        </div>
-        <div class="stat-label">
-          Average PB
-        </div>
-      </div>
-
-    </div>
-
-    <h3>🔥 Most Frequent Powerballs</h3>
-
-    <div class="balls">
-
-      ${hot.map(
-        n=>`
-          <span class="ball pb">
-            ${n}
-          </span>
-        `
-      ).join("")}
-
-    </div>
-
-    <p class="section-note">
-      Frequency:
-      ${hot.map(
-        n=>`${n} (${c[n]})`
-      ).join(", ")}
-    </p>
-
-    <h3>❄️ Least Frequent Powerballs</h3>
-
-    <div class="balls">
-
-      ${cold.map(
-        n=>`
-          <span class="ball pb">
-            ${n}
-          </span>
-        `
-      ).join("")}
-
-    </div>
-
-  `;
-}
-
-
-/* ------------------------------------------------------------
-   BACKTEST
-   ------------------------------------------------------------ */
-
-const BACKTEST_STRATEGIES=[
-
-  "weightedBalanced",
-  "frequency",
-  "recency",
-  "overdue",
-  "hotCold",
-  "balanced",
-  "spread",
-  "lowHigh",
-  "decades",
-  "sumBalanced",
-  "pairBoost",
-  "random"
-
-];
-
-
-function seededRandom(seed){
-
-  let t=
-    seed>>>0;
-
-  return function(){
-
-    t+=0x6D2B79F5;
-
-    let x=t;
-
-    x=Math.imul(
-      x^x>>>15,
-      x|1
-    );
-
-    x^=
-      x+
-      Math.imul(
-        x^x>>>7,
-        x|61
-      );
-
-    return (
-      (x^x>>>14)>>>0
-    )/4294967296;
-  };
-}
-
-
-function scoreTicket(
-  ticket,
-  target
-){
-
-  const whiteHits=
-    ticket.white.filter(
-      n=>
-        target.white.includes(n)
-    ).length;
-
-  const pbHit=
-    ticket.pb===
-    target.pb;
-
-  return {
-    whiteHits,
-    pbHit
-  };
-}
-
-
-function emptyMetrics(){
-
-  return {
-    tests:0,
-    whiteTotal:0,
-    pbHits:0,
-    threePlus:0,
-    fourPlus:0,
-    five:0,
-    fivePB:0
-  };
-}
-
-
-function addMetrics(
-  m,
-  score
-){
-
-  m.tests++;
-
-  m.whiteTotal+=
-    score.whiteHits;
-
-  if(score.pbHit)
-    m.pbHits++;
-
-  if(
-    score.whiteHits>=3
-  )
-    m.threePlus++;
-
-  if(
-    score.whiteHits>=4
-  )
-    m.fourPlus++;
-
-  if(
-    score.whiteHits===5
-  )
-    m.five++;
-
-  if(
-    score.whiteHits===5 &&
-    score.pbHit
-  )
-    m.fivePB++;
-}
-
-
-function pct(
-  value,
-  total
-){
-
-  if(!total)
-    return "0.0%";
-
-  return (
-    value/total*100
-  ).toFixed(1)+"%";
-}
-
-
-async function runBacktest(){
-
-  if(history.length<2){
-
-    showToast(
-      "Need historical data for backtesting"
-    );
-
-    return;
-  }
-
-  const minTraining=
-    Number(
-      $("minTraining").value
-    );
-
-  const recencyWindow=
-    Number(
-      $("recencyWindow").value
-    );
-
-  const ordered=
-    [...history].sort(
-      (a,b)=>
-        a.date.localeCompare(
-          b.date
-        )
-    );
-
-  if(
-    ordered.length<=minTraining
-  ){
-
-    showToast(
-      "Need more draws than the minimum training setting"
-    );
-
-    return;
-  }
-
-  const metrics={};
-
-  BACKTEST_STRATEGIES.forEach(
-    s=>{
-      metrics[s]=
-        emptyMetrics();
-    }
-  );
-
-  const totalTests=
-    (
-      ordered.length-
-      minTraining
-    )*
-    BACKTEST_STRATEGIES.length;
-
-  let completed=0;
-
-  $("progressArea")
-    .style.display="block";
-
-  $("progressBar")
-    .style.width="0%";
-
-  $("progressText")
-    .textContent=
-      "Starting...";
-
-  $("backtestBtn")
-    .disabled=true;
-
-  for(
-    let targetIndex=
-      minTraining;
-
-    targetIndex<
-      ordered.length;
-
-    targetIndex++
-  ){
-
-    const target=
-      ordered[targetIndex];
-
-    let training=
-      ordered.slice(
-        0,
-        targetIndex
-      );
-
-    if(
-      recencyWindow>0 &&
-      training.length>
-        recencyWindow
-    ){
-
-      training=
-        training.slice(
-          -recencyWindow
-        );
-    }
-
-    for(
-      let strategyIndex=0;
-
-      strategyIndex<
-        BACKTEST_STRATEGIES.length;
-
-      strategyIndex++
-    ){
-
-      const strategy=
-        BACKTEST_STRATEGIES[
-          strategyIndex
-        ];
-
-      const seed=
-        targetIndex*
-          100003+
-        strategyIndex*
-          7919+
-        12345;
-
-      const rng=
-        seededRandom(
-          seed
-        );
-
-      const ticket=
-        generateTicket(
-          strategy,
-          training,
-          rng
-        );
-
-      const score=
-        scoreTicket(
-          ticket,
-          target
-        );
-
-      addMetrics(
-        metrics[strategy],
-        score
-      );
-
-      completed++;
-
-      if(
-        completed%20===0
-      ){
-
-        const progress=
-          Math.round(
-            completed/
-            totalTests*
-            100
-          );
-
-        $("progressBar")
-          .style.width=
-            progress+"%";
-
-        $("progressText")
-          .textContent=
-            `Testing ${completed.toLocaleString()} / ${totalTests.toLocaleString()} (${progress}%)`;
-
-        await new Promise(
-          resolve=>
-            setTimeout(
-              resolve,
-              0
-            )
-        );
-      }
-    }
-  }
-
-  $("progressBar")
-    .style.width="100%";
-
-  $("progressText")
-    .textContent=
-      "Backtest complete.";
-
-  renderBacktest(
-    metrics
-  );
-
-  $("backtestBtn")
-    .disabled=false;
-}
-
-
-function renderBacktest(
-  metrics
-){
-
-  const rows=
-    BACKTEST_STRATEGIES
-      .map(strategy=>{
-
-        const m=
-          metrics[strategy];
-
-        return `
-
-          <tr>
-
-            <td>
-              ${escapeHtml(
-                strategyName(
-                  strategy
-                )
-              )}
-            </td>
-
-            <td>
-              ${m.tests}
-            </td>
-
-            <td>
-              ${
-                m.tests
-                  ? (
-                      m.whiteTotal/
-                      m.tests
-                    ).toFixed(2)
-                  : "0.00"
-              }
-            </td>
-
-            <td>
-              ${pct(
-                m.pbHits,
-                m.tests
-              )}
-            </td>
-
-            <td>
-              ${pct(
-                m.threePlus,
-                m.tests
-              )}
-            </td>
-
-            <td>
-              ${pct(
-                m.fourPlus,
-                m.tests
-              )}
-            </td>
-
-            <td>
-              ${pct(
-                m.five,
-                m.tests
-              )}
-            </td>
-
-            <td>
-              ${pct(
-                m.fivePB,
-                m.tests
-              )}
-            </td>
-
-          </tr>
-        `;
-      })
-      .join("");
-
-  $("backtestOutput")
-    .innerHTML=`
-
-      <h3>
-        Walk-Forward Results
-      </h3>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Strategy</th>
-              <th>Tests</th>
-              <th>Avg White</th>
-              <th>PB Hit</th>
-              <th>3+ White</th>
-              <th>4+ White</th>
-              <th>5 White</th>
-              <th>5+PB</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-            ${rows}
-          </tbody>
-
-        </table>
-
-      </div>
-
-      <p class="section-note">
-
-        Backtest uses only historical
-        drawings available before each
-        target drawing. Random components
-        use deterministic seeds so results
-        are reproducible.
-
-      </p>
-    `;
-}
-
-
-/* ------------------------------------------------------------
-   CSV EXPORT
-   ------------------------------------------------------------ */
-
-function downloadFile(
-  filename,
-  content,
-  type
-){
-
-  const blob=
-    new Blob(
-      [content],
-      {type}
-    );
-
-  const url=
-    URL.createObjectURL(
-      blob
-    );
-
-  const a=
-    document.createElement(
-      "a"
-    );
-
-  a.href=url;
-
-  a.download=
-    filename;
-
-  document.body.appendChild(
-    a
-  );
-
-  a.click();
-
-  a.remove();
-
-  URL.revokeObjectURL(
-    url
-  );
-}
-
-
-function exportCSV(){
-
-  const lines=[
-
-    "Date,White1,White2,White3,White4,White5,Powerball"
-
-  ];
-
-  history.forEach(d=>{
-
-    lines.push(
-      [
-        d.date,
-        ...d.white,
-        d.pb
-      ].join(",")
-    );
-  });
-
-  downloadFile(
-    "powerball-history-v6.csv",
-    lines.join("\n"),
-    "text/csv"
-  );
-
-  showToast(
-    "CSV exported"
-  );
-}
-
-
-/* ------------------------------------------------------------
-   JSON EXPORT
-   ------------------------------------------------------------ */
-
-function exportJSON(){
-
-  const payload={
-
-    version:"6.1",
-
-    exportedAt:
-      new Date().toISOString(),
-
-    draws:
-      history,
-
-    savedNumbers:
-      savedNumbers,
-
-    settings:{
-      workerUrl:
-        settings.workerUrl,
-
-      updateOnOpen:
-        settings.updateOnOpen
-    }
-
-  };
-
-  downloadFile(
-    "powerball-ai-lab-v6.json",
-    JSON.stringify(
-      payload,
-      null,
-      2
-    ),
-    "application/json"
-  );
-
-  showToast(
-    "JSON exported"
-  );
-}
-
-
-/* ------------------------------------------------------------
-   CSV IMPORT
-   ------------------------------------------------------------ */
-
-function parseCSV(text){
-
-  const lines=
-    text
-      .replace(/\r/g,"")
-      .split("\n")
-      .map(
-        x=>x.trim()
-      )
-      .filter(Boolean);
-
-  if(lines.length<2)
-    throw new Error(
-      "CSV contains no data"
-    );
-
-  const result=[];
-
-  for(
-    let i=1;
-    i<lines.length;
-    i++
-  ){
-
-    const parts=
-      lines[i].split(",");
-
-    if(parts.length<7)
-      continue;
-
-    const d=
-      normalizeDraw({
-
-        date:parts[0],
-
-        white:[
-          Number(parts[1]),
-          Number(parts[2]),
-          Number(parts[3]),
-          Number(parts[4]),
-          Number(parts[5])
-        ],
-
-        pb:
-          Number(parts[6])
-
-      });
-
-    if(d)
-      result.push(d);
-  }
-
-  return result;
-}
-
-
-/* ------------------------------------------------------------
-   RESET
-   ------------------------------------------------------------ */
-
-function resetDatabase(){
-
-  if(
-    !confirm(
-      "Reset the historical Powerball database?\n\nYour saved numbers will NOT be deleted."
-    )
-  )
-    return;
-
-  history=
-    normalizeHistory(
-      SEED_DRAWS
-    );
-
-  saveHistory();
-
-  renderLatest();
-
-  renderStatistics();
-
-  $("backtestOutput")
-    .innerHTML="";
-
-  showToast(
-    "Historical database reset"
-  );
-}
-
-
-/* ------------------------------------------------------------
-   WORKER UPDATE
-   ------------------------------------------------------------ */
-
-async function updateFromWorker(
-  reason="manual"
-){
-
-  const url=
-    settings.workerUrl ||
-    $("workerUrl").value.trim();
-
-  if(!url){
-
-    $("syncStatus")
-      .textContent=
-        "No Worker URL configured. Using local historical data.";
-
-    $("syncStatus")
-      .className=
-        "status";
-
-    if(reason==="manual")
-      showToast(
-        "Enter your Cloudflare Worker URL first"
-      );
-
-    return;
-  }
-
-  $("syncStatus")
-    .textContent=
-      "Updating from Cloudflare Worker...";
-
-  $("syncStatus")
-    .className=
-      "status";
-
-  try{
-
-    const response=
-      await fetch(
-        url,
-        {
-          cache:"no-store"
-        }
-      );
-
-    if(!response.ok){
-
-      throw new Error(
-        `HTTP ${response.status}`
-      );
-    }
-
-    const data=
-      await response.json();
-
-    if(
-      data.jackpot!==undefined
-    ){
-
-      $("jackpotValue")
-        .textContent=
-          formatMoney(
-            data.jackpot
-          );
-    }
-
-    if(
-      data.cashValue!==undefined
-    ){
-
-      $("cashValue")
-        .textContent=
-          "Cash value: "+
-          formatMoney(
-            data.cashValue
-          );
-    }
-
-    if(
-      data.nextDrawing!==undefined
-    ){
-
-      $("nextDrawing")
-        .textContent=
-          "Next drawing: "+
-          data.nextDrawing;
-    }
-
-    let incoming=[];
-
-    if(
-      Array.isArray(
-        data.draws
-      )
-    ){
-
-      incoming=
-        data.draws;
-
-    }else if(
-      Array.isArray(
-        data.results
-      )
-    ){
-
-      incoming=
-        data.results;
-    }
-
-    const normalized=
-      normalizeHistory(
-        incoming
-      );
-
-    if(normalized.length){
-
-      history=
-        normalizeHistory([
-          ...history,
-          ...normalized
-        ]);
-
-      saveHistory();
-
-      renderLatest();
-
-      renderStatistics();
-    }
-
-    $("syncStatus")
-      .textContent=
-        `Updated ${new Date().toLocaleString()} • ${normalized.length} drawing(s) received`;
-
-    $("syncStatus")
-      .className=
-        "status ok";
-
-  }catch(error){
-
-    console.error(error);
-
-    $("syncStatus")
-      .textContent=
-        "Worker update failed: "+
-        error.message;
-
-    $("syncStatus")
-      .className=
-        "status error";
-
-    if(reason==="manual"){
-
-      showToast(
-        "Worker update failed"
-      );
-    }
-  }
-}
-
-
-function automaticOpenUpdate(){
-
-  if(
-    settings.updateOnOpen &&
-    settings.workerUrl
-  ){
-
-    updateFromWorker(
-      "automatic"
-    );
-  }
-}
-
-
-/* ------------------------------------------------------------
-   EVENT HANDLERS
-   ------------------------------------------------------------ */
-
-$("generateBtn")
-  .addEventListener(
-    "click",
-    generateTickets
-  );
-
-
-$("statsWindow")
-  .addEventListener(
-    "change",
-    renderStatistics
-  );
-
-
-$("statsMode")
-  .addEventListener(
-    "change",
-    renderStatistics
-  );
-
-
-$("backtestBtn")
-  .addEventListener(
-    "click",
-    runBacktest
-  );
-
-
-$("saveManualBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      const ticket=
-        getManualTicket();
-
-      if(ticket){
-
-        saveTicket(
-          ticket,
-          "Manual"
-        );
-
-        clearManual();
-      }
-
-    }
-  );
-
-
-$("clearManualBtn")
-  .addEventListener(
-    "click",
-    clearManual
-  );
-
-
-$("saveSettingsBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      saveSettings();
-
-      showToast(
-        "Settings saved"
-      );
-
-      if(
-        settings.workerUrl
-      ){
-
-        updateFromWorker(
-          "manual"
-        );
-      }
-
-    }
-  );
-
-
-$("updateNowBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      saveSettings();
-
-      updateFromWorker(
-        "manual"
-      );
-
-    }
-  );
-
-
-$("refreshBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      saveSettings();
-
-      updateFromWorker(
-        "manual"
-      );
-
-    }
-  );
-
-
-$("csvFile")
-  .addEventListener(
-    "change",
-    async event=>{
-
-      const file=
-        event.target.files[0];
-
-      if(!file)
-        return;
-
-      try{
-
-        const text=
-          await file.text();
-
-        const imported=
-          parseCSV(text);
-
-        if(!imported.length){
-
-          throw new Error(
-            "No valid Powerball rows found"
-          );
-        }
-
-        history=
-          normalizeHistory([
-            ...history,
-            ...imported
-          ]);
-
-        saveHistory();
-
-        renderLatest();
-
-        renderStatistics();
-
-        showToast(
-          `${imported.length} drawing${
-            imported.length===1
-              ? ""
-              : "s"
-          } imported`
-        );
-
-      }catch(error){
-
-        console.error(error);
-
-        showToast(
-          "CSV import failed: "+
-          error.message
-        );
-
-      }finally{
-
-        event.target.value="";
-      }
-
-    }
-  );
-
-
-$("exportCsvBtn")
-  .addEventListener(
-    "click",
-    exportCSV
-  );
-
-
-$("exportJsonBtn")
-  .addEventListener(
-    "click",
-    exportJSON
-  );
-
-
-$("resetDbBtn")
-  .addEventListener(
-    "click",
-    resetDatabase
-  );
-
-
-/* ------------------------------------------------------------
-   INITIALIZATION
-   ------------------------------------------------------------ */
-
-function init(){
-
-  loadData();
-
-  renderLatest();
-
-  renderSaved();
-
-  renderStatistics();
-
-  automaticOpenUpdate();
-}
-
-
-document.addEventListener(
-  "DOMContentLoaded",
-  init
+async function updateFromWorker(reason="manual"){
+if(updateInProgress) return;
+const url=(settings.workerUrl || "").trim();
+if(!url){
+setSyncStatus(
+"Worker URL not configured. Showing local historical data.",
+"error"
 );
-
+return;
+}
+updateInProgress=true;
+setSyncStatus("Updating Powerball data…");
+$("updateMessage").textContent=
+"Connecting to Cloudflare Worker…";
+try{
+const response=await fetch(url,{
+method:"GET",
+cache:"no-store"
+});
+if(!response.ok){
+throw new Error(
+"Worker returned HTTP "+response.status
+);
+}
+const data=await response.json();
+if(!data || !Array.isArray(data.draws)){
+throw new Error("Invalid Worker response");
+}
+const incoming=normalizeHistory(data.draws);
+if(incoming.length){
+history=normalizeHistory([
+...history,
+...incoming
+]);
+saveHistory();
+}
+updateHeader(data);
+lastSyncTime=Date.now();
+setSyncStatus(
+"Updated successfully • "+
+new Date().toLocaleTimeString(),
+"ok"
+);
+$("updateMessage").textContent=
+"Last successful update: "+
+new Date().toLocaleString();
+renderLatest();
+renderStatistics();
+showToast(
+reason==="open"
+? "Powerball data updated"
+: "Powerball data refreshed"
+);
+}catch(error){
+console.error(error);
+setSyncStatus(
+"Update failed. Local historical data is still available.",
+"error"
+);
+$("updateMessage").textContent=
+"Update error: "+error.message;
+showToast("Automatic update failed");
+}finally{
+updateInProgress=false;
+}
+}
+/* ------------------------------------------------------------
+VISIBILITY / OPEN UPDATE
+------------------------------------------------------------ */
+function automaticOpenUpdate(){
+if(settings.updateOnOpen !== false){
+updateFromWorker("open");
+}
+}
+document.addEventListener(
+"visibilitychange",
+()=>{
+if(
+document.visibilityState==="visible" &&
+settings.updateOnOpen !== false
+){
+/*
+* Prevent multiple rapid requests when iOS changes
+* visibility several times.
+*/
+if(
+Date.now()-lastSyncTime > 60000
+){
+updateFromWorker("foreground");
+}
+}
+}
+);
+window.addEventListener("pageshow",()=>{
+if(
+settings.updateOnOpen !== false &&
+Date.now()-lastSyncTime > 60000
+){
+updateFromWorker("open");
+}
+});
+/* ------------------------------------------------------------
+BACKTESTING
+------------------------------------------------------------ */
+const BACKTEST_STRATEGIES=[
+"random",
+"balanced",
+"hot",
+"cold",
+"hotcold",
+"spread",
+"weighted",
+"weightedBalanced",
+"lowhigh",
+"recency",
+"hybrid",
+"overdue",
+"decades",
+"sum",
+"pair"
+];
+function seededRandom(seed){
+let s=seed>>>0;
+return function(){
+s+=0x6D2B79F5;
+let t=s;
+t=Math.imul(t^t>>>15,t|1);
+t^=t+Math.imul(t^t>>>7,t|61);
+return ((t^t>>>14)>>>0)/4294967296;
+};
+}
+function scoreTicket(ticket,target){
+const whiteHits=ticket.white.filter(
+n=>target.white.includes(n)
+).length;
+const pbHit=ticket.pb===target.pb;
+return {
+whiteHits,
+pbHit
+};
+}
+function emptyMetrics(){
+return {
+tests:0,
+whiteTotal:0,
+pbHits:0,
+threePlus:0,
+fourPlus:0,
+five:0,
+fivePB:0
+};
+}
+function addMetrics(metrics,score){
+metrics.tests++;
+metrics.whiteTotal+=score.whiteHits;
+if(score.pbHit) metrics.pbHits++;
+if(score.whiteHits>=3) metrics.threePlus++;
+if(score.whiteHits>=4) metrics.fourPlus++;
+if(score.whiteHits===5) metrics.five++;
+if(score.whiteHits===5 && score.pbHit){
+metrics.fivePB++;
+}
+}
+function pct(n,d){
+if(!d) return "0.00%";
+return ((n/d)*100).toFixed(2)+"%";
+}
+async function runBacktest(){
+if(history.length<2){
+showToast("Not enough historical data");
+return;
+}
+const minTraining=Number(
+$("minTraining").value
+);
+const recencyWindow=Number(
+$("recencyWindow").value
+);
+const ordered=[...history]
+.sort((a,b)=>a.date.localeCompare(b.date));
+if(ordered.length<=minTraining){
+showToast(
+"Need more draws than the minimum training setting"
+);
+return;
+}
+const metrics={};
+BACKTEST_STRATEGIES.forEach(s=>{
+metrics[s]=emptyMetrics();
+});
+const totalTests=
+(ordered.length-minTraining)*
+BACKTEST_STRATEGIES.length;
+let completed=0;
+$("progressArea").style.display="block";
+$("progressBar").style.width="0%";
+$("progressText").textContent="Starting…";
+$("backtestBtn").disabled=true;
+/*
+* Walk forward through history.
+*/
+for(
+let targetIndex=minTraining;
+targetIndex<ordered.length;
+targetIndex++
+){
+const target=ordered[targetIndex];
+/*
+* IMPORTANT:
+* target is NEVER included in training.
+*/
+let training=ordered.slice(0,targetIndex);
+if(
+recencyWindow>0 &&
+training.length>recencyWindow
+){
+training=training.slice(-recencyWindow);
+}
+for(
+let strategyIndex=0;
+strategyIndex<BACKTEST_STRATEGIES.length;
+strategyIndex++
+){
+const strategy=
+BACKTEST_STRATEGIES[strategyIndex];
+/*
+* Deterministic random seed makes the backtest
+* reproducible.
+*/
+const seed=
+targetIndex*100003+
+strategyIndex*7919+
+12345;
+const rng=seededRandom(seed);
+const ticket=
+generateTicket(strategy,training,rng);
+const score=
+scoreTicket(ticket,target);
+addMetrics(metrics[strategy],score);
+completed++;
+if(completed%20===0){
+const progress=
+Math.round(
+completed/totalTests*100
+);
+$("progressBar").style.width=
+progress+"%";
+$("progressText").textContent=
+`Testing ${completed.toLocaleString()} / `+
+`${totalTests.toLocaleString()} (${progress}%)`;
+await new Promise(
+resolve=>setTimeout(resolve,0)
+);
+}
+}
+}
+$("progressBar").style.width="100%";
+$("progressText").textContent="Backtest complete.";
+renderBacktest(metrics);
+$("backtestBtn").disabled=false;
+}
+function renderBacktest(metrics){
+const rows=BACKTEST_STRATEGIES.map(strategy=>{
+const m=metrics[strategy];
+return `
+<tr>
+<td>${escapeHtml(strategyName(strategy))}</td>
+<td>${m.tests}</td>
+<td>${m.tests
+? (m.whiteTotal/m.tests).toFixed(2)
+: "0.00"}</td>
+<td>${pct(m.pbHits,m.tests)}</td>
+<td>${pct(m.threePlus,m.tests)}</td>
+<td>${pct(m.fourPlus,m.tests)}</td>
+<td>${pct(m.five,m.tests)}</td>
+<td>${pct(m.fivePB,m.tests)}</td>
+</tr>
+`;
+}).join("");
+$("backtestOutput").innerHTML=`
+<h3>Walk-Forward Results</h3>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Tests</th>
+<th>Avg White</th>
+<th>PB Hit</th>
+<th>3+ White</th>
+<th>4+ White</th>
+<th>5 White</th>
+<th>5+PB</th>
+</tr>
+</thead>
+<tbody>
+${rows}
+</tbody>
+</table>
+</div>
+<p class="section-note">
+Backtest uses only historical draws available before each target draw.
+Random components use deterministic seeds so the results are
+reproducible. These statistics describe past performance only.
+</p>
+`;
+}
+/* ------------------------------------------------------------
+CSV EXPORT
+------------------------------------------------------------ */
+function downloadFile(filename,content,type){
+const blob=new Blob(
+[content],
+{type}
+);
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download=filename;
+document.body.appendChild(a);
+a.click();
+a.remove();
+URL.revokeObjectURL(url);
+}
+function exportCSV(){
+const lines=[
+"Date,White1,White2,White3,White4,White5,Powerball"
+];
+history.forEach(d=>{
+lines.push([
+d.date,
+...d.white,
+d.pb
+].join(","));
+});
+downloadFile(
+"powerball-history-v6.csv",
+lines.join("\n"),
+"text/csv"
+);
+showToast("CSV exported");
+}
+/* ------------------------------------------------------------
+JSON EXPORT
+------------------------------------------------------------ */
+function exportJSON(){
+const payload={
+version:"6.0",
+exportedAt:new Date().toISOString(),
+draws:history,
+savedNumbers:savedNumbers,
+settings:{
+workerUrl:settings.workerUrl,
+updateOnOpen:settings.updateOnOpen
+}
+};
+downloadFile(
+"powerball-ai-lab-v6.json",
+JSON.stringify(payload,null,2),
+"application/json"
+);
+showToast("JSON exported");
+}
+/* ------------------------------------------------------------
+CSV IMPORT
+------------------------------------------------------------ */
+function parseCSV(text){
+const lines=text
+.replace(/\r/g,"")
+.split("\n")
+.map(x=>x.trim())
+.filter(Boolean);
+if(lines.length<2){
+throw new Error("CSV contains no data");
+}
+const result=[];
+for(let i=1;i<lines.length;i++){
+const parts=lines[i].split(",");
+if(parts.length<7) continue;
+const d=normalizeDraw({
+date:parts[0],
+white:[
+Number(parts[1]),
+Number(parts[2]),
+Number(parts[3]),
+Number(parts[4]),
+Number(parts[5])
+],
+pb:Number(parts[6])
+});
+if(d){
+result.push(d);
+}
+}
+return result;
+}
+/* ------------------------------------------------------------
+RESET DATABASE
+------------------------------------------------------------ */
+function resetDatabase(){
+if(!confirm(
+"Reset the historical Powerball database?\n\n"+
+"Your saved numbers will NOT be deleted."
+)){
+return;
+}
+history=normalizeHistory(SEED_DRAWS);
+saveHistory();
+renderLatest();
+renderStatistics();
+$("backtestOutput").innerHTML="";
+showToast("Historical database reset");
+}
+/* ------------------------------------------------------------
+EVENT HANDLERS
+------------------------------------------------------------ */
+$("generateBtn").addEventListener(
+"click",
+()=>generateTickets()
+);
+$("statsWindow").addEventListener(
+"change",
+renderStatistics
+);
+$("statsMode").addEventListener(
+"change",
+renderStatistics
+);
+$("backtestBtn").addEventListener(
+"click",
+runBacktest
+);
+$("saveManualBtn").addEventListener(
+"click",
+()=>{
+const ticket=getManualTicket();
+if(ticket){
+saveTicket(ticket,"Manual");
+clearManual();
+}
+}
+);
+$("clearManualBtn").addEventListener(
+"click",
+clearManual
+);
+$("saveSettingsBtn").addEventListener(
+"click",
+()=>{
+saveSettings();
+showToast("Settings saved");
+if(settings.workerUrl){
+updateFromWorker("manual");
+}
+}
+);
+$("updateNowBtn").addEventListener(
+"click",
+()=>{
+saveSettings();
+updateFromWorker("manual");
+}
+);
+$("refreshBtn").addEventListener(
+"click",
+()=>{
+saveSettings();
+updateFromWorker("manual");
+}
+);
+$("csvFile").addEventListener(
+"change",
+async event=>{
+const file=event.target.files[0];
+if(!file) return;
+try{
+const text=await file.text();
+const imported=parseCSV(text);
+if(!imported.length){
+throw new Error(
+"No valid Powerball rows found"
+);
+}
+history=normalizeHistory([
+...history,
+...imported
+]);
+saveHistory();
+renderLatest();
+renderStatistics();
+showToast(
+`${imported.length} drawing${imported.length===1?"":"s"} imported`
+);
+}catch(error){
+console.error(error);
+showToast(
+"CSV import failed: "+error.message
+);
+}finally{
+event.target.value="";
+}
+}
+);
+$("exportCsvBtn").addEventListener(
+"click",
+exportCSV
+);
+$("exportJsonBtn").addEventListener(
+"click",
+exportJSON
+);
+$("resetDbBtn").addEventListener(
+"click",
+resetDatabase
+);
+/* ------------------------------------------------------------
+INITIALIZATION
+------------------------------------------------------------ */
+function init(){
+loadData();
+renderLatest();
+renderSaved();
+renderStatistics();
+/*
+* Always attempt automatic update when the app opens
+* if the feature is enabled and a Worker URL exists.
+*/
+automaticOpenUpdate();
+}
+document.addEventListener(
+"DOMContentLoaded",
+init
+);
 </script>
-
 </body>
 </html>
